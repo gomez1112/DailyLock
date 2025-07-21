@@ -1,0 +1,167 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "31B2D36B",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "49.99",
+      "familyShareable" : false,
+      "internalID" : "29C6C3BD",
+      "localizations" : [
+        {
+          "description" : "One-time purchase, forever access",
+          "displayName" : "Lifetime Access",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.lifetime",
+      "referenceName" : "Lifetime",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "1.99",
+      "familyShareable" : false,
+      "internalID" : "4EAB562E",
+      "localizations" : [
+        {
+          "description" : "Thank You!!!",
+          "displayName" : "Small Tip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.tip.small",
+      "referenceName" : "SmallTip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "329A284D",
+      "localizations" : [
+        {
+          "description" : "Wow Wow!!!",
+          "displayName" : "MediumTip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.tip.medium",
+      "referenceName" : "MediumTip",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "5C7BB5FF",
+      "localizations" : [
+        {
+          "description" : "You are the best!!!",
+          "displayName" : "LargeTip",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.tip.large",
+      "referenceName" : "LargeTip",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_disableDialogs" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+
+    ],
+    "_timeRate" : 0
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "4B7660B0",
+      "localizations" : [
+        {
+          "description" : "Turn daily sentences into personal insight",
+          "displayName" : "DailyLock+",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "DailyLock+",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "3.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "DCC41200",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlock all premium features",
+              "displayName" : "DailyLock+ Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.dailylock.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "MonthlyPremium",
+          "subscriptionGroupID" : "4B7660B0",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "24.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "0AF56E03",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Save 48% with annual billing",
+              "displayName" : "DailyLock+ Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.dailylock.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "YearlyPremium",
+          "subscriptionGroupID" : "4B7660B0",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
