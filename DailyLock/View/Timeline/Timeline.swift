@@ -9,95 +9,205 @@ import SwiftData
 import SwiftUI
 
 struct Timeline: View {
-    @Environment(\.colorScheme) private var colorScheme
-    @Environment(\.modelContext) private var modelContext
-    @Environment(HapticEngine.self) private var haptics: HapticEngine
+    @State private var timelineVM = TimelineViewModel()
+    
+    @Environment(AppDependencies.self) private var dependencies
+    @Environment(\.deviceStatus) private var deviceStatus
+    @Environment(\.isDark) private var isDark
+    @Environment(\.modelContext) private var context
     
     @Query(sort: \MomentumEntry.date, order: .reverse) private var entries: [MomentumEntry]
     
-    @State private var selectedEntry: MomentumEntry?
-    @State private var hoveredDate: Date?
-    
-    private var groupedEntries: [(key: String, value: [MomentumEntry])] {
-        Dictionary(grouping: entries) { entry in
-            entry.date.formatted(.dateTime.month(.wide).year())
-        }
-        .sorted { lhs, rhs in
-            // Sort by parsing the date strings
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMMM yyyy"
-            let lhsDate = formatter.date(from: lhs.key) ?? Date.distantPast
-            let rhsDate = formatter.date(from: rhs.key) ?? Date.distantPast
-            return lhsDate > rhsDate
-        }
-        .map { ($0.key, $0.value.sorted { $0.date > $1.date }) }
-    }
-    
     var body: some View {
         ZStack {
-            PaperTextureView()
+            Image(isDark ? .brownDarkTexture : .brownLightTexture)
+                .resizable()
                 .ignoresSafeArea()
-        ScrollView {
-                VStack(spacing: 40) {
-                    // Header
-                    VStack(spacing: 8) {
-                        Text("Your Journey")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .fontDesign(.serif)
-                            .foregroundStyle((colorScheme == .dark ? Color.darkInkColor : Color.lightInkColor))
-                        
-                        Text("\(entries.count) moments captured")
-                            .font(.callout)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.top, 60)
-                    .padding(.bottom, 20)
+            
+            ScrollView {
+                VStack(spacing: AppTimeline.mainVStackSpacing) {
+                    header
+                        .padding(.top, AppSpacing.large)
                     
-                    // Timeline
-                    ForEach(groupedEntries, id: \.key) { month, monthEntries in
-                        VStack(alignment: .leading, spacing: 20) {
-                            // Month Header
-                            Text(month)
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .foregroundStyle((colorScheme == .dark ? Color.darkInkColor : Color.lightInkColor))
-                                .padding(.horizontal)
-                            
-                            // Entries
-                            VStack(spacing: 0) {
-                                ForEach(monthEntries) { entry in
-                                    TimelineEntry(
-                                        entry: entry,
-                                        isHovered: hoveredDate == entry.date,
-                                        onTap: {
-                                            selectedEntry = entry
-                                            haptics.tap()
-                                        }
-                                    )
-                                    .onHover { hovering in
-                                        withAnimation(.easeInOut(duration: 0.2)) {
-                                            hoveredDate = hovering ? entry.date : nil
-                                        }
-                                    }
-                                    
-                                    if entry != monthEntries.last {
-                                        TimelineConnector()
-                                    }
-                                }
+                    if timelineVM.groupedEntries(for: entries).isEmpty {
+                        ContentUnavailableView {
+                            Label("Your journey starts here", systemImage: "pencil.line")
+                        } description: {
+                            Text("Capture your first moment to begin building your timeline")
+                        } actions: {
+                            Button {
+                                dependencies.navigation.navigate(to: .today)
+                            } label: {
+                                Text("Write First Entry")
+                                    .accessibilityIdentifier("writeFirstEntryButton")
                             }
-                            .padding(.horizontal)
                         }
+
+                    } else {
+                        entriesView
+                            .applyIf(deviceStatus != .compact) { $0.frame(maxWidth: AppLayout.timelineContentMaxWidth) }
+                        Spacer(minLength: AppTimeline.entriesSpacerMin)
                     }
-                    
-                    Spacer(minLength: 100)
                 }
+                .frame(maxWidth: .infinity)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
-        .sheet(item: $selectedEntry) { entry in
-            EntryDetailView(entry: entry)
+        .onAppear {
+            timelineVM.expandCurrentMonth(entries: entries)
         }
+    }
+    
+    private var header: some View {
+        VStack(spacing: 8) {
+            Text("Your Journey")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .fontDesign(.serif)
+                .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                .accessibilityIdentifier("timelineHeader")
+                .accessibilityLabel("Timeline Header")
+            
+            Text("\(entries.count) moments captured")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .accessibilityIdentifier("timelineMomentCount")
+                .accessibilityLabel("Number of moments captured")
+                .accessibilityValue("\(entries.count)")
+        }
+        .padding(.bottom, AppTimeline.headerBottomPadding)
+    }
+    
+    private var entriesView: some View {
+        ForEach(timelineVM.groupedEntries(for: entries), id: \.key) { month, monthEntries in
+            VStack(alignment: .leading, spacing: AppTimeline.monthSectionSpacing) {
+                monthHeaderButton(month: month, monthEntries: monthEntries)
+#if os(macOS)
+                .onHover { hovering in
+                    if hovering {
+                        NSCursor.pointingHand.push()
+                    } else {
+                        NSCursor.pop()
+                    }
+                }
+#endif
+                
+                if timelineVM.expandedMonths.contains(month) {
+                    expandedMonthsView(monthEntries: monthEntries)
+                } else {
+                    monthSummary(monthEntries: monthEntries)
+                        .accessibilityIdentifier("monthSummary_\(month)")
+                }
+            }
+        }
+    }
+    private func expandedMonthsView(monthEntries: [MomentumEntry]) -> some View {
+        VStack(spacing: 0) {
+            ForEach(monthEntries) { entry in
+                TimelineEntry(
+                    entry: entry,
+                    isHovered: timelineVM.hoveredDate == entry.date
+                ) {
+                    dependencies.navigation.presentedSheet = .entryDetail(entry: entry)
+#if !os(macOS)
+                    dependencies.haptics.tap()
+#endif
+                }
+                .contextMenu {
+                    Button(role: .destructive) {
+                        dependencies.dataService.delete(entry)
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("Moment entry for \(entry.date.formatted(date: .long, time: .omitted)), sentiment: \(entry.sentiment.rawValue)")
+                .accessibilityIdentifier("timelineEntry_\(entry.id)")
+                .onHover { hovering in
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        timelineVM.hoveredDate = hovering ? entry.date : nil
+                    }
+                }
+                
+                if entry != monthEntries.last {
+                    TimelineConnector()
+                }
+            }
+        }
+        .padding(.horizontal)
+        .transition(.asymmetric(
+            insertion: .opacity,
+            removal: .opacity
+        ))
+    }
+    private func monthHeaderButton(month: String, monthEntries: [MomentumEntry]) -> some View {
+        // Month Header Button
+        Button {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                timelineVM.toggleMonth(month) 
+#if !os(macOS)
+                dependencies.haptics.tap()
+#endif
+            }
+        } label: {
+            HStack {
+                Text(month)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                Spacer()
+                Text(monthEntries.count.formatted())
+                Image(systemName: timelineVM.expandedMonths.contains(month) ? "chevron.up" : "chevron.down")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.secondary)
+            }
+            .accessibilityElement(children: .combine)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("\(month), \(monthEntries.count) moments, \(timelineVM.expandedMonths.contains(month) ? "Expanded" : "Collapsed")")
+        .accessibilityIdentifier("monthHeader_\(month)")
+    }
+    private func monthSummary(monthEntries: [MomentumEntry]) -> some View {
+        HStack(spacing: 16) {
+            ForEach(Sentiment.allCases) { sentiment in
+                let count = monthEntries.filter { $0.sentiment == sentiment }.count
+                if count > 0 {
+                    HStack(spacing: 4) {
+                        Image(systemName: sentiment.symbol)
+                            .font(.caption)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundStyle(LinearGradient(
+                                colors: sentiment.gradient,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ))
+                        Text(count.formatted())
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            Spacer()
+            Text("Tap to expand")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Summary for month. " + Sentiment.allCases.map({ sentiment in
+            let count = monthEntries.filter { $0.sentiment == sentiment }.count
+            return "\(sentiment.rawValue): \(count)"
+        }).joined(separator: ", "))
+        .accessibilityIdentifier("monthSummaryView")
+        .padding(.horizontal, AppTimeline.summaryHorizontalPadding)
+        .padding(.vertical, AppTimeline.summaryVerticalPadding)
+        .background(
+            RoundedRectangle(cornerRadius: AppTimeline.summaryCornerRadius)
+                .fill(isDark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
+                .opacity(0.5)
+        )
+        .padding(.horizontal)
+        .transition(.scale(scale: AppTimeline.transitionScale).combined(with: .opacity))
     }
 }
 

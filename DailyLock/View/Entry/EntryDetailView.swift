@@ -8,99 +8,27 @@
 import SwiftUI
 
 struct EntryDetailView: View {
-    let entry: MomentumEntry
+    
     @Environment(\.isDark) private var isDark
     @Environment(\.dismiss) private var dismiss
     
     @State private var appearAnimation = false
     
+    let entry: MomentumEntry
+    
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(isDark ? Color.darkLineColor : Color.lightLineColor)
+                Color(isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor)
                     .ignoresSafeArea()
                 ScrollView {
-                    VStack(spacing: 32) {
+                    VStack(spacing: AppSpacing.large) {
 
-                        // Date Header
-                        VStack(spacing: 12) {
-                            Text(entry.displayDate)
-                                .font(.dateScript)
-                                .foregroundStyle(isDark ? Color.darkLineColor : Color.lightLineColor)
-                            
-                            Text(entry.date.formatted(date: .complete, time: .omitted))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                                .tracking(1)
-                        }
-                        .padding(.top, 40)
-                        
-                        
-                        // Entry Content
-                        VStack(spacing: 24) {
-                            Text(entry.text)
-                                .font(.sentenceSerif)
-                                .foregroundStyle(isDark ? Color.white : Color(hex: entry.inkColor))
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal, 32)
-                                .opacity(appearAnimation ? 1 : 0)
-                                .offset(y: appearAnimation ? 0 : 20)
-                            
-                            Divider()
-                                .overlay(isDark ? Color.darkLineColor : Color.lightLineColor)
-                                .padding(.horizontal, 60)
-                            
-                            // Metadata
-                            HStack(alignment: .bottom ,spacing: 32) {
-                                VStack(spacing: 8) {
-                                    
-                                    Image(systemName: entry.sentiment.symbol)
-                                        .font(.title2)
-                                        .symbolRenderingMode(.hierarchical)
-                                        .foregroundStyle(
-                                            LinearGradient(
-                                                colors: entry.sentiment.gradient,
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            )
-                                        )
-                                    
-                                    Text(entry.sentiment.rawValue.capitalized)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
-                                VStack(spacing: 8) {
-                                    Text("\(entry.wordCount)")
-                                        .monospaced()
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .fontDesign(.rounded)
-                                        .foregroundStyle(isDark ? Color.darkInkColor : Color.lightInkColor)
-                                    Text("words".capitalized)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .padding(-1)
-                                }
-                                .alignmentGuide(.firstTextBaseline) { d in d[.firstTextBaseline] }
-                                if let lockedAt = entry.lockedAt {
-                                    VStack(spacing: 8) {
-                                        Image(systemName: "lock.fill")
-                                            .font(.title2)
-                                            .foregroundStyle(Color(hex: "8B0000"))
-                                        
-                                        Text(lockedAt.formatted(date: .omitted, time: .shortened))
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                }
-                            }
-                            .opacity(appearAnimation ? 1 : 0)
-                            .scaleEffect(appearAnimation ? 1 : 0.8)
-                        }
-                        
-                        Spacer(minLength: 50)
+                        dateHeader
+                        entryContent
+                    
                     }
+                    .padding()
                 }
                 #if !os(macOS)
                 .navigationBarTitleDisplayMode(.inline)
@@ -108,15 +36,120 @@ struct EntryDetailView: View {
                 .toolbar {
                     ToolbarItem {
                         Button(role: .close, action: dismiss.callAsFunction)
+                            .accessibilityIdentifier("closeButton")
                     }
                 }
             }
+            .animation(.default, value: entry)
         }
+        .accessibilityIdentifier("Entries-\(entry.id)")
         .onAppear {
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1)) {
+            withAnimation(.spring(response: AppAnimation.springResponse, dampingFraction: AppAnimation.springDamping).delay(AppAnimation.delay)) {
                 appearAnimation = true
             }
         }
+    }
+    private var entryBody: some View {
+        Text(entry.text)
+            .font(.sentenceSerif)
+            .foregroundStyle(isDark ? Color.white : Color(hex: entry.inkColor) ?? .black)
+            .multilineTextAlignment(.center)
+            .padding(.horizontal, AppSpacing.large)
+            .opacity(appearAnimation ? 1 : 0)
+            .offset(y: appearAnimation ? 0 : 20)
+            .accessibilityIdentifier("EntryDetailView-Body")
+            .accessibilityLabel(entry.text)
+            .accessibilityAddTraits(.isHeader)
+    }
+    private var entryContent: some View {
+        // Entry Content
+        VStack(spacing: AppSpacing.medium) {
+            entryBody
+            Divider()
+                .overlay(isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor)
+                .padding(.horizontal, AppSpacing.xxxLarge)
+            // Metadata
+            metadata
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: AppLayout.radiusMedium)
+                .fill(isDark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
+        )
+    }
+    private var metadata: some View {
+        HStack(alignment: .bottom ,spacing: AppSpacing.large) {
+            VStack(spacing: AppSpacing.small) {
+                
+                Image(systemName: entry.sentiment.symbol)
+                    .font(.title2)
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: entry.sentiment.gradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                
+                Text(entry.sentiment.rawValue.capitalized)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .accessibilityIdentifier("EntryDetailView-Sentiment")
+            .accessibilityLabel("Sentiment")
+            .accessibilityValue(entry.sentiment.rawValue.capitalized)
+
+            VStack(spacing: AppSpacing.small) {
+                Text("\(entry.wordCount)")
+                    .monospaced()
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .fontDesign(.rounded)
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                Text("words".capitalized)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(-1)
+            }
+            .accessibilityIdentifier("EntryDetailView-WordCount")
+            .accessibilityLabel("Word Count")
+            .accessibilityValue("\(entry.wordCount) words")
+
+            if let lockedAt = entry.lockedAt {
+                VStack(spacing: AppSpacing.small) {
+                    Image(systemName: "lock.fill")
+                        .font(.title2)
+                        .foregroundStyle(Color(hex: "8B0000") ?? .black)
+                    
+                    Text(lockedAt.formatted(date: .omitted, time: .shortened))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .accessibilityIdentifier("EntryDetailView-LockInfo")
+                .accessibilityLabel("Locked at")
+                .accessibilityValue(lockedAt.formatted(date: .omitted, time: .shortened))
+            }
+        }
+        .opacity(appearAnimation ? 1 : 0)
+        .scaleEffect(appearAnimation ? 1 : 0.8)
+        .accessibilityIdentifier("EntryDetailView-Metadata")
+        .accessibilityElement(children: .contain)
+    }
+    private var dateHeader: some View {
+        VStack {
+            Text(entry.displayDate)
+                .font(.dateScript)
+                .foregroundStyle(isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor)
+            
+            Text(entry.date.formatted(date: .complete, time: .omitted))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .tracking(1)
+        }
+        .accessibilityIdentifier("EntryDetailView-DateHeader")
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(entry.date.formatted(date: .complete, time: .omitted))
     }
 }
 

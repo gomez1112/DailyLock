@@ -5,115 +5,158 @@
 //  Created by Gerard Gomez on 7/20/25.
 //
 
+import FoundationModels
 import SwiftData
 import SwiftUI
 
 struct InsightsView: View {
-    @Environment(\.colorScheme) private var colorScheme
+    
+    @Environment(AppDependencies.self) private var dependencies
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.isDark) private var isDark
     @Environment(\.modelContext) private var modelContext
-    @Environment(DataModel.self) private var model
     
     @Query(sort: \MomentumEntry.date, order: .reverse) private var entries: [MomentumEntry]
     
-    @State private var showPaywall = false
+    private let foundationModel = SystemLanguageModel.default
     
     var body: some View {
+#if os(macOS)
+        insightsContent
+#else
         NavigationStack {
-            ZStack {
-                PaperTextureView()
-                    .ignoresSafeArea()
-                
-                ScrollView {
-                    VStack(spacing: 32) {
-                        // Header
-                        VStack(spacing: 8) {
-                            Text("Your Insights")
-                                .font(.largeTitle)
-                                .fontWeight(.bold)
-                                .fontDesign(.serif)
-                                .foregroundStyle(colorScheme == .dark ? Color.darkInkColor : Color.lightInkColor)
-                            
-                            if entries.count >= 5 {
-                                Text("Based on \(entries.count) entries")
-                                    .font(.callout)
-                                    .foregroundStyle(.secondary)
-                            }
+            insightsContent
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem {
+                        Button {
+                            dependencies.navigation.presentedSheet = .paywall
+                            dismiss()
+                        } label: {
+                            Label("Upgrade", systemImage: "crown")
                         }
-                        .padding(.top, 40)
-                        
-                        if entries.count >= 5 {
-                            // Mood Distribution Chart
-                            MoodDistributionCard(entries: entries)
-                                .premiumFeature(.advancedInsights, isLocked: !model.store.hasUnlockedPremium)
-                            
-                            // Word Cloud Preview
-                            WordCloudCard(entries: entries)
-                                .premiumFeature(.advancedInsights, isLocked: !model.store.hasUnlockedPremium)
-                            
-                            // Weekly Summary
-                            WeeklySummaryCard()
-                                .premiumFeature(.aiSummaries, isLocked: !model.store.hasUnlockedPremium)
-                            
-                            // Streak Stats
+                        .opacity(dependencies.store.hasUnlockedPremium ? 0 : 1)
+                        .accessibilityIdentifier("upgradeButton")
+                        .accessibilityLabel("Upgrade to Premium")
+                        .accessibilityHint("Opens the upgrade paywall")
+                    }
+                }
+        }
+#endif
+    }
+    
+    private var insightsContent: some View {
+        ZStack {
+            Image(isDark ? .brownDarkTexture : .brownLightTexture)
+                .resizable()
+                .ignoresSafeArea()
+            
+            ScrollView(.vertical) {
+                VStack {
+                    header
+                        .padding(.top, headerPadding)
+                    
+                    if entries.count >= 1 {
+                        VStack(spacing: cardSpacing) {
                             StreakStatsCard(entries: entries)
+                                .accessibilityElement(children: .contain)
+                                .accessibilityIdentifier("streakStatsCard")
+                                .onPlatform { view in
+                                    view.padding(.horizontal)
+                                }
                             
-                        } else {
-                            // Not enough data
-                            VStack(spacing: 20) {
-                                Image(systemName: "chart.line.uptrend.xyaxis")
-                                    .font(.system(size: 60))
-                                    .foregroundStyle(.secondary)
-                                
-                                Text("Keep Writing")
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                                
-                                Text("You need at least 5 entries to see insights")
-                                    .font(.body)
-                                    .foregroundStyle(.secondary)
-                                    .multilineTextAlignment(.center)
-                                
-                                Text("\(5 - entries.count) more to go!")
-                                    .font(.headline)
-                                    .foregroundStyle(Color(hex: "FFD700"))
+                            // NEW: Yearly Stats Card (Premium Feature)
+                            YearlyStatsCard(entries: entries)
+                                .premiumFeature(.yearlyStats, isLocked: !dependencies.store.hasUnlockedPremium)
+                                .accessibilityElement(children: .contain)
+                                .accessibilityIdentifier("yearlyStatsCard")
+                                .onPlatform { view in
+                                    view.padding(.horizontal)
+                                }
+                                .buttonStyle(.plain)
+                            
+                            MoodDistributionCard(entries: entries)
+                                .premiumFeature(.advancedInsights, isLocked: !dependencies.store.hasUnlockedPremium)
+                                .accessibilityElement(children: .contain)
+                                .accessibilityIdentifier("moodDistributionCard")
+                                .onPlatform { view in
+                                    view.padding(.horizontal)
+                                }
+                                .buttonStyle(.plain)
+                            if foundationModel.isAvailable {
+                                WeeklySummaryCard(generator: InsightGenerator(entries: entries))
+                                    .premiumFeature(.aiSummaries, isLocked: !dependencies.store.hasUnlockedPremium)
+                                    .accessibilityElement(children: .contain)
+                                    .accessibilityIdentifier("weeklySummaryCard")
+                                    .onPlatform { view in
+                                        view.padding(.horizontal)
+                                    }
+                                    .buttonStyle(.plain)
                             }
-                            .padding(60)
                         }
-                        
-                        Spacer(minLength: 100)
+                        .onPlatform { view in
+                            view.frame(maxWidth: AppLayout.insightsCardMaxWidth)
+                        }
                     }
-                    .padding(.horizontal)
-                }
-            }
-            #if !os(macOS)
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem {
-                    Button {
-                        showPaywall = true
-                    } label: {
-                        Label("Upgrade", systemImage: "sparkles")
-                            .labelStyle(.iconOnly)
-                            .font(.title3)
-                            .foregroundStyle(
-                                LinearGradient(
-                                    colors: [Color(hex: "FFD700"), Color(hex: "FFA500")],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
+                    else {
+                        contentUnavailable
                     }
-                    .opacity(model.store.hasUnlockedPremium ? 0 : 1)
+                    
+                    Spacer(minLength: 50)
                 }
+                .frame(maxWidth: .infinity)
             }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView()
+            .scrollBounceBehavior(.basedOnSize)
+        }
+    }
+    
+    private var headerPadding: CGFloat {
+        platformValue(iOS: 20, macOS: 30)
+    }
+    
+    private var cardSpacing: CGFloat {
+        platformValue(iOS: 16, macOS: 20)
+    }
+    
+    private var header: some View {
+        VStack {
+            Text("Your Insights")
+                .font(.title2)
+                .fontWeight(.bold)
+                .fontDesign(.serif)
+                .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                .accessibilityIdentifier("insightsHeader")
+                .accessibilityAddTraits(.isHeader)
+            
+            if entries.count >= 1 {
+                Text("Based on \(entries.count) entries")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("entriesCountText")
             }
         }
     }
-}
-
-#Preview(traits: .previewData) {
-    InsightsView()
+    
+    private var contentUnavailable: some View {
+        ContentUnavailableView {
+            Label("Keep Writing", systemImage: "chart.line.uptrend.xyaxis")
+        } description: {
+            VStack {
+                Text("You need at least 1 entries to see insights")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .accessibilityIdentifier("entriesNeededText")
+                Button("Go write your first Entry!") {
+                    dependencies.navigation.navigate(to: .today)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(40)
+        .accessibilityIdentifier("contentUnavailableView")
+        .accessibilityLabel("Insufficient Entries")
+        .accessibilityHint("You need at least 5 entries to view insights")
+    }
 }

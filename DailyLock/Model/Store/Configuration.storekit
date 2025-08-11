@@ -109,8 +109,8 @@
 
           ],
           "displayPrice" : "3.99",
-          "familyShareable" : true,
-          "groupNumber" : 1,
+          "familyShareable" : false,
+          "groupNumber" : 2,
           "internalID" : "DCC41200",
           "introductoryOffer" : null,
           "localizations" : [
@@ -140,7 +140,11 @@
           "familyShareable" : true,
           "groupNumber" : 1,
           "internalID" : "0AF56E03",
-          "introductoryOffer" : null,
+          "introductoryOffer" : {
+            "internalID" : "3644B791",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
           "localizations" : [
             {
               "description" : "Save 48% with annual billing",
@@ -151,6 +155,38 @@
           "productID" : "com.dailylock.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "YearlyPremium",
+          "subscriptionGroupID" : "4B7660B0",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 3,
+          "internalID" : "ECF74F70",
+          "introductoryOffer" : {
+            "internalID" : "BF04F5B6",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlock all premium features",
+              "displayName" : "DailyLock+ Weekly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.dailylock.weekly",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "WeeklyPremium",
           "subscriptionGroupID" : "4B7660B0",
           "type" : "RecurringSubscription",
           "winbackOffers" : [

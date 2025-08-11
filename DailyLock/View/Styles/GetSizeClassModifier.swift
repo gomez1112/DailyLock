@@ -5,26 +5,24 @@
 //  Created by Gerard Gomez on 7/23/25.
 //
 
+import SwiftUI
 
 #if os(iOS)
-  struct GetSizeClassModifier: ViewModifier {
-    @Environment(\.horizontalSizeClass) private var sizeClass
-    @State var currentSizeClass: DeviceStatus = .compact
-    func body(content: Content) -> some View {
-      content
-        .task(id: sizeClass) {
-          if let sizeClass {
-            switch sizeClass {
-            case .compact:
-              currentSizeClass = .compact
-            case .regular:
-              currentSizeClass = .regular
-            default:
-              currentSizeClass = .compact
-            }
-          }
-        }
-        .environment(\.deviceStatus, currentSizeClass)
+struct GetSizeClassModifier: ViewModifier {
+    @Environment(\.horizontalSizeClass) private var horizontal
+    
+    private var status: DeviceStatus {
+        (horizontal == .regular) ? .regular : .compact
     }
-  }
+    
+    func body(content: Content) -> some View {
+        content.environment(\.deviceStatus, status)
+    }
+}
+#else
+struct GetSizeClassModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content // No-op, macOS status is set via default
+    }
+}
 #endif

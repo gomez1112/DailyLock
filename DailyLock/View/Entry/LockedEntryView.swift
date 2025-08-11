@@ -8,76 +8,100 @@
 import SwiftUI
 
 struct LockedEntryView: View {
-    @Environment(\.colorScheme) private var colorScheme
+    
+    @Environment(\.isDark) private var isDark
     
     let entry: MomentumEntry
+    
     @State private var appearAnimation = false
     
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: AppEntry.cardVerticalSpacing) {
             // Wax Seal
             WaxSeal(entry: entry)
-                .frame(width: 80, height: 80)
+                .frame(width: AppLayout.waxSealSize, height: AppLayout.waxSealSize)
                 .scaleEffect(appearAnimation ? 1.0 : 0.5)
                 .opacity(appearAnimation ? 1.0 : 0)
+                // Accessibility: Identifier and label for wax seal
+                .accessibilityIdentifier("waxSeal")
+                .accessibilityLabel(Text("Wax seal for entry"))
             
-            // Entry Card
-            VStack(spacing: 20) {
-                Text(entry.text)
-                    .font(.sentenceSerif)
-                    .foregroundStyle(colorScheme == .dark ? Color.white.opacity(0.9) : Color(hex: entry.inkColor).opacity(0.9))
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                
-                Divider()
-                    .overlay(Color((colorScheme == .dark ? Color.darkLineColor : Color.lightLineColor)))
-                
-                HStack(spacing: 20) {
-                    HStack(spacing: 8) {
-                        Image(systemName: entry.sentiment.symbol)
-                            .font(.system(size: 14))
-                            .symbolRenderingMode(.hierarchical)
-                            .foregroundStyle(
-                                LinearGradient(
-                                    colors: entry.sentiment.gradient,
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                        
-                        Text(entry.sentiment.rawValue.capitalized)
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundStyle(.secondary)
-                    }
-                    
-                    if let lockedAt = entry.lockedAt {
-                        HStack(spacing: 4) {
-                            Image(systemName: "clock")
-                                .font(.system(size: 12))
-                            
-                            Text(lockedAt.formatted(date: .omitted, time: .shortened))
-                                .font(.system(size: 12, design: .monospaced))
-                        }
-                        .foregroundStyle(.secondary)
-                    }
-                }
-            }
-            .padding(32)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill((colorScheme == .dark ? Color.darkCardBackground : Color.lightCardBackground))
-                    .shadow(color: (colorScheme == .dark ? Color.darkShadowColor : Color.lightShadowColor), radius: 10, y: 5)
-            )
-            .padding(.horizontal, 40)
+           entryCard
         }
         .onAppear {
-            withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.2)) {
+            withAnimation(.spring(response: AppAnimation.springResponse, dampingFraction: AppAnimation.springDamping).delay(AppAnimation.delay)) {
                 appearAnimation = true
             }
         }
     }
+    private var entryCard: some View {
+        // Entry Card
+        VStack(spacing: AppEntry.entryCardSpacing) {
+            entryText
+            
+            Divider()
+                .overlay(Color((isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor)))
+            
+            HStack(spacing: 20) {
+                // Sentiment Section
+                HStack(spacing: AppEntry.sentimentIconSpacing) {
+                    Image(systemName: entry.sentiment.symbol)
+                        .font(.system(size: DesignSystem.Text.Font.sentimentIcon))
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: entry.sentiment.gradient,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                    
+                    Text(entry.sentiment.rawValue.capitalized)
+                        .font(.system(size: DesignSystem.Text.Font.regular, weight: .medium, design: .rounded))
+                        .foregroundStyle(.secondary)
+                }
+                // Accessibility: Identifier, label and value for sentiment section
+                .accessibilityIdentifier("sentimentSection")
+                .accessibilityLabel(Text("Sentiment"))
+                .accessibilityValue(Text(entry.sentiment.rawValue.capitalized))
+                
+                if let lockedAt = entry.lockedAt {
+                    // Lock Time Section
+                    HStack(spacing: AppEntry.lockTimeIconSpacing) {
+                        Image(systemName: "clock")
+                            .font(.system(size: AppEntry.lockTimeFontSize))
+                        
+                        Text(lockedAt.formatted(date: .omitted, time: .shortened))
+                            .font(.system(size: AppEntry.lockTimeFontSize, design: .monospaced))
+                    }
+                    .foregroundStyle(.secondary)
+                    // Accessibility: Identifier, label and value for lock time section
+                    .accessibilityIdentifier("lockTimeSection")
+                    .accessibilityLabel(Text("Locked at"))
+                    .accessibilityValue(Text(lockedAt.formatted(date: .omitted, time: .shortened)))
+                }
+            }
+        }
+        .padding(AppEntry.cardPadding)
+        .cardBackground()
+        .padding(.horizontal, AppEntry.cardHorizontalPadding)
+        // Accessibility: Identifier and combine children for entry card
+        .accessibilityIdentifier("entryCard")
+        .accessibilityElement(children: .combine)
+    }
+    private var entryText: some View {
+        Text(entry.text)
+            .font(.sentenceSerif)
+            .foregroundStyle(isDark ? Color.white.opacity(0.9) : Color(hex: entry.inkColor)?.opacity(0.9) ?? .black)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            // Accessibility: Identifier and label for entry text
+            .accessibilityIdentifier("entryText")
+            .accessibilityLabel(Text("Entry text"))
+    }
 }
 
 #Preview {
-    LockedEntryView(entry: MomentumEntry.samples[0])
+    LockedEntryView(entry: MomentumEntry.samples[1])
 }
+

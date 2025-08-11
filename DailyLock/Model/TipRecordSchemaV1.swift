@@ -1,3 +1,11 @@
+//
+//  TipRecordSchemaV1.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/2/25.
+//
+
+
 import Foundation
 import SwiftData
 
@@ -12,12 +20,14 @@ enum TipRecordSchemaV1: VersionedSchema {
     
     @Model
     final class TipRecord {
-        var date: Date
-        var amount: Decimal
-        var productId: String
-        var productName: String
+        var transactionId: UInt64 = UInt64(1.0)
+        var date: Date = Date()
+        var amount: Decimal = 0
+        var productId: String = ""
+        var productName: String = ""
         
-        init(date: Date = Date(), amount: Decimal, productId: String, productName: String) {
+        init(transactionId: UInt64, date: Date = Date(), amount: Decimal, productId: String, productName: String) {
+            self.transactionId = transactionId
             self.date = date
             self.amount = amount
             self.productId = productId

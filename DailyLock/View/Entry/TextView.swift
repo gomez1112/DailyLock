@@ -9,28 +9,118 @@ import SwiftUI
 
 struct TextView: View {
     
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(AppDependencies.self) private var dependencies
+    @Environment(\.isDark) private var isDark
     
     @Binding var text: String
     
     let sentiment: Sentiment
     var opacity: Double
     
-    @FocusState var isFocused: Bool
+    let isFocused: FocusState<Bool>.Binding
+    
+    @State private var internalText = ""
+    @State private var isProcessingPaste = false
+    @State private var lastTextValue = ""
     
     var body: some View {
+#if os(macOS)
+        TextEditor(text: $internalText)
+            .font(.sentenceSerif)
+            .foregroundStyle(textColor)
+            .scrollContentBackground(.hidden)
+            .focused($isFocused)
+            .onAppear {
+                internalText = text
+                lastTextValue = text
+            }
+            .onChange(of: internalText) { _, newValue in
+                handleTextChange(oldValue: lastTextValue, newValue: newValue)
+                lastTextValue = newValue
+            }
+            .accessibilityIdentifier("textEditor")
+            .accessibilityLabel("Daily entry text editor")
+            .accessibilityHint("Write about what defined your day. Maximum \(AppText.maxCharacterCount) characters.")
+            .accessibilityValue(text)
+#else
         TextField("What defined today?", text: $text, axis: .vertical)
             .font(.sentenceSerif)
-            .foregroundStyle(colorScheme == .dark ? Color.darkInkColor.opacity(opacity * sentiment.inkIntensity) : Color.lightInkColor.opacity(opacity * sentiment.inkIntensity))
-            .lineSpacing(13) // Fine-tuned to match ruled lines
-            .lineLimit(4...6)
-            .focused($isFocused)
+            .foregroundStyle(textColor)
+            .lineSpacing(DesignSystem.Text.defaultLineSpacing)
+            .lineLimit(DesignSystem.Text.minLineLimit...DesignSystem.Text.maxLineLimit)
+            .focused(isFocused)
             .textFieldStyle(.plain)
-            .padding(.top, WritingPaper.topPadding - 22) // Precise baseline alignment
-            .baselineOffset(-2) // Fine adjustment for baseline
+            .accessibilityIdentifier("textField")
+            .accessibilityLabel("Daily entry text field")
+            .accessibilityHint("Write about what defined your day. Maximum \(DesignSystem.Text.maxCharacterCount) characters.")
+            .accessibilityValue(text)
+            .onChange(of: text) { _, newValue in
+                if newValue.count > DesignSystem.Text.maxCharacterCount {
+                    text = String(newValue.prefix(DesignSystem.Text.maxCharacterCount))
+                }
+            }
+#endif
+    }
+    private func handleTextChange(oldValue: String, newValue: String) {
+        guard !isProcessingPaste else { return }
+        
+        // Check if this is a paste operation (large text addition)
+        let isPaste = abs(newValue.count - oldValue.count) > 10
+        
+        if newValue.count > DesignSystem.Text.maxCharacterCount {
+            if isPaste {
+                // For paste, truncate and show feedback
+                isProcessingPaste = true
+                let truncated = String(newValue.prefix(DesignSystem.Text.maxCharacterCount))
+                internalText = truncated
+                text = truncated
+                
+                // Provide haptic feedback for truncation
+#if os(iOS)
+                dependencies.haptics.warning()
+#endif
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(100))
+                    isProcessingPaste = false
+                }
+            } else {
+                // For typing, prevent the extra character
+                internalText = oldValue
+                text = oldValue
+                
+                // Light haptic feedback
+#if os(iOS)
+                dependencies.haptics.tap()
+#endif
+            }
+        } else {
+            text = newValue
+        }
+    }
+    
+    // FIXED: Handle paste events specifically
+    private func handlePasteEvent() {
+        isProcessingPaste = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            isProcessingPaste = false
+        }
+    }
+    private var textColor: Color {
+        isDark ?
+        ColorPalette.darkInkColor.opacity(opacity * sentiment.inkIntensity) :
+        ColorPalette.lightInkColor.opacity(opacity * sentiment.inkIntensity)
     }
 }
 
-#Preview {
-    TextView(text: .constant("Text"), sentiment: .negative, opacity: 0.8)
+
+#Preview("Default") {
+    @Previewable @State var text = "A sample entry for today."
+    @FocusState var isFocused: Bool
+
+    TextView(
+        text: $text,
+        sentiment: .neutral,
+        opacity: 1.0,
+        isFocused: $isFocused
+    )
 }

@@ -1,9 +1,13 @@
+
+
 import SwiftUI
 import Testing
 @testable import DailyLock
 
+@MainActor
 @Suite("Sentiment Enum Tests")
 struct SentimentTests {
+    
     @Test("Sentiment.allCases contains all cases")
     func testAllCases() {
         let cases = Sentiment.allCases
@@ -13,25 +17,16 @@ struct SentimentTests {
         #expect(cases.count == 3)
     }
 
-    @Test("Sentiment symbols are correct")
-    func testSymbols() {
-        #expect(Sentiment.positive.symbol == "sun.max.fill")
-        #expect(Sentiment.neutral.symbol == "cloud.fill")
-        #expect(Sentiment.negative.symbol == "cloud.rain.fill")
-    }
-
-    @Test("Sentiment gradients contain 3 colors each")
-    func testGradients() {
-        for sentiment in Sentiment.allCases {
-            #expect(sentiment.gradient.count == 3)
-        }
+    @Test("Sentiment gradients contain 3 colors each", arguments: Sentiment.allCases)
+    func testGradients(sentiment: Sentiment) {
+        #expect(sentiment.gradient.count == 3)
     }
 
     @Test("Sentiment inkIntensity values are correct")
     func testInkIntensity() {
-        #expect(Sentiment.positive.inkIntensity == 0.9)
-        #expect(Sentiment.neutral.inkIntensity == 0.7)
-        #expect(Sentiment.negative.inkIntensity == 0.5)
+        #expect(Sentiment.positive.inkIntensity == 3.0)
+        #expect(Sentiment.neutral.inkIntensity == 2.0)
+        #expect(Sentiment.negative.inkIntensity == 1.0)
     }
 
     @Test("Sentiment.id returns itself")

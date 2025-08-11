@@ -18,6 +18,7 @@ final class HapticEngine {
     private let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
     private let selectionFeedback = UISelectionFeedbackGenerator()
     private let notificationFeedback = UINotificationFeedbackGenerator()
+ 
 #endif
     
     init() {
@@ -29,7 +30,11 @@ final class HapticEngine {
         notificationFeedback.prepare()
 #endif
     }
-    
+    func warning() {
+#if canImport(UIKit)
+        notificationFeedback.notificationOccurred(.warning)
+#endif
+    }
     func tap() {
 #if canImport(UIKit)
         impactLight.impactOccurred()

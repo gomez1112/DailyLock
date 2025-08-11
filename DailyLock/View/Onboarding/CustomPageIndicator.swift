@@ -5,13 +5,14 @@
 //  Created by Gerard Gomez on 7/24/25.
 //
 
+import SwiftUI
 
 struct CustomPageIndicator: View {
     let currentPage: Int
     let totalPages: Int
     
     var body: some View {
-        HStack(spacing: 8) {
+        HStack {
             ForEach(0..<totalPages, id: \.self) { page in
                 Capsule()
                     .fill(page == currentPage ? Color.primary : Color.secondary.opacity(0.3))
@@ -20,4 +21,8 @@ struct CustomPageIndicator: View {
             }
         }
     }
+}
+
+#Preview {
+    CustomPageIndicator(currentPage: 6, totalPages: 10)
 }

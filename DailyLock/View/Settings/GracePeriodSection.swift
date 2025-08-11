@@ -1,7 +1,15 @@
+//
+//  GracePeriodSection.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/3/25.
+//
+
+
 import SwiftUI
 
 struct GracePeriodSection: View {
-    @AppStorage("allowGracePeriod") private var allowGracePeriod = true
+    @AppStorage("allowGracePeriod") private var allowGracePeriod = false
     
     var body: some View {
         Section {

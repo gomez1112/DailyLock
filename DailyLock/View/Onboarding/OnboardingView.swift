@@ -1,64 +1,98 @@
+//
+//  OnboardingView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 7/24/25.
+//
+
+import SwiftUI
+
 struct OnboardingView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(HapticEngine.self) private var haptics
+    @Environment(AppDependencies.self) private var dependencies
     @AppStorage("hasCompletedOnboarding") private var hasCompleted = false
     
     @State private var currentPage = 0
     @State private var dragOffset: CGSize = .zero
     
-    private let totalPages = 5
+    private let totalPages = AppOnboarding.totalPages
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // Background gradient that changes with pages
-                AnimatedGradientBackground(currentPage: currentPage)
+                PaperTextureView()
                     .ignoresSafeArea()
-                
-                VStack(spacing: 0) {
-                    // Skip button
-                    HStack {
-                        Spacer()
-                        Button("Skip") {
-                            completeOnboarding()
-                        }
-                        .foregroundStyle(.secondary)
-                        .padding()
-                        .opacity(currentPage < totalPages - 1 ? 1 : 0)
-                    }
-                    
-                    // Page content
-                    TabView(selection: $currentPage) {
-                        WelcomeView()
-                            .tag(0)
-                        
-                        ConceptView()
-                            .tag(1)
-                        
-                        NotificationPermissionView()
-                            .tag(2)
-                        
-                        PremiumPreviewView()
-                            .tag(3)
-                        
-                        GetStartedView(onComplete: completeOnboarding)
-                            .tag(4)
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: currentPage)
-                    
-                    // Custom page indicator
-                    CustomPageIndicator(
-                        currentPage: currentPage,
-                        totalPages: totalPages
-                    )
-                    .padding(.bottom, 50)
-                }
             }
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("onboardingRoot")
+            
+            VStack(spacing: 0) {
+                // Skip button
+                HStack {
+                    Spacer()
+                    Button("Skip") {
+                        completeOnboarding()
+                    }
+                    .foregroundStyle(.secondary)
+                    .padding(AppOnboarding.skipButtonPadding)
+                    .opacity(currentPage < totalPages - 1 ? 1 : 0)
+                    .accessibilityIdentifier("skipButton")
+                    .accessibilityLabel("Skip onboarding")
+                }
+                
+                // Page content
+                TabView(selection: $currentPage) {
+                    WelcomeView()
+                        .tag(0)
+                        .accessibilityIdentifier("onboardingPage0")
+                    
+                    ConceptView()
+                        .tag(1)
+                        .accessibilityIdentifier("onboardingPage1")
+                    
+                    NotificationPermissionView()
+                        .tag(2)
+                        .accessibilityIdentifier("onboardingPage2")
+                    
+                    PremiumPreviewView()
+                        .tag(3)
+                        .accessibilityIdentifier("onboardingPage3")
+                    
+                    GetStartedView(onComplete: completeOnboarding)
+                        .tag(4)
+                        .accessibilityIdentifier("onboardingPage4")
+                }
+                #if !os(macOS)
+                .tabViewStyle(.page(indexDisplayMode: .never))
+                #endif
+                .animation(
+                    .spring(response: AppOnboarding.tabAnimationResponse,
+                            dampingFraction: AppOnboarding.tabAnimationDamping),
+                    value: currentPage
+                )
+                .accessibilityIdentifier("onboardingTabView")
+                .accessibilityLabel("Onboarding pages")
+                .accessibilityValue("Page \(currentPage + 1) of \(totalPages)")
+                
+                // Custom page indicator
+                CustomPageIndicator(
+                    currentPage: currentPage,
+                    totalPages: totalPages
+                )
+                .padding(.bottom, AppOnboarding.pageIndicatorBottomPadding)
+                .accessibilityIdentifier("pageIndicator")
+                .accessibilityLabel("Page indicator")
+                .accessibilityValue("Page \(currentPage + 1) of \(totalPages)")
+            }
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("onboardingMainStack")
         }
+        #if !os(macOS)
         .statusBarHidden()
+        #endif
         .onChange(of: currentPage) { _, _ in
-            haptics.select()
+            dependencies.haptics.select()
         }
     }
     
@@ -68,4 +102,8 @@ struct OnboardingView: View {
         }
         dismiss()
     }
+}
+
+#Preview(traits: .previewData) {
+    OnboardingView()
 }

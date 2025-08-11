@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSUserNotificationsUsageDescription</key>
-	<string>Get daily reminders to capture your most meaningful moment in a single sentence.</string>
+	<string>DailyLock sends daily reminders to help you capture your thoughts</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

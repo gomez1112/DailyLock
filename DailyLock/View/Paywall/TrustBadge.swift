@@ -12,12 +12,17 @@ struct TrustBadge: View {
     let text: String
     
     var body: some View {
-        VStack(spacing: 4) {
+        VStack {
             Image(systemName: icon)
                 .font(.body)
+                .accessibilityIdentifier("trustBadgeIcon")
             Text(text)
                 .font(.caption2)
+                .accessibilityIdentifier("trustBadgeText")
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(text) icon")
+        .accessibilityIdentifier("trustBadgeContainer")
     }
 }
 

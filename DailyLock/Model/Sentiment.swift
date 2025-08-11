@@ -8,40 +8,46 @@
 import SwiftUI
 
 enum Sentiment: String, Codable, CaseIterable, Identifiable {
-    case positive = "positive"
-    case neutral = "neutral"
-    case negative = "negative"
+    
+    case positive
+    case neutral
+    case negative
     
     var id: Self { self }
     
     var gradient: [Color] {
         switch self {
-            case .positive:
-                return [Color(hex: "FFE5B4"), Color(hex: "FFDAB9"), Color(hex: "FFD700")]
-            case .neutral:
-                return [Color(hex: "E8E8E8"), Color(hex: "D3D3D3"), Color(hex: "C0C0C0")]
-            case .negative:
-                return [Color(hex: "B0C4DE"), Color(hex: "87CEEB"), Color(hex: "6495ED")]
+            case .positive: ColorPalette.sentimentPositiveGradient
+            case .neutral: ColorPalette.sentimentNeutralGradient
+            case .negative: ColorPalette.sentimentNegativeGradient
         }
     }
     
     var symbol: String {
         switch self {
-            case .positive: return "sun.max.fill"
-            case .neutral: return "cloud.fill"
-            case .negative: return "cloud.rain.fill"
+            case .positive: "sun.max.fill"
+            case .neutral: "cloud.fill"
+            case .negative: "cloud.rain.fill"
         }
     }
     
     var inkIntensity: Double {
         switch self {
-            case .positive: return 0.9
-            case .neutral: return 0.7
-            case .negative: return 0.5
+            case .positive: DesignSystem.Text.positiveInkIntensity
+            case .neutral: DesignSystem.Text.neutralInkIntensity
+            case .negative: DesignSystem.Text.negativeInkIntensity
         }
     }
     
     var color: Color {
         gradient.first ?? .gray
+    }
+    
+    var accessibilityDescription: String {
+        switch self {
+        case .positive: return "Positive mood"
+        case .neutral: return "Neutral mood"
+        case .negative: return "Negative mood"
+        }
     }
 }

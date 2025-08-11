@@ -1,14 +1,25 @@
+//
+//  GetStartedView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 7/24/25.
+//
+
+import SwiftUI
+
 struct GetStartedView: View {
     let onComplete: () -> Void
     @State private var isAnimating = false
     
     var body: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: Constants.GetStarted.vStackSpacing) {
             Spacer()
             
             // Animated checkmarks
-            VStack(spacing: 20) {
-                ForEach(0..<3) { index in
+            VStack(spacing: Constants.GetStarted.checkmarkSpacing) {
+                accessibilityElement(children: .combine)
+                accessibilityLabel("Benefits of getting started")
+                ForEach(0..<Constants.GetStarted.animatedCheckmarksCount, id: \.self) { index in
                     HStack(spacing: 16) {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.title2)
@@ -16,7 +27,7 @@ struct GetStartedView: View {
                             .scaleEffect(isAnimating ? 1 : 0)
                             .opacity(isAnimating ? 1 : 0)
                             .animation(
-                                .spring().delay(Double(index) * 0.2),
+                                .spring().delay(Double(index) * Constants.GetStarted.checkmarkAnimationBaseDelay),
                                 value: isAnimating
                             )
                         
@@ -25,22 +36,26 @@ struct GetStartedView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .opacity(isAnimating ? 1 : 0)
                             .animation(
-                                .easeOut.delay(Double(index) * 0.2 + 0.1),
+                                .easeOut.delay(Double(index) * Constants.GetStarted.checkmarkAnimationBaseDelay + Constants.GetStarted.textOpacityDelay),
                                 value: isAnimating
                             )
                     }
+                    .accessibilityIdentifier("getStarted_checkmark_\(index)")
                 }
             }
-            .padding(.horizontal)
+            .padding(.horizontal, Constants.GetStarted.horizontalPadding)
             
             VStack(spacing: 16) {
                 Text("You're All Set!")
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .accessibilityIdentifier("getStarted_heading")
+                    .accessibilityAddTraits(.isHeader)
                 
                 Text("Start capturing your first moment")
                     .font(.body)
                     .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("getStarted_subtitle")
             }
             
             Spacer()
@@ -54,19 +69,21 @@ struct GetStartedView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(.blue)
+                .background(.accent)
                 .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .shadow(color: .blue.opacity(0.3), radius: 10, y: 5)
+                .clipShape(RoundedRectangle(cornerRadius: Constants.GetStarted.buttonCornerRadius))
+                .shadow(color: .blue.opacity(0.3), radius: Constants.GetStarted.buttonShadowRadius, y: Constants.GetStarted.buttonShadowYOffset)
             }
-            .padding(.horizontal)
-            .scaleEffect(isAnimating ? 1 : 0.9)
+            .accessibilityIdentifier("getStarted_button")
+            .accessibilityLabel("Begin Writing")
+            .padding(.horizontal, Constants.GetStarted.horizontalPadding)
+            .scaleEffect(isAnimating ? 1 : Constants.GetStarted.buttonScaleInactive)
             .opacity(isAnimating ? 1 : 0)
-            .animation(.spring().delay(0.8), value: isAnimating)
+            .animation(.spring().delay(Constants.GetStarted.buttonSpringDelay), value: isAnimating)
             
             Spacer()
         }
-        .padding(.horizontal, 40)
+        .padding(.horizontal, Constants.GetStarted.horizontalPadding)
         .onAppear {
             isAnimating = true
         }
@@ -81,3 +98,8 @@ struct GetStartedView: View {
         }
     }
 }
+
+#Preview {
+    GetStartedView(onComplete: {})
+}
+

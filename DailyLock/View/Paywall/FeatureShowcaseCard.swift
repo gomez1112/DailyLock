@@ -1,5 +1,17 @@
+//
+//  FeatureShowcaseCard.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/2/25.
+//
+
+import SwiftUI
+import Charts
+
 struct FeatureShowcaseCard: View {
+    @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.colorScheme) private var colorScheme
+    
     let feature: PremiumFeature
     let isAnimated: Bool
     
@@ -27,7 +39,7 @@ struct FeatureShowcaseCard: View {
             VStack(spacing: 8) {
                 Text(feature.rawValue)
                     .font(.headline)
-                    .foregroundStyle(colorScheme == .dark ? AppColor.darkInkColor : AppColor.lightInkColor)
+                    .foregroundStyle(colorScheme == .dark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
                 
                 Text(featureDescription)
                     .font(.subheadline)
@@ -48,7 +60,7 @@ struct FeatureShowcaseCard: View {
                 HStack(spacing: -20) {
                     ForEach(0..<3) { index in
                         RoundedRectangle(cornerRadius: 8)
-                            .fill(colorScheme == .dark ? AppColor.darkCardBackground : AppColor.lightCardBackground)
+                            .fill(colorScheme == .dark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
                             .frame(width: 60, height: 80)
                             .shadow(radius: 4)
                             .rotationEffect(.degrees(Double(index - 1) * 10))
@@ -90,6 +102,40 @@ struct FeatureShowcaseCard: View {
                     }
                 }
                 
+            case .yearlyStats:
+                VStack(spacing: 4) {
+                    // Mini chart visualization
+                    HStack(alignment: .bottom, spacing: 3) {
+                        ForEach(0..<12) { index in
+                            let height: CGFloat = index == 2 || index == 7 ? 20 : (index == 4 || index == 9 ? 12 : 4)
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.accent, Color.accent.opacity(0.7)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                                .frame(width: 6, height: height)
+                                .scaleEffect(y: isAnimated ? 1 : 0)
+                                .animation(
+                                    .spring(response: 0.4)
+                                    .delay(Double(index) * 0.05),
+                                    value: isAnimated
+                                )
+                        }
+                    }
+
+                    .padding(.bottom, 8)
+                    
+                    // Year label
+                    Text(Date.currentYear)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .opacity(isAnimated ? 1 : 0)
+                        .animation(.easeOut.delay(0.6), value: isAnimated)
+                }
+                
             case .aiSummaries:
                 VStack(spacing: 4) {
                     ForEach(0..<3) { _ in
@@ -126,6 +172,8 @@ struct FeatureShowcaseCard: View {
                 return "Capture every thought, every moment, without limits"
             case .advancedInsights:
                 return "Discover patterns in your emotional journey"
+            case .yearlyStats:
+                return "Track your writing habits with beautiful yearly charts"
             case .aiSummaries:
                 return "Weekly reflections that reveal your growth"
             case .yearbook:
@@ -133,3 +181,4 @@ struct FeatureShowcaseCard: View {
         }
     }
 }
+

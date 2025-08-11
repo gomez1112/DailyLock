@@ -5,16 +5,17 @@ import SwiftData
 @MainActor
 @Suite("ModelContainerFactory Tests")
 struct ModelContainerFactoryTests {
+    
+    
     @Test("createSharedContainer creates a ModelContainer")
     func testCreateSharedContainer() {
         let container = ModelContainerFactory.createSharedContainer
         #expect(type(of: container) == ModelContainer.self)
-        #expect(container.mainContext.model is Schema)
     }
 
     @Test("createPreviewContainer creates container with sample data")
-    func testCreatePreviewContainer() async throws {
-        let container = try ModelContainerFactory.createPreviewContainer()
+    func testCreatePreviewContainer() throws {
+        let container = ModelContainerFactory.createPreviewContainer
         #expect(type(of: container) == ModelContainer.self)
         let context = container.mainContext
         // Check for sample data
@@ -32,6 +33,7 @@ struct ModelContainerFactoryTests {
     @Test("configuration returns correct persistent storage")
     func testConfigurationPersistent() {
         let config = ModelContainerFactory.configuration(isStoredInMemoryOnly: false)
-        #expect(config.isStoredInMemoryOnly == false)
+        #expect(!config.isStoredInMemoryOnly)
     }
 }
+

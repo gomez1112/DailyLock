@@ -1,3 +1,12 @@
+//
+//  StatBadge.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/2/25.
+//
+
+import SwiftUI
+
 struct StatBadge: View {
     let number: String
     let label: String

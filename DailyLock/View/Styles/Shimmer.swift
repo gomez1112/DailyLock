@@ -1,3 +1,12 @@
+//
+//  Shimmer.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/5/25.
+//
+
+import SwiftUI
+
 struct Shimmer: ViewModifier {
     @State private var phase: CGFloat = 0
     

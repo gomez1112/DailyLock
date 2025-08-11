@@ -5,14 +5,55 @@
 //  Created by Gerard Gomez on 7/21/25.
 //
 
+import StoreKit
 import SwiftUI
 
 struct AboutSection: View {
+    @Environment(AppDependencies.self) private var dependencies
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Section {
+            HStack {
+                Label {
+                    Text("Version")
+                } icon: {
+                    Image(systemName: "info.circle")
+                        .foregroundStyle(.accent)
+                }
+                Spacer()
+                Text("1.0.0")
+                    .foregroundStyle(.secondary)
+            }
+            .accessibilityIdentifier("versionRow")
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("App Version")
+            .accessibilityValue("1.0.0")
+            
+            // Restore Purchases
+            Button {
+                Task {
+                    do {
+                        try await AppStore.sync()
+                    } catch {
+                        dependencies.errorState.showStoreError(.restorationFailed)
+                    }
+                }
+            } label: {
+                Label {
+                    Text("Restore Purchases")
+                } icon: {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundStyle(.accent)
+                }
+            }
+            .accessibilityIdentifier("restorePurchasesButton")
+            .accessibilityLabel("Restore Purchases")
+            .buttonStyle(.plain)
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("aboutSection")
     }
 }
 
-#Preview {
+#Preview(traits: .previewData) {
     AboutSection()
 }

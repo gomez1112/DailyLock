@@ -30,6 +30,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CC0AC6932E3952DD004FEC40 /* Exceptions for "DailyLock" folder in "DailyLockUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Model/Store/Configuration.storekit,
+			);
+			target = CC28B33E2E2D291700F630B2 /* DailyLockUITests */;
+		};
 		CC28B3E52E2D5BCC00F630B2 /* Exceptions for "DailyLock" folder in "DailyLock" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -44,6 +51,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				CC28B3E52E2D5BCC00F630B2 /* Exceptions for "DailyLock" folder in "DailyLock" target */,
+				CC0AC6932E3952DD004FEC40 /* Exceptions for "DailyLock" folder in "DailyLockUITests" target */,
 			);
 			path = DailyLock;
 			sourceTree = "<group>";
@@ -208,6 +216,8 @@
 			);
 			mainGroup = CC28B31F2E2D291600F630B2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CC28B3292E2D291600F630B2 /* Products */;
 			projectDirPath = "";
@@ -340,6 +350,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -395,6 +406,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};

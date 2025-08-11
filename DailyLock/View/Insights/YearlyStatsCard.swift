@@ -1,15 +1,30 @@
+//
+//  YearlyStatsCard.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/3/25.
+//
+
+
 import Charts
 import SwiftUI
 
 struct YearlyStatsCard: View {
-    @Environment(DataModel.self) private var model
+    @Environment(AppDependencies.self) private var dependencies
     @Environment(\.isDark) private var isDark
     @Environment(\.deviceStatus) private var deviceStatus
     
     let entries: [MomentumEntry]
     
+    private var yearlyData: [(month: Date, count: Int)] {
+        StatsCalculator.entriesByMonth(for: entries)
+    }
+    
+    private var totalEntriesThisYear: Int {
+        yearlyData.reduce(0) { $0 + $1.count }
+    }
     var body: some View {
-        VStack(alignment: .leading, spacing: deviceStatus == .compact ? 16 : 20) {
+        HStack {
             // Header
             VStack(alignment: .leading, spacing: 8) {
                 Text("Stats")
@@ -18,167 +33,63 @@ struct YearlyStatsCard: View {
                     .foregroundStyle(.secondary)
                     .accessibilityIdentifier("yearlyStatsHeader")
                 
-                HStack(alignment: .lastTextBaseline, spacing: 8) {
-                    Text(currentYearEntryCount.formatted())
-                        .font(.system(size: 48, weight: .bold, design: .rounded))
-                        .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
-                        .contentTransition(.numericText())
-                        .accessibilityIdentifier("yearlyEntryCount")
-                    
-                    Text("Entries")
-                        .font(.title2)
-                        .fontWeight(.medium)
-                        .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
-                        .accessibilityIdentifier("entriesLabel")
-                    
-                    Spacer()
-                }
+                Text(totalEntriesThisYear.formatted())
+                    .font(.system(size: 48, weight: .bold, design: .rounded))
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                    .contentTransition(.numericText())
+                    .accessibilityIdentifier("yearlyEntryCount")
                 
+                Text("Entries")
+                    .font(.title2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                    .accessibilityIdentifier("entriesLabel")
                 Text("This Year")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .accessibilityIdentifier("thisYearLabel")
+                Spacer()
             }
-            
             // Monthly Chart
-            VStack(alignment: .leading, spacing: 12) {
-                Chart(monthlyData, id: \.month) { item in
-                    BarMark(
-                        x: .value("Month", item.month),
-                        y: .value("Count", item.count)
-                    )
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [
-                                Color.accentColor.opacity(0.8),
-                                Color.accentColor.opacity(0.6)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .cornerRadius(4)
-                    .opacity(item.count > 0 ? 1.0 : 0.3)
-                }
-                .frame(height: deviceStatus == .compact ? 80 : 100)
-                .chartXAxis {
-                    AxisMarks(values: .automatic) { value in
-                        AxisValueLabel() {
-                            if let month = value.as(String.self) {
-                                Text(month)
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        AxisGridLine(stroke: .clear)
-                        AxisTick(stroke: .clear)
-                    }
-                }
-                .chartYAxis {
-                    AxisMarks(position: .trailing, values: .automatic(desiredCount: 3)) { value in
-                        AxisValueLabel() {
-                            if let count = value.as(Int.self) {
-                                Text(count.formatted())
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        AxisGridLine(
-                            stroke: StrokeStyle(
-                                lineWidth: 0.5,
-                                dash: [2, 4]
-                            )
-                        )
-                        .foregroundStyle(.secondary.opacity(0.3))
-                        AxisTick(stroke: .clear)
-                    }
-                }
-                .chartYScale(domain: 0...maxMonthlyCount)
-                .chartPlotStyle { plotContent in
-                    plotContent
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(
-                                    isDark 
-                                    ? Color.white.opacity(0.02)
-                                    : Color.black.opacity(0.02)
-                                )
-                        )
-                }
-                .accessibilityElement()
-                .accessibilityLabel("Monthly entries chart")
-                .accessibilityValue(chartAccessibilityValue)
-                .accessibilityIdentifier("monthlyEntriesChart")
-            }
+                monthlyChartView
         }
         .padding(deviceStatus == .compact ? 20 : 24)
-        .cardBackground(cornerRadius: AppLayout.radiusLarge, shadowRadius: AppLayout.shadowSmall)
+        .cardBackground(cornerRadius: AppLayout.radiusLarge, shadowRadius: DesignSystem.Shadow.shadowSmall)
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("yearlyStatsCard")
     }
     
-    // MARK: - Computed Properties
-    
-    private var currentYear: Int {
-        Calendar.current.component(.year, from: Date())
-    }
-    
-    private var currentYearEntries: [MomentumEntry] {
-        let calendar = Calendar.current
-        return entries.filter { entry in
-            calendar.component(.year, from: entry.date) == currentYear && entry.isLocked
-        }
-    }
-    
-    private var currentYearEntryCount: Int {
-        currentYearEntries.count
-    }
-    
-    private struct MonthlyData {
-        let month: String
-        let count: Int
-        let monthNumber: Int
-    }
-    
-    private var monthlyData: [MonthlyData] {
-        let calendar = Calendar.current
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM"
-        
-        var monthCounts: [Int: Int] = [:]
-        
-        // Count entries by month
-        for entry in currentYearEntries {
-            let month = calendar.component(.month, from: entry.date)
-            monthCounts[month, default: 0] += 1
-        }
-        
-        // Create data for all 12 months
-        return (1...12).map { monthNumber in
-            let date = calendar.date(from: DateComponents(year: currentYear, month: monthNumber, day: 1)) ?? Date()
-            let monthAbbr = formatter.string(from: date).prefix(1).uppercased()
-            
-            return MonthlyData(
-                month: String(monthAbbr),
-                count: monthCounts[monthNumber] ?? 0,
-                monthNumber: monthNumber
+    private var monthlyChartView: some View {
+        Chart(yearlyData, id: \.month) { data in
+            BarMark(
+                x: .value("Month", data.month, unit: .month),
+                y: .value("Count", data.count)
             )
+            .cornerRadius(4)
         }
-    }
-    
-    private var maxMonthlyCount: Int {
-        let maxCount = monthlyData.map(\.count).max() ?? 1
-        // Ensure minimum scale of 10 to match the design
-        return max(maxCount, 10)
-    }
-    
-    private var chartAccessibilityValue: String {
-        let nonZeroMonths = monthlyData.filter { $0.count > 0 }
-        if nonZeroMonths.isEmpty {
-            return "No entries this year"
+        .chartXAxis {
+            AxisMarks(values: .stride(by: .month, count: 1)) {
+                AxisValueLabel(format: .dateTime.month(.narrow))
+            }
+            
         }
-        
-        let monthDescriptions = nonZeroMonths.map { "\($0.month): \($0.count)" }
-        return monthDescriptions.joined(separator: ", ")
+        .chartYAxis {
+            AxisMarks(values: .stride(by: 5))
+        }
+        .frame(height: deviceStatus == .compact ? 80 : 100)
+        .chartPlotStyle { plotContent in
+            plotContent
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(
+                            isDark
+                            ? Color.white.opacity(0.02)
+                            : Color.black.opacity(0.02)
+                        )
+                )
+        }
+        .accessibilityElement()
+        .accessibilityLabel("Monthly entries chart")
+        .accessibilityIdentifier("monthlyEntriesChart")
     }
 }

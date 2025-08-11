@@ -1,3 +1,12 @@
+//
+//  TestimonialCard.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/2/25.
+//
+
+import SwiftUI
+
 struct TestimonialCard: View {
     @Environment(\.colorScheme) private var colorScheme
     let isAnimated: Bool
@@ -14,7 +23,7 @@ struct TestimonialCard: View {
             Text("DailyLock has transformed my journaling practice. The AI summaries help me see patterns I never noticed before.")
                 .font(.body)
                 .italic()
-                .foregroundStyle(colorScheme == .dark ? AppColor.darkInkColor.opacity(0.9) : AppColor.lightInkColor.opacity(0.9))
+                .foregroundStyle(colorScheme == .dark ? ColorPalette.darkInkColor.opacity(0.9) : ColorPalette.lightInkColor.opacity(0.9))
             
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
@@ -39,7 +48,7 @@ struct TestimonialCard: View {
         .padding(20)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(colorScheme == .dark ? AppColor.darkCardBackground : AppColor.lightCardBackground)
+                .fill(colorScheme == .dark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
                 .shadow(radius: 8)
         )
         .opacity(isAnimated ? 1 : 0)

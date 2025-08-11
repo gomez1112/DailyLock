@@ -16,7 +16,7 @@ struct LoadingInsightView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Generating Insights...")
                         .font(.headline)
-                        .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
+                        .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
                     
                     Text("Analyzing your week")
                         .font(.caption)

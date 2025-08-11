@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ConfettiView: View {
     @State private var particles: [ConfettiParticle] = []
+    @State private var cleanupTask: Task<Void, Never>?
+    
     let sentimentColors: [Color]
     
     var body: some View {
@@ -22,26 +24,39 @@ struct ConfettiView: View {
                         .position(x: particle.x, y: particle.y)
                         .opacity(particle.opacity)
                         .animation(.linear(duration: particle.duration), value: particle.y)
+                        .accessibilityHidden(true)
+                        .accessibilityIdentifier("ConfettiParticle-\(particle.id)")
                 }
             }
+            .accessibilityIdentifier("ConfettiViewGroup")
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel("Celebratory confetti animation")
             .onAppear {
                 createParticles(in: geometry.size)
+            }
+            .onDisappear {
+                cleanupTask?.cancel()
+                particles.removeAll()
             }
         }
         .allowsHitTesting(false)
     }
     
     private func createParticles(in size: CGSize) {
-        for _ in 0..<50 {
+        
+        particles.removeAll()
+        
+        for _ in 0..<AppAchievements.numberOfParticles
+        {
             let particle = ConfettiParticle(
                 x: Double.random(in: 0...size.width),
-                y: -20,
-                size: Double.random(in: 8...16),
+                y: -AppAchievements.particleYPosition,
+                size: Double.random(in: AppAchievements.particleMinSize...AppAchievements.particleMaxSize),
                 color: sentimentColors.randomElement() ?? .orange,
                 shape: ConfettiParticle.Shape.allCases.randomElement() ?? .square,
-                rotation: Double.random(in: 0...360),
-                duration: Double.random(in: 2...4),
-                opacity: 1.0
+                rotation: Double.random(in: AppAchievements.particleMinRotation...AppAchievements.particleMaxRotation),
+                duration: Double.random(in: AppAchievements.particleMinDuration...AppAchievements.particleMaxDuration),
+                opacity: AppAchievements.particleOpacity
             )
             
             particles.append(particle)
@@ -61,10 +76,14 @@ struct ConfettiView: View {
                 }
             }
         }
-        
-        // Clean up particles after animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            particles.removeAll()
+        cleanupTask?.cancel()
+        cleanupTask = Task {
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
+            if !Task.isCancelled {
+                await MainActor.run {
+                    particles.removeAll()
+                }
+            }
         }
     }
 }

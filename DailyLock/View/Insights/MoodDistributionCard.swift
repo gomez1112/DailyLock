@@ -7,45 +7,63 @@
 
 import Charts
 import SwiftUI
-
 struct MoodDistributionCard: View {
-    @Environment(\.colorScheme) private var colorScheme
+
+    @Environment(\.isDark) private var isDark
+    @Environment(\.deviceStatus) private var deviceStatus
+    
     let entries: [MomentumEntry]
     
-    private var moodData: [(sentiment: Sentiment, count: Int)] {
-        let grouped = Dictionary(grouping: entries.filter { $0.isLocked }) { $0.sentiment }
-        return Sentiment.allCases.map { sentiment in
-            (sentiment, grouped[sentiment]?.count ?? 0)
-        }
+    private var chartAccessibleValue: String {
+        let moodData = StatsCalculator.moodData(for: entries)
+        return moodData.map { "\($0.sentiment.rawValue.capitalized): \($0.count)" }.joined(separator: ", ")
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: deviceStatus == .compact ? 12 : 16) {
             Text("Mood Distribution")
-                .font(.headline)
-                .foregroundStyle(colorScheme == .dark ? Color.darkInkColor : Color.lightInkColor)
+                .font(deviceStatus == .compact ? .subheadline : .headline)
+                .fontWeight(.semibold)
+                .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                .accessibilityIdentifier("MoodDistributionCard.Title")
+                .accessibilityLabel("Mood Distribution Title")
             
-            Chart(moodData, id: \.sentiment) { item in
+            Chart(StatsCalculator.moodData(for: entries), id: \.sentiment) { item in
                 BarMark(
                     x: .value("Mood", item.sentiment.rawValue.capitalized),
                     y: .value("Count", item.count)
                 )
                 .foregroundStyle(by: .value("Mood", item.sentiment.rawValue))
-                .cornerRadius(8)
+                .cornerRadius(6)
             }
             .chartForegroundStyleScale([
-                Sentiment.positive.rawValue: Color(hex: "FFD700"),
-                Sentiment.neutral.rawValue: Color(hex: "C0C0C0"),
-                Sentiment.negative.rawValue: Color(hex: "6495ED")
+                Sentiment.positive.rawValue: Color(hex: "FFD700") ?? .black,
+                Sentiment.neutral.rawValue: Color(hex: "C0C0C0") ?? .black,
+                Sentiment.negative.rawValue: Color(hex: "6495ED") ?? .black
             ])
-            .frame(height: 200)
-            .padding(.top, 8)
+            .frame(height: deviceStatus == .compact ? 140 : 180)
+            .accessibilityElement()
+            .accessibilityLabel("Mood Distribution Chart")
+            .accessibilityValue(Text(chartAccessibleValue))
+            .accessibilityIdentifier("MoodDistributionCard.Chart")
+            .chartXAxis {
+                AxisMarks { _ in
+                    AxisValueLabel()
+                        .font(.caption)
+                }
+            }
+            .chartYAxis {
+                AxisMarks { _ in
+                    AxisGridLine()
+                    AxisValueLabel()
+                        .font(.caption)
+                }
+            }
         }
-        .padding(24)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(colorScheme == .dark ? Color.darkCardBackground : Color.lightCardBackground)
-                .shadow(color: colorScheme == .dark ? Color.darkShadowColor : Color.lightShadowColor, radius: 10))
+        .padding(deviceStatus == .compact ? 16 : 20)
+        .cardBackground(cornerRadius: AppLayout.radiusMedium, shadowRadius: DesignSystem.Shadow.shadowSmall)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("MoodDistributionCard.Container")
     }
 }
 

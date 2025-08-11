@@ -11,6 +11,8 @@ import SwiftUI
 
 struct WeeklySummaryCard: View {
     
+    @Environment(AppDependencies.self) private var dependencies
+    
     @Query private var entries: [MomentumEntry]
     
     @State var generator: InsightGenerator
@@ -18,21 +20,21 @@ struct WeeklySummaryCard: View {
     @State private var isFullSummaryOpen = false
     @State private var isGenerating = false
     @State private var sparkleAnimation = false
+    
     @Environment(\.isDark) private var isDark
     @Environment(\.deviceStatus) private var deviceStatus
-    @Environment(HapticEngine.self) private var haptics
     
     private let foundationModel = SystemLanguageModel.default
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             if let insight = generator.insight {
                 // Header Section
                 headerSection(insight: insight)
-                
+                TaggingView()
                 // Divider
                 Rectangle()
-                    .fill(isDark ? AppColor.darkLineColor : AppColor.lightLineColor)
+                    .fill(isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor)
                     .frame(height: 1)
                     .padding(.vertical, deviceStatus == .compact ? 12 : 16)
                     .opacity(0.5)
@@ -64,11 +66,11 @@ struct WeeklySummaryCard: View {
                     expandButton
                 }
             } else if isGenerating {
-                loadingView
+                LoadingInsightView()
             } else {
                 switch foundationModel.availability {
                     case .available:
-                        GenerateWeeklyInsightView(generator: generator)
+                        GenerateWeeklyInsightView(generator: generator, closure: generateInsight)
                     case .unavailable(.appleIntelligenceNotEnabled):
                         MessageView(message: "Insight is unavailable because Apple Intelligence has not been turned on.")
                     case .unavailable(.modelNotReady):
@@ -83,10 +85,10 @@ struct WeeklySummaryCard: View {
         .padding(deviceStatus == .compact ? 20 : 24)
         .background(
             RoundedRectangle(cornerRadius: AppLayout.radiusXLarge)
-                .fill(isDark ? AppColor.darkCardBackground : AppColor.lightCardBackground)
+                .fill(isDark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
                 .shadow(
-                    color: isDark ? AppColor.darkShadowColor : AppColor.lightShadowColor,
-                    radius: AppLayout.shadowMedium,
+                    color: isDark ? DesignSystem.Shadow.darkShadowColor : DesignSystem.Shadow.lightShadowColor,
+                    radius: DesignSystem.Shadow.shadowMedium,
                     y: 4
                 )
         )
@@ -119,7 +121,7 @@ struct WeeklySummaryCard: View {
                     Text("Weekly AI Summary")
                         .font(deviceStatus == .compact ? .headline : .title3)
                         .fontWeight(.bold)
-                        .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
+                        .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
                     
                     Image(systemName: "sparkles")
                         .font(.caption)
@@ -166,7 +168,7 @@ struct WeeklySummaryCard: View {
             if let summary = insight.summary {
                 Text(summary)
                     .font(deviceStatus == .compact ? .subheadline : .body)
-                    .foregroundStyle(isDark ? AppColor.darkInkColor.opacity(0.9) : AppColor.lightInkColor.opacity(0.9))
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor.opacity(0.9) : ColorPalette.lightInkColor.opacity(0.9))
                     .lineLimit(isFullSummaryOpen ? nil : 3)
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
@@ -183,7 +185,7 @@ struct WeeklySummaryCard: View {
             Label("Suggestions", systemImage: "lightbulb.fill")
                 .font(.subheadline)
                 .fontWeight(.semibold)
-                .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
+                .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
             
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(Array(actions.enumerated()), id: \.offset) { index, action in
@@ -244,7 +246,7 @@ struct WeeklySummaryCard: View {
         Button {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                 isFullSummaryOpen.toggle()
-                haptics.tap()
+                dependencies.haptics.tap()
             }
         } label: {
             HStack {
@@ -257,41 +259,21 @@ struct WeeklySummaryCard: View {
                     .fontWeight(.semibold)
                     .rotationEffect(.degrees(isFullSummaryOpen ? 0 : 0))
             }
-            .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
+            .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
         }
         .buttonStyle(.plain)
     }
-    
-    // MARK: - Loading View
-    private var loadingView: some View {
-        VStack(spacing: 20) {
-            HStack {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Generating Insights...")
-                        .font(.headline)
-                        .foregroundStyle(isDark ? AppColor.darkInkColor : AppColor.lightInkColor)
-                    
-                    Text("Analyzing your week")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                
-                Spacer()
-                
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .scaleEffect(0.8)
-            }
-            
-            // Shimmer placeholders
-            VStack(alignment: .leading, spacing: 12) {
-                ForEach(0..<3) { _ in
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(isDark ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
-                        .frame(height: 16)
-                        .placeholderShimmer()
-                }
-            }
+    private func generateInsight() async throws {
+        isGenerating = true
+        dependencies.haptics.tap()
+        do {
+            try await generator.suggestWeeklyInsight()
+            dependencies.haptics.success()
+        } catch {
+            dependencies.errorState.showIntelligenceError(.generationFailed)
+            dependencies.haptics.tap()
         }
+        isGenerating = false
     }
 }
+

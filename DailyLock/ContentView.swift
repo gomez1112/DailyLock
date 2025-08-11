@@ -10,32 +10,62 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @Environment(\.modelContext) private var modelContext
-    @Environment(NavigationContext.self) private var navigation
-    @Environment(HapticEngine.self) private var haptics: HapticEngine
+    @State private var storeError: String?
     
-    #if !os(macOS) && !os(tvOS)
+    @AppStorage("hasCompletedOnboarding") private var hasCompleted = false
+    
+    @Environment(AppDependencies.self) private var dependencies
+    @Environment(\.modelContext) private var modelContext
+    
+#if !os(macOS) && !os(tvOS)
     @AppStorage("sidebarCustomizations") var tabViewCustomization: TabViewCustomization
-    #endif
-
+#endif
+    
     
     var body: some View {
-        @Bindable var navigation = navigation
-        TabView(selection: $navigation.selectedTab) {
+        
+        if hasCompleted {
+            contentView
+                .accessibilityIdentifier("mainTabView")
+            
+        } else {
+            OnboardingView()
+                .accessibilityIdentifier("onboardingView")
+        }
+    }
+    private var contentView: some View {
+        TabView(selection: Bindable(dependencies.navigation).selectedTab) {
             ForEach(Tabs.allCases) { tab in
                 Tab(tab.title, systemImage: tab.icon, value: tab, role: tab == .search ? .search : nil) {
                     tab.destination
                 }
                 .customizationID(tab.customizationID)
+                .accessibilityIdentifier("\(tab.title)Tab")
+                .accessibilityLabel(tab.title)
             }
         }
-        .frame(minWidth: 800, minHeight: 600)
+#if !os(macOS)
+        .tabBarMinimizeBehavior(.onScrollDown)
+#endif
         .tabViewStyle(.sidebarAdaptable)
-        #if !os(macOS)
+        .accessibilityIdentifier("mainTabView")
+        .accessibilityAddTraits(.isTabBar)
+#if !os(macOS)
         .tabViewCustomization($tabViewCustomization)
-        #endif
+#endif
+        .sheet(item: Bindable(dependencies.navigation).presentedSheet) { sheet in
+            switch sheet {
+                case .paywall: PaywallView()
+                case .tips: TipsView()
+                case .entryDetail(entry: let entry):
+                    EntryDetailView(entry: entry)
+                        .applyIf(Self.isMacOS) { $0.frame(minWidth: AppLayout.timelineMonthSheetMinWidth, minHeight: AppLayout.timelineMonthSheetMinHeight) }
+                        .applyIf(Self.isIOS) { $0.presentationDetents([.medium, .large]) }
+            }
+        }
     }
 }
+
 
 #Preview(traits: .previewData) {
     ContentView()

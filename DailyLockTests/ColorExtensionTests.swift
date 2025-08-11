@@ -1,40 +1,42 @@
 import SwiftUI
 import Testing
+@testable import DailyLock
 
+@MainActor
 @Suite("Color Extension Tests")
 struct ColorExtensionTests {
     
     @Test("Color(hex:) parses 6-digit hex correctly")
-    func parsesSixDigitHex() async throws {
+    func parsesSixDigitHex() {
         let color = Color(hex: "2c3e50")
         let expected = Color(.sRGB, red: 44/255, green: 62/255, blue: 80/255, opacity: 1.0)
-        #expect(color.isApproximatelyEqual(to: expected))
+        #expect(color?.isApproximatelyEqual(to: expected) ?? false)
     }
 
     @Test("Color(hex:) parses 3-digit hex correctly")
-    func parsesThreeDigitHex() async throws {
+    func parsesThreeDigitHex() {
         let color = Color(hex: "abc")
         let expected = Color(.sRGB, red: 170/255, green: 187/255, blue: 204/255, opacity: 1.0)
-        #expect(color.isApproximatelyEqual(to: expected))
+        #expect(color?.isApproximatelyEqual(to: expected) ?? false)
     }
 
     @Test("Color(hex:) parses 8-digit hex (ARGB)")
-    func parsesEightDigitHex() async throws {
+    func parsesEightDigitHex() {
         let color = Color(hex: "802c3e50")
         let expected = Color(.sRGB, red: 44/255, green: 62/255, blue: 80/255, opacity: 128/255)
-        #expect(color.isApproximatelyEqual(to: expected))
+        #expect(color?.isApproximatelyEqual(to: expected) ?? false)
     }
 
     @Test("Semantic color properties produce expected values")
-    func semanticColors() async throws {
-        #expect(Color.lightPaperBackground.isApproximatelyEqual(to: Color(hex: "FBF8F3")))
-        #expect(Color.darkPaperBackground.isApproximatelyEqual(to: Color(hex: "1C1C1E")))
-        #expect(Color.lightCardBackground.isApproximatelyEqual(to: Color(.white)))
-        #expect(Color.darkCardBackground.isApproximatelyEqual(to: Color(hex: "2C2C2E")))
-        #expect(Color.lightLineColor.isApproximatelyEqual(to: Color(hex: "E8E8E8")))
-        #expect(Color.darkLineColor.isApproximatelyEqual(to: Color(hex: "3A3A3C")))
-        #expect(Color.lightInkColor.isApproximatelyEqual(to: Color(hex: "2c3e50")))
-        #expect(Color.darkInkColor.isApproximatelyEqual(to: Color(hex: "E5E5E7")))
+    func semanticColors() {
+        #expect(ColorPalette.lightPaperBackground.isApproximatelyEqual(to: Color(hex: "FBF8F3") ?? .black))
+        #expect(ColorPalette.darkPaperBackground.isApproximatelyEqual(to: Color(hex: "1C1C1E") ?? .black))
+        #expect(ColorPalette.lightCardBackground.isApproximatelyEqual(to: Color(.white)))
+        #expect(ColorPalette.darkCardBackground.isApproximatelyEqual(to: Color(hex: "2C2C2E") ?? .black))
+        #expect(ColorPalette.lightLineColor.isApproximatelyEqual(to: Color(hex: "E8E8E8") ?? .black))
+        #expect(ColorPalette.darkLineColor.isApproximatelyEqual(to: Color(hex: "3A3A3C") ?? .black))
+        #expect(ColorPalette.lightInkColor.isApproximatelyEqual(to: Color(hex: "2c3e50") ?? .black))
+        #expect(ColorPalette.darkInkColor.isApproximatelyEqual(to: Color(hex: "E5E5E7") ?? .black))
     }
 }
 

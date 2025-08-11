@@ -5,18 +5,17 @@
 //  Created by Gerard Gomez on 7/20/25.
 //
 
+import FoundationModels
+import SwiftData
 import SwiftUI
 
 struct SearchView: View {
+    
     var body: some View {
-        ZStack {
-            PaperTextureView()
-                .ignoresSafeArea()
-            Text("Searching...")
-        }
+        Text("Search")
     }
 }
 
-#Preview {
+#Preview(traits: .previewData) {
     SearchView()
 }

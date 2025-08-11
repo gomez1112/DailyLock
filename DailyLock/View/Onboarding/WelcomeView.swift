@@ -1,42 +1,63 @@
+//
+//  WelcomeView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 7/24/25.
+//
+
+import SwiftUI
+
 struct WelcomeView: View {
     @State private var appearAnimation = false
     
     var body: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: AppWelcome.vStackSpacing) {
             Spacer()
             
             // Animated icon
             Image(systemName: "book.closed.fill")
-                .font(.system(size: 80))
-                .foregroundStyle(.blue)
+                .font(.system(size: AppWelcome.iconFontSize))
+                .foregroundStyle(.accent)
                 .symbolEffect(.bounce, value: appearAnimation)
-                .scaleEffect(appearAnimation ? 1 : 0.5)
+                .scaleEffect(appearAnimation ? 1 : AppWelcome.iconInitialScale)
                 .opacity(appearAnimation ? 1 : 0)
+                .accessibilityIdentifier("welcomeIcon")
+                .accessibilityLabel("Welcome book icon")
             
             VStack(spacing: 16) {
                 Text("Welcome to DailyLock")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
-                    .offset(y: appearAnimation ? 0 : 30)
+                    .offset(y: appearAnimation ? 0 : AppWelcome.textYOffset)
                     .opacity(appearAnimation ? 1 : 0)
+                    .accessibilityIdentifier("welcomeTitle")
+                    .accessibilityAddTraits(.isHeader)
                 
                 Text("Capture life's moments,\none sentence at a time")
                     .font(.title3)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                    .offset(y: appearAnimation ? 0 : 30)
+                    .offset(y: appearAnimation ? 0 : AppWelcome.textYOffset)
                     .opacity(appearAnimation ? 1 : 0)
+                    .accessibilityIdentifier("welcomeSubtitle")
+                    .accessibilityHint("App tagline")
             }
+            .accessibilityElement(children: .combine)
             
             Spacer()
             Spacer()
         }
-        .padding(.horizontal, 40)
+        .padding(.horizontal, AppWelcome.horizontalPadding)
+        .accessibilityIdentifier("welcomeVStack")
         .onAppear {
-            withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.2)) {
+            withAnimation(.spring(response: AppWelcome.springResponse, dampingFraction: AppWelcome.springDamping).delay(AppWelcome.animationDelay)) {
                 appearAnimation = true
             }
         }
     }
+}
+
+#Preview {
+    WelcomeView()
 }

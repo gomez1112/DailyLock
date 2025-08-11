@@ -11,29 +11,6 @@ import SwiftData
 /// - Note: All logic within this struct is only active when building the app in DEBUG mode.
 struct DebugSetup {
     
-    /// Configures and returns the appropriate `ModelContainer` based on the provided command line arguments.
-    ///
-    /// This method enables the app to switch between different persistent container setups, such as a preview/testing
-    /// container and the standard shared container, depending on the arguments passed at launch. This is useful for
-    /// testing, debugging, and running UI tests with isolated or mock data.
-    ///
-    /// - Parameter arguments: An array of command line arguments (typically from `CommandLine.arguments`) to check for debug/test flags.
-    /// - Returns: A `ModelContainer` instance configured for either testing (when `"enable-testing"` is present)
-    ///   or for normal use.
-    ///
-    /// - Note: Only active when building in DEBUG mode. In release builds, always returns the shared container.
-    static func configureContainer(for arguments: [String]) -> ModelContainer {
-        #if DEBUG
-        if arguments.contains("enable-testing") {
-            return ModelContainerFactory.createPreviewContainer
-        } else {
-            return ModelContainerFactory.createSharedContainer
-        }
-        #else
-        return ModelContainerFactory.createSharedContainer
-        #endif
-    }
-    
     /// Applies debug and testing behaviors to the app based on the provided command line arguments.
     ///
     /// This function modifies the application's persistent state and user defaults to facilitate specific

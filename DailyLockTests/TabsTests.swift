@@ -1,6 +1,10 @@
+
+import Foundation
 import Testing
 @testable import DailyLock
 
+
+@MainActor
 @Suite("Tabs enum parameterized tests")
 struct TabsTests {
     let cases: [(tab: Tabs, rawValue: String, title: String, icon: String, customizationID: String)] = [
@@ -20,6 +24,17 @@ struct TabsTests {
             #expect(tab.icon == expectedIcon, "Icon for \(tab) should be \(expectedIcon)")
             #expect(tab.customizationID == expectedCustomizationID, "Customization ID for \(tab) should be \(expectedCustomizationID)")
         }
+    }
+    @Test("Tab titles are correct", arguments: [
+        (Tabs.today, "Today"),
+        (Tabs.insights, "Insights"),
+        (Tabs.timeline, "Timeline"),
+        (Tabs.settings, "Settings"),
+        (Tabs.search, "Search")
+    ])
+    
+    func testTabTitles(tab: Tabs, expectedTitle: String) async throws {
+        #expect(tab.title == expectedTitle)
     }
     
     @Test("Tabs conform to CaseIterable and Codable")

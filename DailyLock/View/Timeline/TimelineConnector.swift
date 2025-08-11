@@ -8,16 +8,20 @@
 import SwiftUI
 
 struct TimelineConnector: View {
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.isDark) private var isDark
     var body: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: AppTimeline.connectorSpacing) {
             Rectangle()
-                .fill((colorScheme == .dark ? Color.darkLineColor : Color.lightLineColor))
-                .frame(width: 1, height: 30)
-                .padding(.leading, 25)
+                .fill((isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor))
+                .accessibilityIdentifier("connectorLine")
+                .frame(width: AppTimeline.connectorLineWidth, height: AppTimeline.connectorLineHeight)
+                .padding(.leading, AppTimeline.connectorLeadingPadding)
             
             Spacer()
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Timeline connector")
+        .accessibilityIdentifier("timelineConnector")
     }
 }
 

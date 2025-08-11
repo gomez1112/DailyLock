@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct PremiumFeatureModifier: ViewModifier {
+    @Environment(AppDependencies.self) private var dependencies
+    
     let isLocked: Bool
     let feature: PremiumFeature
-    @State private var showPaywall = false
     
     func body(content: Content) -> some View {
         if isLocked {
@@ -20,11 +21,8 @@ struct PremiumFeatureModifier: ViewModifier {
                     .disabled(true)
                 
                 PremiumFeatureGate(feature: feature) {
-                    showPaywall = true
+                    dependencies.navigation.presentedSheet = .paywall
                 }
-            }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView()
             }
         } else {
             content

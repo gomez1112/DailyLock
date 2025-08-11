@@ -1,10 +1,15 @@
+
+import Foundation
 import Testing
 @testable import DailyLock
 
+
+@MainActor
 @Suite("MomentumEntry Tests")
 struct MomentumEntryTests {
+    
     @Test("Default initialization produces today's date, empty text, .neutral sentiment, not locked")
-    func testDefaultInitialization() async throws {
+    func testDefaultInitialization() {
         let entry = MomentumEntry()
         let today = Calendar.current.startOfDay(for: Date())
         #expect(Calendar.current.isDate(entry.date, inSameDayAs: today))
@@ -18,12 +23,12 @@ struct MomentumEntryTests {
     }
 
     @Test("Custom initialization populates properties correctly and computes word count")
-    func testCustomInitialization() async throws {
-        let dt = Date().addingTimeInterval(-86400)
+    func testCustomInitialization() {
+        let date = Date().addingTimeInterval(-86400)
         let text = "This is a test entry with seven words."
         let sentiment: Sentiment = .positive
-        let lockDate = dt
-        let entry = MomentumEntry(date: dt, text: text, sentiment: sentiment, lockedAt: lockDate)
+        let lockDate = date
+        let entry = MomentumEntry(date: date, text: text, sentiment: sentiment, lockedAt: lockDate)
         #expect(entry.text == text)
         #expect(entry.sentiment == .positive)
         #expect(entry.lockedAt != nil)
@@ -32,7 +37,7 @@ struct MomentumEntryTests {
     }
 
     @Test("displayDate returns Today, Yesterday, or a formatted string as expected")
-    func testDisplayDate() async throws {
+    func testDisplayDate() {
         let today = Date()
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         let past = Calendar.current.date(byAdding: .day, value: -5, to: today)!
@@ -47,7 +52,7 @@ struct MomentumEntryTests {
     }
 
     @Test("Samples array has correct count and valid properties")
-    func testSamples() async throws {
+    func testSamples() {
         let samples = MomentumEntry.samples
         #expect(samples.count == 11, "Should match hardcoded count")
         for entry in samples {

@@ -8,6 +8,7 @@
 import AppIntents
 import SwiftData
 import SwiftUI
+import os
 
 @main
 struct DailyLockApp: App {
@@ -15,38 +16,59 @@ struct DailyLockApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     #endif
     
-    @State private var hapticEngine = HapticEngine()
-    
-    private let model: DataModel
-    private let navigation: NavigationContext
-    private let container = ModelContainerFactory.createSharedContainer
+    @State private var dependencies = AppDependencies()
     
     init() {
-        let model = DataModel(container: container)
-        let navigation = NavigationContext()
-        let hapticEngine = HapticEngine()
+        Log.app.info("App is initializing.")
+        let arguments = ProcessInfo.processInfo.arguments
+        let isUITesting = arguments.contains("enabl-testing")
+        let configuration: AppDependencies.Configuration = isUITesting ? .testing : .standard
+        let appDependencies = AppDependencies(configuration: configuration)
         
-        self.model = model
-        self.navigation = navigation
-        self.hapticEngine = hapticEngine
-        
-        AppDependencyManager.shared.add(dependency: model)
-        AppDependencyManager.shared.add(dependency: navigation)
-        AppDependencyManager.shared.add(dependency: hapticEngine)
+        if isUITesting {
+            DebugSetup.applyDebugArguments(arguments, container: appDependencies.dataService.context.container)
+        }
+        let container = dependencies.dataService.context.container
+        configureAppIntents(with: dependencies)
+        AppDependencyManager.shared.add(dependency: container)
     }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .frame(minWidth: 800)
+                .trackDeviceStatus()
+                .withErrorHandling()
         }
-        .environment(model)
-        .environment(navigation)
-        .environment(hapticEngine)
-        .modelContainer(container)
+        .environment(dependencies)
+        .modelContainer(dependencies.dataService.context.container)
         
         #if os(macOS)
-        .windowResizability(.contentSize)
+        .windowStyle(.hiddenTitleBar)
+        .windowToolbarStyle(.unified(showsTitle: true))
+        .commands {
+            CommandGroup(replacing: .newItem) {
+                Button("New Entry") {
+                    navigation.navigate(to: .today)
+                }
+                .keyboardShortcut("n", modifiers: .command)
+            }
+            CommandMenu("Navigation") {
+                Button("Today") {
+                    navigation.navigate(to: .today)
+                }
+                .keyboardShortcut("1", modifiers: .command)
+                
+                Button("Timeline") {
+                    navigation.navigate(to: .timeline)
+                }
+                .keyboardShortcut("2", modifiers: .command)
+                
+                Button("Insights") {
+                    navigation.navigate(to: .insights)
+                }
+                .keyboardShortcut("3", modifiers: .command)
+            }
+        }
         #endif
         #if os(macOS)
         Settings {
@@ -54,23 +76,13 @@ struct DailyLockApp: App {
                 .environment(model)
                 .environment(navigation)
                 .environment(hapticEngine)
+                .environment(store)
                 .modelContainer(container)
+                .frame(width: AppLayout.settingsWindowWidth, height: AppLayout.settingsWindowHeight)
         }
         #endif
     }
-}
-#if !os(macOS)
-// MARK: - App Delegate
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        UNUserNotificationCenter.current().delegate = self
-        return true
+    private func configureAppIntents(with dependencies: AppDependencies) {
+        AppDependencyManager.shared.add(dependency: dependencies)
     }
 }
-
-extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        [.banner, .sound]
-    }
-}
-#endif

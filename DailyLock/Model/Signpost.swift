@@ -1,3 +1,11 @@
+//
+//  provides.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/9/25.
+//
+
+
 import Foundation
 import os
 
@@ -14,8 +22,8 @@ import os
 /// }
 /// ```
 /// The measured interval will appear in the "Signposts" instrument timeline.
-enum Signpost {
-    private static let subsystem = "com.dailylock.app"
+enum Signpost: Sendable {
+    private static let subsystem = "com.transfinite.DailyLock"
 
     /// Signposts for StoreKit and transaction-related operations.
     static let store = OSSignposter(subsystem: subsystem, category: "Store")

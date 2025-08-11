@@ -1,3 +1,12 @@
+//
+//  PremiumPreviewView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 7/24/25.
+//
+
+import SwiftUI
+
 struct PremiumPreviewView: View {
     @State private var selectedFeature = 0
     
@@ -9,67 +18,76 @@ struct PremiumPreviewView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: Constants.Premium.previewVStackSpacing) {
             Spacer()
             
             // Crown animation
             Image(systemName: "crown.fill")
-                .font(.system(size: 60))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [Color(hex: "FFD700"), Color(hex: "FFA500")],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .font(.system(size: Constants.Premium.previewCrownFontSize))
+                .foregroundStyle(.accent)
                 .symbolEffect(.pulse)
+                .accessibilityIdentifier("premiumCrown")
+                .accessibilityLabel("Premium feature crown")
             
             Text("DailyLock+ Premium")
                 .font(.title)
                 .fontWeight(.bold)
+                .accessibilityIdentifier("premiumTitle")
+                .accessibilityAddTraits(.isHeader)
             
             // Feature carousel
             TabView(selection: $selectedFeature) {
                 ForEach(0..<features.count, id: \.self) { index in
-                    FeatureCard(
-                        icon: features[index].1,
-                        title: features[index].0,
-                        description: features[index].2
-                    )
+                    VStack {
+                        OnboardingFeatureCard(
+                            icon: features[index].1,
+                            title: features[index].0,
+                            description: features[index].2
+                        )
+                    }
+                    .accessibilityIdentifier("featureCard_\(index)")
+                    .accessibilityLabel(features[index].0)
                     .tag(index)
                 }
             }
+            #if !os(macOS)
             .tabViewStyle(.page)
-            .frame(height: 200)
+            #endif
+            .frame(height: Constants.Premium.previewFeatureCarouselHeight)
+            .accessibilityIdentifier("featureCarousel")
+            .accessibilityLabel("Premium feature carousel")
             
             Spacer()
             
-            VStack(spacing: 16) {
+            VStack(spacing: Constants.Premium.previewButtonVStackSpacing) {
                 Button {
                     // Show paywall
                 } label: {
                     Text("Start Free Trial")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(
-                            LinearGradient(
-                                colors: [Color(hex: "FFD700"), Color(hex: "FFA500")],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
+                        .background(.accent)
                         .foregroundStyle(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipShape(RoundedRectangle(cornerRadius: Constants.Premium.previewButtonCornerRadius))
                 }
+                .accessibilityIdentifier("startFreeTrialButton")
+                .accessibilityLabel("Start Free Trial")
+                .accessibilityHint("Begins a 7-day free trial, then $4.99 per month")
                 
                 Text("7 days free, then $4.99/month")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                    .accessibilityIdentifier("trialInfoText")
+                    .accessibilityLabel("7 days free, then $4.99 per month")
             }
             .padding(.horizontal)
             
             Spacer()
         }
-        .padding(.horizontal, 40)
+        .padding(.horizontal, Constants.Premium.previewHorizontalPadding)
     }
+}
+
+#Preview {
+    PremiumPreviewView()
 }

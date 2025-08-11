@@ -8,37 +8,76 @@
 import SwiftUI
 
 struct CharacterProgressView: View {
-    
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(AppDependencies.self) private var dependencies
+    @Environment(\.isDark) private var isDark
     
     let current: Int
     let limit: Int
     let progress: Double
+    let progressColor: EntryViewModel.ProgressColorStyle  // Now passed in
     
-    private var progressColor: Color {
-        if progress > 0.9 {
-            return .red
-        } else if progress > 0.7 {
-            return .orange
-        }
-        return colorScheme == .dark ? Color.darkLineColor : Color.lightLineColor
-    }
+    @State private var showWarning = false
     
     var body: some View {
-        Gauge(value: progress, in: 0...1) {
-            HStack {
-                Spacer()
-                Text("\(current)/\(limit)")
-                     .contentTransition(.numericText(value: progress))
-                     .animation(.default, value: progress)
-                    .foregroundStyle(colorScheme == .dark ? Color.darkInkColor : Color.lightInkColor)
+        VStack {
+            Gauge(value: progress, in: 0...1) {
+                HStack {
+                    Spacer()
+                    Text("\(current)/\(limit)")
+                        .contentTransition(.numericText(value: progress))
+                        .animation(.default, value: progress)
+                        .foregroundStyle(warningColor)
+                        .accessibilityIdentifier("CharacterProgressText")
+                }
+            }
+            .tint(color(for: progressColor))
+            .accessibilityIdentifier("CharacterProgressGauge")
+            
+            if progress > 0.9 {
+                Text("Approaching character limit")
+                    .font(.caption2)
+                    .foregroundStyle(.orange)
+                    .transition(.opacity)
+            } else if progress >= 1.0 {
+                Text("Character limit reached")
+                    .font(.caption2)
+                    .foregroundStyle(.red)
+                    .transition(.opacity)
             }
         }
-        
-        .tint(progressColor)
+        .accessibilityLabel("Character usage progress")
+        .accessibilityValue("\(current) out of \(limit) characters used")
+        .accessibilityElement(children: .combine)
+        .onChange(of: progress) { _, newValue in
+            if newValue > 0.9 && !showWarning {
+                showWarning = true
+                dependencies.haptics.warning()
+            } else if newValue <= 0.9 {
+                showWarning = false
+            }
+        }
+    }
+    
+    private var warningColor: Color {
+        if progress >= 1.0 {
+            return .red
+        } else if progress > 0.9 {
+            return .orange
+        } else {
+            return isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor
+        }
+    }
+    
+    private func color(for style: EntryViewModel.ProgressColorStyle) -> Color {
+        switch style {
+            case .red: return .red
+            case .orange: return .orange
+            case .darkLine: return ColorPalette.darkLineColor
+            case .lightLine: return ColorPalette.lightLineColor
+        }
     }
 }
 
-#Preview {
-    CharacterProgressView(current: 10, limit: 180, progress: 0.20)
+#Preview(traits: .previewData) {
+    CharacterProgressView(current: 170, limit: DesignSystem.Text.maxCharacterCount, progress: 0.95, progressColor: .darkLine)
 }

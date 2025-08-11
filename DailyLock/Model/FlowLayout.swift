@@ -1,3 +1,12 @@
+//
+//  FlowLayout.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/9/25.
+//
+
+import SwiftUI
+
 struct FlowLayout: Layout {
     var alignment: Alignment = .center
     var spacing: CGFloat?
@@ -37,11 +46,12 @@ struct FlowLayout: Layout {
         var frame: CGRect
     }
     
+    
     struct FlowResult {
         var bounds = CGSize.zero
         var rows = [Row]()
         
-        init(in maxPossibleWidth: Double, subviews: Subviews, alignment: Alignment, spacing: CGFloat?) {
+        nonisolated init(in maxPossibleWidth: Double, subviews: Subviews, alignment: Alignment, spacing: CGFloat?) {
             var itemsInRow = 0
             var remainingWidth = maxPossibleWidth.isFinite ? maxPossibleWidth : .greatestFiniteMagnitude
             var rowMinY = 0.0
@@ -105,7 +115,7 @@ struct FlowLayout: Layout {
 }
 
 private extension HorizontalAlignment {
-    var percent: Double {
+    nonisolated var percent: Double {
         switch self {
         case .leading: return 0
         case .trailing: return 1
@@ -115,7 +125,7 @@ private extension HorizontalAlignment {
 }
 
 private extension VerticalAlignment {
-    var percent: Double {
+   nonisolated var percent: Double {
         switch self {
         case .top: return 0
         case .bottom: return 1

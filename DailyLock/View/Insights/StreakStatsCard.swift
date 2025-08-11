@@ -9,142 +9,222 @@
 import SwiftUI
 
 struct StreakStatsCard: View {
+    @Environment(\.deviceStatus) private var deviceStatus
+    @AppStorage("allowGracePeriod") private var allowGracePeriod = false
     
     let entries: [MomentumEntry]
     
-    private var currentStreak: Int {
-        calculateCurrentStreak()
-    }
-    
-    private var longestStreak: Int {
-        calculateLongestStreak()
+    private var streakInfo: StreakInfo {
+        StreakCalculator.calculateStreak(from: entries, allowGracePeriod: allowGracePeriod)
     }
     
     var body: some View {
-        HStack(spacing: 0) {
-            // Current Streak
-            VStack(spacing: 12) {
-                Image(systemName: "flame.fill")
-                    .font(.title)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [.orange, .red],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                
-                Text("\(currentStreak)")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .fontDesign(.rounded)
-                
-                Text("Current Streak")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                currentStreak
+                Divider()
+                    .frame(height: deviceStatus == .compact ? 60 : 80)
+                longestStreak
             }
-            .frame(maxWidth: .infinity)
+            .padding(deviceStatus == .compact ? 16: 20)
             
-            Divider()
-                .frame(height: 80)
-            
-            // Longest Streak
-            VStack(spacing: 12) {
-                Image(systemName: "trophy.fill")
-                    .font(.title)
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Color(hex: "FFD700"), Color(hex: "FFA500")],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                
-                Text("\(longestStreak)")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .fontDesign(.rounded)
-                
-                Text("Best Streak")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            // Grace Period Status Bar (NEW)
+            if allowGracePeriod && (streakInfo.isGracePeriodActiveNow || streakInfo.gracePeriodUsed) {
+                Divider()
+                gracePeriodStatusBar
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 12)
             }
-            .frame(maxWidth: .infinity)
         }
-        .padding(24)
-        .cardBackground()
+        .cardBackground(cornerRadius: AppLayout.radiusLarge, shadowRadius: DesignSystem.Shadow.shadowSmall)
+        .accessibilityIdentifier("streakStatsCard")
+        .accessibilityElement(children: .contain)
     }
     
-    private func calculateCurrentStreak() -> Int {
-        let calendar = Calendar.current
-        let sortedEntries = entries
-            .filter { $0.isLocked }
-            .sorted { $0.date > $1.date }
-        
-        guard !sortedEntries.isEmpty else { return 0 }
-        
-        var streak = 0
-        var checkDate = calendar.startOfDay(for: Date())
-        
-        // Check if today already has an entry
-        let hasEntryToday = sortedEntries.contains { calendar.isDate($0.date, inSameDayAs: checkDate) }
-        
-        // If no entry today, start checking from yesterday
-        if !hasEntryToday {
-            checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
-        }
-        
-        // Count consecutive days
-        for entry in sortedEntries {
-            if calendar.isDate(entry.date, inSameDayAs: checkDate) {
-                streak += 1
-                checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
-            } else if entry.date < checkDate {
-                // Check if we skipped days
-                let dayDifference = calendar.dateComponents([.day], from: entry.date, to: checkDate).day ?? 0
-                if dayDifference > 1 {
-                    break
+    private var currentStreak: some View {
+        VStack(spacing: deviceStatus == .compact ? 8 : 12) {
+            HStack(spacing: 4) {
+                Image(systemName: streakIcon)
+                    .font(deviceStatus == .compact ? .title2 : .title)
+                    .foregroundStyle(streakGradient)
+                    .symbolEffect(.bounce, value: streakInfo.isGracePeriodActiveNow)
+                
+                if allowGracePeriod {
+                    gracePeriodBadge
                 }
             }
+            
+            Text(streakInfo.count.formatted())
+                .font(deviceStatus == .compact ? .title : .largeTitle)
+                .fontWeight(.bold)
+                .fontDesign(.rounded)
+                .accessibilityIdentifier("currentStreakValue")
+                .contentTransition(.numericText())
+            
+            Text("Current Streak")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
-        
-        return streak
+        .frame(maxWidth: .infinity)
+        .accessibilityIdentifier("currentStreakSection")
+        .accessibilityLabel("Current streak")
+        .accessibilityValue(Text("\(streakInfo.count) day\(streakInfo.count == 1 ? "" : "s")"))
+        .accessibilityHint(gracePeriodHint)
     }
     
-    private func calculateLongestStreak() -> Int {
-        let calendar = Calendar.current
-        let sortedEntries = entries
-            .filter { $0.isLocked }
-            .sorted { $0.date < $1.date } // Sort ascending for longest streak calculation
-        
-        guard !sortedEntries.isEmpty else { return 0 }
-        
-        var longestStreak = 1
-        var currentStreakCount = 1
-        
-        for i in 1..<sortedEntries.count {
-            let previousDate = calendar.startOfDay(for: sortedEntries[i-1].date)
-            let currentDate = calendar.startOfDay(for: sortedEntries[i].date)
-            let dayDifference = calendar.dateComponents([.day], from: previousDate, to: currentDate).day ?? 0
-            
-            if dayDifference == 1 {
-                // Consecutive day
-                currentStreakCount += 1
-                longestStreak = max(longestStreak, currentStreakCount)
-            } else if dayDifference > 1 {
-                // Gap in dates, reset current streak
-                currentStreakCount = 1
+    private var longestStreak: some View {
+        VStack(spacing: deviceStatus == .compact ? 8 : 12) {
+            HStack(spacing: 4) {
+                Image(systemName: "trophy.fill")
+                    .font(deviceStatus == .compact ? .title2 : .title)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: ColorPalette.insightsCardGradient,
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                if allowGracePeriod {
+                    Image(systemName: "heart.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.pink.opacity(0.7))
+                        .accessibilityIdentifier("gracePeriodIndicatorLongest")
+                        .accessibilityLabel("Grace period enabled for calculation")
+                }
             }
-            // If dayDifference == 0 (same day), we don't increment the streak
+            
+            Text(longestStreakValue.formatted())
+                .font(deviceStatus == .compact ? .title : .largeTitle)
+                .fontWeight(.bold)
+                .fontDesign(.rounded)
+                .accessibilityIdentifier("longestStreakValue")
+                .contentTransition(.numericText())
+            
+            Text("Best Streak")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
-        
-        // Also check if current streak is the longest
-        let currentStreak = calculateCurrentStreak()
-        return max(longestStreak, currentStreak)
+        .frame(maxWidth: .infinity)
+        .accessibilityIdentifier("longestStreakSection")
+        .accessibilityLabel("Best streak")
+        .accessibilityValue("\(longestStreakValue) day\(longestStreakValue == 1 ? "" : "s")")
+        .accessibilityHint(gracePeriodHint)
+    }
+    
+    // NEW: Grace Period Status Bar
+    @ViewBuilder
+    private var gracePeriodStatusBar: some View {
+        HStack(spacing: 8) {
+            Image(systemName: gracePeriodStatusIcon)
+                .font(.caption)
+                .foregroundStyle(gracePeriodStatusColor)
+            
+            Text(gracePeriodStatusText)
+                .font(.caption)
+                .foregroundStyle(gracePeriodStatusColor)
+            
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .accessibilityIdentifier("gracePeriodStatus")
+        .accessibilityLabel(gracePeriodStatusText)
+    }
+    
+    // NEW: Grace Period Badge for current streak
+    @ViewBuilder
+    private var gracePeriodBadge: some View {
+        if streakInfo.isGracePeriodActiveNow {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.caption2)
+                .foregroundStyle(.orange)
+                .accessibilityIdentifier("gracePeriodActiveIndicator")
+                .accessibilityLabel("Grace period active - complete today!")
+        } else if streakInfo.gracePeriodUsed {
+            Image(systemName: "shield.slash.fill")
+                .font(.caption2)
+                .foregroundStyle(.gray.opacity(0.7))
+                .accessibilityIdentifier("gracePeriodUsedIndicator")
+                .accessibilityLabel("Grace period already used")
+        } else {
+            Image(systemName: "heart.fill")
+                .font(.caption2)
+                .foregroundStyle(.pink.opacity(0.7))
+                .accessibilityIdentifier("gracePeriodAvailableIndicator")
+                .accessibilityLabel("Grace period available")
+        }
+    }
+    
+    // Dynamic properties based on grace period status
+    private var streakIcon: String {
+        streakInfo.isGracePeriodActiveNow ? "flame.circle.fill" : "flame.fill"
+    }
+    
+    private var streakGradient: LinearGradient {
+        if streakInfo.isGracePeriodActiveNow {
+            // Orange-yellow gradient for warning state
+            LinearGradient(
+                colors: [.orange, .yellow],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            // Normal orange-red gradient
+            LinearGradient(
+                colors: [.orange, .red],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
+    
+    private var gracePeriodStatusIcon: String {
+        if streakInfo.isGracePeriodActiveNow {
+            return "exclamationmark.triangle.fill"
+        } else if streakInfo.gracePeriodUsed {
+            return "checkmark.shield.fill"
+        } else {
+            return "heart.fill"
+        }
+    }
+    
+    private var gracePeriodStatusColor: Color {
+        if streakInfo.isGracePeriodActiveNow {
+            return .orange
+        } else if streakInfo.gracePeriodUsed {
+            return .gray
+        } else {
+            return .green
+        }
+    }
+    
+    private var gracePeriodStatusText: String {
+        if streakInfo.isGracePeriodActiveNow {
+            return "Complete today to maintain streak!"
+        } else if streakInfo.gracePeriodUsed {
+            return "Grace period used • No more misses allowed"
+        } else {
+            return "Grace period available • 1 miss allowed"
+        }
+    }
+    
+    private var longestStreakValue: Int {
+        StreakCalculator.calculateLongestStreak(for: entries, allowGracePeriod: allowGracePeriod)
+    }
+    
+    private var gracePeriodHint: String {
+        if streakInfo.isGracePeriodActiveNow {
+            return "Grace period active. Complete today to maintain your streak."
+        } else if streakInfo.gracePeriodUsed {
+            return "Grace period already used. Missing another day will break your streak."
+        } else if allowGracePeriod {
+            return "One missed day will not break your streak."
+        } else {
+            return "Requires consecutive days only."
+        }
     }
 }
 
-
-#Preview {
+#Preview(traits: .previewData) {
     StreakStatsCard(entries: MomentumEntry.samples)
 }
+

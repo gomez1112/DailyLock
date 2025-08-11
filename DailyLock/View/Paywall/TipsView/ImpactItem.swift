@@ -1,3 +1,12 @@
+//
+//  ImpactItem.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/8/25.
+//
+
+import SwiftUI
+
 struct ImpactItem: View {
     let icon: String
     let title: String
@@ -20,4 +29,8 @@ struct ImpactItem: View {
         }
         .frame(maxWidth: .infinity)
     }
+}
+
+#Preview {
+    ImpactItem(icon: "house", title: "House", description: "This is a very good house")
 }

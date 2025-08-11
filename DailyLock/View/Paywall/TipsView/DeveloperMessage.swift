@@ -1,4 +1,19 @@
-private var developerMessage: some View {
+//
+//  DeveloperMessage.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/8/25.
+//
+
+import SwiftUI
+
+struct DeveloperMessage: View {
+    @Environment(\.deviceStatus) private var deviceStatus
+    @Environment(\.isDark) private var isDark
+    @Environment(AppDependencies.self) private var dependencies
+    
+    @Binding var developerMessageExpanded: Bool
+    var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: "person.circle.fill")
@@ -18,7 +33,7 @@ private var developerMessage: some View {
                 Button {
                     withAnimation(.spring(response: 0.3)) {
                         developerMessageExpanded.toggle()
-                        haptics.tap()
+                        dependencies.haptics.tap()
                     }
                 } label: {
                     Image(systemName: developerMessageExpanded ? "chevron.up" : "chevron.down")
@@ -36,7 +51,7 @@ private var developerMessage: some View {
                 Thank you for being part of this journey! 🙏
                 """)
                 .font(.subheadline)
-                .foregroundStyle(colorScheme == .dark ? ColorPalette.darkInkColor.opacity(0.9) : ColorPalette.lightInkColor.opacity(0.9))
+                .foregroundStyle(isDark ? ColorPalette.darkInkColor.opacity(0.9) : ColorPalette.lightInkColor.opacity(0.9))
                 .fixedSize(horizontal: false, vertical: true)
                 .transition(.asymmetric(
                     insertion: .opacity.combined(with: .move(edge: .top)),
@@ -47,8 +62,13 @@ private var developerMessage: some View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(colorScheme == .dark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
+                .fill(isDark ? ColorPalette.darkCardBackground : ColorPalette.lightCardBackground)
                 .shadow(radius: 8)
         )
         .accessibilityIdentifier("developerMessage")
     }
+}
+
+#Preview {
+    DeveloperMessage(developerMessageExpanded: .constant(true))
+}
