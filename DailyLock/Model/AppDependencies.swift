@@ -11,7 +11,7 @@ import SwiftData
 @Observable
 final class AppDependencies {
     enum Configuration {
-        case standard       // Live app, on-disk data, main branch
+        case standard       // Live app, on-disk data
         case preview        // SwiftUI Previews, in-memory with sample data
         case testing        // Unit tests, in-memory and empty
     }
