@@ -9,7 +9,9 @@ import StoreKit
 import SwiftUI
 
 struct AboutSection: View {
-    @Environment(AppDependencies.self) private var dependencies
+    
+    let errorState: ErrorState
+    
     var body: some View {
         Section {
             HStack {
@@ -34,7 +36,7 @@ struct AboutSection: View {
                     do {
                         try await AppStore.sync()
                     } catch {
-                        dependencies.errorState.showStoreError(.restorationFailed)
+                        errorState.showStoreError(.restorationFailed)
                     }
                 }
             } label: {
@@ -55,5 +57,5 @@ struct AboutSection: View {
 }
 
 #Preview(traits: .previewData) {
-    AboutSection()
+    AboutSection(errorState: ErrorState())
 }

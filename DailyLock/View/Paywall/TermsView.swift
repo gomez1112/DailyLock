@@ -9,7 +9,9 @@ import StoreKit
 import SwiftUI
 
 struct TermsView: View {
-    @Environment(AppDependencies.self) private var dependencies
+    
+    let errorState: ErrorState
+    
     var body: some View {
         HStack(spacing: 16) {
             Link("Terms of Service", destination: URL(string: "https://example.com/terms")!)
@@ -21,7 +23,7 @@ struct TermsView: View {
                     do {
                         try await AppStore.sync()
                     } catch {
-                        dependencies.errorState.showStoreError(.restorationFailed)
+                        errorState.showStoreError(.restorationFailed)
                     }
                 }
             }
@@ -33,5 +35,5 @@ struct TermsView: View {
 }
 
 #Preview(traits: .previewData) {
-    TermsView()
+    TermsView(errorState: ErrorState())
 }

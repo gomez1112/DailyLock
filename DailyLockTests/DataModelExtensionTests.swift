@@ -8,14 +8,14 @@ import Testing
 @Suite("DataModel Extension Logic")
 struct DataModelExtensionTests {
     
-    let model: DataModel
-    let entryVM: EntryViewModel
+    let model: DataService
+    let todayVM: TodayViewModel
     let timelineVM: TimelineViewModel
     
     init() {
             let container = ModelContainerFactory.createPreviewContainer
-            model = DataModel(container: container)
-        entryVM = EntryViewModel(model: model, haptics: HapticEngine())
+            model = DataService(container: container)
+        todayVM = TodayViewModel()
         timelineVM = TimelineViewModel()
     }
     static func create(onDay offset: Int, lockedAt: Date? = Date()) -> MomentumEntry {
@@ -278,22 +278,22 @@ struct DataModelExtensionTests {
 
     @Test("characterCount returns correct count")
     func testCharacterCount() {
-        entryVM.currentText = "Hello, world!"
-        #expect(entryVM.characterCount == 13)
+        todayVM.currentText = "Hello, world!"
+        #expect(todayVM.characterCount == 13)
     }
 
     @Test("progressToLimit caps at 1.0")
     func testProgressToLimit() {
-        entryVM.currentText = String(repeating: "a", count: 200)
-        #expect(entryVM.progressToLimit == 1.0)
+        todayVM.currentText = String(repeating: "a", count: 200)
+        #expect(todayVM.progressToLimit == 1.0)
     }
 
     @Test("progressColor returns correct style")
     func testProgressColor() {
-        #expect(entryVM.progressColor(progress: 0.95, isDark: false) == .red)
-        #expect(entryVM.progressColor(progress: 0.8, isDark: false) == .orange)
-        #expect(entryVM.progressColor(progress: 0.5, isDark: false) == .lightLine)
-        #expect(entryVM.progressColor(progress: 0.5, isDark: true) == .darkLine)
+        #expect(todayVM.progressColor(progress: 0.95, isDark: false) == .red)
+        #expect(todayVM.progressColor(progress: 0.8, isDark: false) == .orange)
+        #expect(todayVM.progressColor(progress: 0.5, isDark: false) == .lightLine)
+        #expect(todayVM.progressColor(progress: 0.5, isDark: true) == .darkLine)
     }
 
     @Test("groupedEntries groups by month/year")

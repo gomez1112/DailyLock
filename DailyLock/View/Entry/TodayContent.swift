@@ -9,31 +9,43 @@ import SwiftUI
 import SwiftData
 
 struct TodayContent: View {
-    @Environment(AppDependencies.self) private var dependencies
+    
     @Environment(\.isDark) private var isDark
+    
+    @Binding var currentText: String
+    @Binding var selectedSentiment: Sentiment
+    @Binding var showLockConfirmation: Bool
     
     let allEntries: [MomentumEntry]
     let isTextFieldFocused: FocusState<Bool>.Binding
-    let viewModel: EntryViewModel  // Now passed in, not created
-    
+    let haptics: HapticEngine
+    let isInGracePeriod: Bool
+    let inkOpacity: Double
+    let characterCount: Int
+    let progressToLimit: Double
+    let currentStreak: Int
+    let canLock: Bool
+    let progressColor: TodayViewModel.ProgressColorStyle
+    let updateInkOpacity: () -> ()
+  
     var body: some View {
-        @Bindable var entryVM = viewModel
+
         VStack(spacing: AppSpacing.small) {
             // Writing Canvas
             ZStack {
                 // Text Entry
                 VStack(spacing: 0) {
                     TextView(
-                        text: $entryVM.currentText,
-                        sentiment: entryVM.selectedSentiment,
-                        opacity: entryVM.inkOpacity,
+                        text: $currentText, haptics: haptics,
+                        sentiment: selectedSentiment,
+                        opacity: inkOpacity,
                         isFocused: isTextFieldFocused
                     )
                     .accessibilityIdentifier("entryTextView")
                     .accessibilityLabel("Text entry for today")
                     .frame(height: textViewHeight)
                     .padding(.horizontal, horizontalPadding)
-                    .onChange(of: entryVM.currentText) { oldValue, newValue in
+                    .onChange(of: currentText) { oldValue, newValue in
                         handleTextChange(oldValue: oldValue, newValue: newValue)
                     }
                     
@@ -41,16 +53,12 @@ struct TodayContent: View {
                     
                     // Character Progress inside the paper
                     CharacterProgressView(
-                        current: entryVM.characterCount,
+                        progressColor: progressColor, haptics: haptics, current: characterCount,
                         limit: DesignSystem.Text.maxCharacterCount,
-                        progress: entryVM.progressToLimit,
-                        progressColor: entryVM.progressColor(
-                            progress: entryVM.progressToLimit,
-                            isDark: isDark
-                        )
+                        progress: progressToLimit
                     )
                     .accessibilityIdentifier("characterProgressView")
-                    .accessibilityLabel("Characters used: \(entryVM.characterCount) of \(DesignSystem.Text.maxCharacterCount)")
+                    .accessibilityLabel("Characters used: \(characterCount) of \(DesignSystem.Text.maxCharacterCount)")
                     .padding(.horizontal, horizontalPadding)
                     .padding(.bottom, AppSpacing.medium)
                 }
@@ -63,7 +71,7 @@ struct TodayContent: View {
             }
             
             // Sentiment Selection
-            Picker("Sentiment", selection: $entryVM.selectedSentiment.animation()) {
+            Picker("Sentiment", selection: $selectedSentiment.animation()) {
                 ForEach(Sentiment.allCases) { sentiment in
                     Label(sentiment.rawValue.capitalized, systemImage: sentiment.symbol)
                         .tag(sentiment)
@@ -75,11 +83,11 @@ struct TodayContent: View {
             .padding()
             
             // Grace Period Indicator
-            if entryVM.isInGracePeriod {
+            if isInGracePeriod {
                 HStack {
                     Image(systemName: "exclamationmark.triangle.fill")
                         .foregroundColor(.orange)
-                    Text("Complete today to maintain your \(entryVM.currentStreak) day streak!")
+                    Text("Complete today to maintain your \(currentStreak) day streak!")
                         .font(.caption)
                         .foregroundColor(.orange)
                 }
@@ -94,10 +102,10 @@ struct TodayContent: View {
             
             // Lock Button
             LockButton(
-                canLock: entryVM.canLock,
+                canLock: canLock,
                 action: {
-                    if entryVM.canLock {
-                        entryVM.showLockConfirmation = true
+                    if canLock {
+                        showLockConfirmation = true
                     }
                 }
             )
@@ -105,7 +113,7 @@ struct TodayContent: View {
             .accessibilityLabel("Lock today's entry")
             .accessibilityHint("Locks your entry. This cannot be undone.")
             .padding(.horizontal, buttonPadding)
-            .scaleEffect(entryVM.showLockConfirmation ? AppAnimation.lockButtonScale : 1.0)
+            .scaleEffect(showLockConfirmation ? AppAnimation.lockButtonScale : 1.0)
         }
         .onPlatform { view in
             view.frame(maxWidth: AppLayout.entryMaxWidth)
@@ -115,9 +123,9 @@ struct TodayContent: View {
     private func handleTextChange(oldValue: String, newValue: String) {
         withAnimation(.easeIn(duration: AppAnimation.inkFadeInDuration)) {
             if newValue.count > oldValue.count && newValue.count % DesignSystem.Text.hapticFeedbackInterval == 0 {
-                dependencies.haptics.tap()
+                haptics.tap()
             }
-            viewModel.updateInkOpacity()
+            updateInkOpacity()
         }
     }
     
@@ -134,11 +142,4 @@ struct TodayContent: View {
     private var innerContentHeight: CGFloat {
         platformValue(iOS: AppLayout.innerContentHeight, macOS: AppLayout.innerContentHeight)
     }
-}
-
-
-#Preview {
-    @FocusState var isFocused: Bool
-    TodayContent(
-        allEntries: Array(repeating: MomentumEntry(), count: 5), isTextFieldFocused: $isFocused, viewModel: EntryViewModel())
 }

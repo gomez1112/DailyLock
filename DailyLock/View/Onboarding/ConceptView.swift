@@ -11,82 +11,61 @@ struct ConceptView: View {
     @State private var typewriterText = ""
     @State private var showLock = false
     
-    @State private var fullText = "Today was perfect. Coffee with mom, sunset walk, grateful."
+    private let fullText = "Today was perfect. Coffee with mom, sunset walk, grateful."
     
     var body: some View {
         VStack(spacing: AppSpacing.xLarge) {
             Spacer()
-            
-            // Visual demonstration
-            ZStack {
-                RoundedRectangle(cornerRadius: AppLayout.radiusXLarge)
-                    .fill(.thinMaterial)
-                    .frame(height: AppLayout.canvasHeight)
                 
                 VStack {
                     Text(typewriterText)
                         .font(.sentenceSerif)
                         .multilineTextAlignment(.center)
                         .padding()
-                        .accessibilityIdentifier("conceptView_typewriterText")
-                        .accessibilityLabel("Today's summary")
-                        .accessibilityValue(typewriterText)
+                        .frame(minHeight: 150, alignment: .top) // Ensure space
                     
                     if showLock {
                         Image(systemName: "lock.fill")
                             .font(.title)
                             .foregroundStyle(.accent)
                             .transition(.scale.combined(with: .opacity))
-                            .accessibilityIdentifier("conceptView_lockIcon")
-                            .accessibilityLabel("Locked")
-                            .accessibilityHidden(!showLock)
                     }
                 }
-            }
-            .accessibilityElement(children: .contain)
-            .accessibilityIdentifier("conceptView_container")
             .frame(maxWidth: AppLayout.lockedEntryMaxWidth)
             
             VStack(spacing: AppSpacing.regular) {
                 Text("One Sentence Daily")
                     .font(.title)
                     .fontWeight(.bold)
-                    .accessibilityIdentifier("conceptView_title")
-                    .accessibilityLabel("One Sentence Daily")
                 
                 Text("Write what matters most today.\nLock it forever when ready.")
                     .font(.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                    .accessibilityIdentifier("conceptView_subtitle")
-                    .accessibilityLabel("Write what matters most today. Lock it forever when ready.")
             }
             
             Spacer()
             Spacer()
         }
         .padding(.horizontal)
-        .onAppear {
-            animateTypewriter()
-        }
-        .onDisappear {
-            fullText = ""
+        .task {
+            // ✅ This is the corrected, non-freezing animation logic
+            await animateTypewriter()
         }
     }
     
-    private func animateTypewriter() {
-        for (index, character) in fullText.enumerated() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * AppAnimation.delay) {
-                typewriterText.append(character)
-                
-                if index == fullText.count - 1 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + AppAnimation.standardDuration * 2) {
-                        withAnimation(.spring()) {
-                            showLock = true
-                        }
-                    }
-                }
-            }
+    // ✅ This function is now async and uses Task.sleep
+    private func animateTypewriter() async {
+        for character in fullText {
+            typewriterText.append(character)
+            // Pause briefly between each character
+            try? await Task.sleep(for: .milliseconds(50))
+        }
+        
+        // Pause before showing the lock
+        try? await Task.sleep(for: .seconds(1))
+        withAnimation(.spring()) {
+            showLock = true
         }
     }
 }

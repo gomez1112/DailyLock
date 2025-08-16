@@ -12,7 +12,7 @@ struct SupportGoal: View {
     @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.isDark) private var isDark
     
-    @Query(sort: \TipRecord.date, order: .reverse) private var allTips: [TipRecord]
+    let allTips: [TipRecord]
     
     private var currentMonthTips: [TipRecord] {
         allTips.filter { $0.isFromCurrentMonth }
@@ -115,5 +115,5 @@ struct SupportGoal: View {
 }
 
 #Preview {
-    SupportGoal()
+    SupportGoal(allTips: TipRecord.sampleTips)
 }

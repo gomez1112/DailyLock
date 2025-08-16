@@ -9,6 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct Timeline: View {
+    
     @State private var timelineVM = TimelineViewModel()
     
     @Environment(AppDependencies.self) private var dependencies
@@ -20,9 +21,7 @@ struct Timeline: View {
     
     var body: some View {
         ZStack {
-            Image(isDark ? .brownDarkTexture : .brownLightTexture)
-                .resizable()
-                .ignoresSafeArea()
+            WritingPaper()
             
             ScrollView {
                 VStack(spacing: AppTimeline.mainVStackSpacing) {

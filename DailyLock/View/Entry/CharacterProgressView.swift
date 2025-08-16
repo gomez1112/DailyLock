@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct CharacterProgressView: View {
-    @Environment(AppDependencies.self) private var dependencies
+    
     @Environment(\.isDark) private var isDark
     
+    @State private var showWarning = false
+    
+    let progressColor: TodayViewModel.ProgressColorStyle  // Now passed in
+    let haptics: HapticEngine
     let current: Int
     let limit: Int
     let progress: Double
-    let progressColor: EntryViewModel.ProgressColorStyle  // Now passed in
-    
-    @State private var showWarning = false
     
     var body: some View {
         VStack {
@@ -51,7 +52,7 @@ struct CharacterProgressView: View {
         .onChange(of: progress) { _, newValue in
             if newValue > 0.9 && !showWarning {
                 showWarning = true
-                dependencies.haptics.warning()
+                haptics.warning()
             } else if newValue <= 0.9 {
                 showWarning = false
             }
@@ -68,7 +69,7 @@ struct CharacterProgressView: View {
         }
     }
     
-    private func color(for style: EntryViewModel.ProgressColorStyle) -> Color {
+    private func color(for style: TodayViewModel.ProgressColorStyle) -> Color {
         switch style {
             case .red: return .red
             case .orange: return .orange
@@ -79,5 +80,5 @@ struct CharacterProgressView: View {
 }
 
 #Preview(traits: .previewData) {
-    CharacterProgressView(current: 170, limit: DesignSystem.Text.maxCharacterCount, progress: 0.95, progressColor: .darkLine)
+    CharacterProgressView(progressColor: .darkLine, haptics: HapticEngine(), current: 170, limit: DesignSystem.Text.maxCharacterCount, progress: 0.95)
 }

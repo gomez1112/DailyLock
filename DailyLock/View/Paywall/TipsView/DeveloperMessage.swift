@@ -10,7 +10,8 @@ import SwiftUI
 struct DeveloperMessage: View {
     @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.isDark) private var isDark
-    @Environment(AppDependencies.self) private var dependencies
+    
+    let haptics: HapticEngine
     
     @Binding var developerMessageExpanded: Bool
     var body: some View {
@@ -33,7 +34,7 @@ struct DeveloperMessage: View {
                 Button {
                     withAnimation(.spring(response: 0.3)) {
                         developerMessageExpanded.toggle()
-                        dependencies.haptics.tap()
+                        haptics.tap()
                     }
                 } label: {
                     Image(systemName: developerMessageExpanded ? "chevron.up" : "chevron.down")
@@ -70,5 +71,5 @@ struct DeveloperMessage: View {
 }
 
 #Preview {
-    DeveloperMessage(developerMessageExpanded: .constant(true))
+    DeveloperMessage(haptics: HapticEngine(), developerMessageExpanded: .constant(true))
 }

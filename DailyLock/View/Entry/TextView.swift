@@ -9,19 +9,18 @@ import SwiftUI
 
 struct TextView: View {
     
-    @Environment(AppDependencies.self) private var dependencies
     @Environment(\.isDark) private var isDark
-    
-    @Binding var text: String
-    
-    let sentiment: Sentiment
-    var opacity: Double
-    
-    let isFocused: FocusState<Bool>.Binding
     
     @State private var internalText = ""
     @State private var isProcessingPaste = false
     @State private var lastTextValue = ""
+
+    @Binding var text: String
+    
+    let haptics: HapticEngine
+    let sentiment: Sentiment
+    var opacity: Double
+    let isFocused: FocusState<Bool>.Binding
     
     var body: some View {
 #if os(macOS)
@@ -77,7 +76,7 @@ struct TextView: View {
                 
                 // Provide haptic feedback for truncation
 #if os(iOS)
-                dependencies.haptics.warning()
+                haptics.warning()
 #endif
                 Task { @MainActor in
                     try? await Task.sleep(for: .milliseconds(100))
@@ -90,7 +89,7 @@ struct TextView: View {
                 
                 // Light haptic feedback
 #if os(iOS)
-                dependencies.haptics.tap()
+                haptics.tap()
 #endif
             }
         } else {
@@ -118,7 +117,7 @@ struct TextView: View {
     @FocusState var isFocused: Bool
 
     TextView(
-        text: $text,
+        text: $text, haptics: HapticEngine(),
         sentiment: .neutral,
         opacity: 1.0,
         isFocused: $isFocused

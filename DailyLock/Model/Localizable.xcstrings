@@ -2892,6 +2892,15 @@
         }
       }
     },
+    "Applied" : {
+
+    },
+    "Apply" : {
+
+    },
+    "Apply this purchased texture." : {
+
+    },
     "Approaching character limit" : {
 
     },
@@ -4242,6 +4251,9 @@
         }
       }
     },
+    "Customization" : {
+
+    },
     "Daily entry text editor" : {
       "localizations" : {
         "ar-AE" : {
@@ -5066,7 +5078,13 @@
         }
       }
     },
+    "Discover patterns and get personalized suggestions based on your recent entries." : {
+
+    },
     "Dismiss" : {
+
+    },
+    "Done" : {
 
     },
     "Email the support team" : {
@@ -5242,6 +5260,9 @@
           }
         }
       }
+    },
+    "Enhance Your Journal" : {
+
     },
     "Entries" : {
       "localizations" : {
@@ -5715,7 +5736,6 @@
       }
     },
     "Generate Weekly Insight" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -6602,6 +6622,9 @@
         }
       }
     },
+    "Insights Unavailable" : {
+
+    },
     "Insufficient Entries" : {
       "localizations" : {
         "ar-AE" : {
@@ -6891,6 +6914,9 @@
           }
         }
       }
+    },
+    "Loading Textures..." : {
+
     },
     "Loading tip…" : {
       "localizations" : {
@@ -7183,6 +7209,7 @@
       }
     },
     "Locked" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -9286,6 +9313,7 @@
       }
     },
     "Page %1$lld of %2$lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -9812,6 +9840,9 @@
           }
         }
       }
+    },
+    "Purchase this texture for %@." : {
+
     },
     "Rate Daily Lock" : {
       "localizations" : {
@@ -11614,6 +11645,9 @@
         }
       }
     },
+    "Texture Store" : {
+
+    },
     "Thank You! 💖" : {
       "localizations" : {
         "ar-AE" : {
@@ -11729,6 +11763,9 @@
           }
         }
       }
+    },
+    "This texture is currently applied." : {
+
     },
     "This Year" : {
       "localizations" : {
@@ -12195,6 +12232,7 @@
       }
     },
     "Today's summary" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -12552,6 +12590,9 @@
       }
     },
     "Upgrade to Premium" : {
+
+    },
+    "Upgrade your writing experience with these beautifully crafted paper textures." : {
 
     },
     "Version" : {
@@ -13138,6 +13179,7 @@
       }
     },
     "Write what matters most today. Lock it forever when ready." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -13196,6 +13238,7 @@
       }
     },
     "Writing paper background" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -13252,6 +13295,9 @@
           }
         }
       }
+    },
+    "Writing paper with %@ texture" : {
+
     },
     "You need at least 1 entries to see insights" : {
       "localizations" : {

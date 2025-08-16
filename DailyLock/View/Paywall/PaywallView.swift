@@ -8,6 +8,7 @@ import StoreKit
 import SwiftUI
 
 struct PaywallView: View {
+    
     @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) private var colorScheme

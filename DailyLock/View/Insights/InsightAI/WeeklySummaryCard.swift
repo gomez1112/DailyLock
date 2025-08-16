@@ -10,11 +10,9 @@ import SwiftData
 import SwiftUI
 
 struct WeeklySummaryCard: View {
-    
-    @Environment(AppDependencies.self) private var dependencies
-    
-    @Query private var entries: [MomentumEntry]
-    
+    let haptics: HapticEngine
+    let errorState: ErrorState
+    let entries: [MomentumEntry]
     @State var generator: InsightGenerator
     
     @State private var isFullSummaryOpen = false
@@ -68,18 +66,7 @@ struct WeeklySummaryCard: View {
             } else if isGenerating {
                 LoadingInsightView()
             } else {
-                switch foundationModel.availability {
-                    case .available:
-                        GenerateWeeklyInsightView(generator: generator, closure: generateInsight)
-                    case .unavailable(.appleIntelligenceNotEnabled):
-                        MessageView(message: "Insight is unavailable because Apple Intelligence has not been turned on.")
-                    case .unavailable(.modelNotReady):
-                        MessageView(message: "Insight is not ready yet. Please try again later.")
-                    case .unavailable(.deviceNotEligible):
-                        MessageView(message: "Your device is not eligble for Insight Generation. You would need to upgrade to a newer model or use a different device.")
-                    default:
-                        MessageView(message: "No Apple Intelligence is available")
-                }
+                unavailableContent
             }
         }
         .padding(deviceStatus == .compact ? 20 : 24)
@@ -113,6 +100,42 @@ struct WeeklySummaryCard: View {
         .animation(.easeInOut, value: isGenerating)
     }
     
+    @ViewBuilder
+    private var unavailableContent: some View {
+        switch foundationModel.availability {
+            case .available:
+                ContentUnavailableView {
+                    Label("Generate Weekly Insight", systemImage: "sparkles.rectangle.stack")
+                        .font(.title2.bold())
+                } description: {
+                    Text("Discover patterns and get personalized suggestions based on your recent entries.")
+                        .font(.body)
+                } actions: {
+                    GetInsightButton(closure: generateInsight)
+                        .accessibilityIdentifier("generateInsightButton")
+                }
+            default:
+                ContentUnavailableView {
+                    Label("Insights Unavailable", systemImage: "exclamationmark.triangle")
+                        .font(.title2.bold())
+                } description: {
+                    Text(unavailabilityMessage)
+                        .font(.body)
+                }
+        }
+    }
+    private var unavailabilityMessage: String {
+        switch foundationModel.availability {
+            case .unavailable(.appleIntelligenceNotEnabled):
+                "Insight is unavailable because Apple Intelligence has not been turned on."
+            case .unavailable(.modelNotReady):
+                "Insight is not ready yet. Please try again later."
+            case .unavailable(.deviceNotEligible):
+                "Your device is not eligible for Insight Generation. You would need to upgrade to a newer model or use a different device."
+            default:
+                "Apple Intelligence is not available on this device."
+        }
+    }
     // MARK: - Header Section
     private func headerSection(insight: WeeklyInsight.PartiallyGenerated) -> some View {
         HStack(alignment: .top) {
@@ -246,7 +269,7 @@ struct WeeklySummaryCard: View {
         Button {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                 isFullSummaryOpen.toggle()
-                dependencies.haptics.tap()
+                haptics.tap()
             }
         } label: {
             HStack {
@@ -265,13 +288,13 @@ struct WeeklySummaryCard: View {
     }
     private func generateInsight() async throws {
         isGenerating = true
-        dependencies.haptics.tap()
+        haptics.tap()
         do {
             try await generator.suggestWeeklyInsight()
-            dependencies.haptics.success()
+            haptics.success()
         } catch {
-            dependencies.errorState.showIntelligenceError(.generationFailed)
-            dependencies.haptics.tap()
+            errorState.showIntelligenceError(.generationFailed)
+            haptics.tap()
         }
         isGenerating = false
     }

@@ -10,7 +10,7 @@ import Charts
 import SwiftUI
 
 struct YearlyStatsCard: View {
-    @Environment(AppDependencies.self) private var dependencies
+
     @Environment(\.isDark) private var isDark
     @Environment(\.deviceStatus) private var deviceStatus
     

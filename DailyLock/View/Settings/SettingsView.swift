@@ -16,9 +16,6 @@ struct SettingsView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.dismiss) private var dismiss
     
-    @AppStorage("notificationTime") private var notificationTime = Date()
-    @AppStorage("notificationsEnabled") private var notificationsEnabled = false
-    
     @State private var showManageSubscription = false
     
     var body: some View {
@@ -52,7 +49,14 @@ struct SettingsView: View {
                     .accessibilityHint("Opens tips sheet")
                 }
                 .accessibilityElement(children: .contain)
-                
+                Section("Customization") {
+                    Button {
+                        dependencies.navigation.presentedSheet = .textureStoreView
+                    } label: {
+                        Label("Texture Store", systemImage: "photo.on.rectangle.angled")
+                    }
+                    .buttonStyle(.plain)
+                }
                 SupportSection()
                     .accessibilityIdentifier("supportSection")
                     .accessibilityElement(children: .contain)
@@ -61,7 +65,7 @@ struct SettingsView: View {
                     .accessibilityIdentifier("legalSection")
                     .accessibilityElement(children: .contain)
                 
-                AboutSection()
+                AboutSection(errorState: dependencies.errorState)
                     .accessibilityIdentifier("aboutSection")
                     .accessibilityElement(children: .contain)
             }
@@ -81,9 +85,6 @@ struct SettingsView: View {
                 .accessibilityHint("Deletes all your entries.")
             }
             .scrollContentBackground(.hidden)
-            .background {
-                Image(isDark ? .brownDarkTexture : .brownLightTexture )
-            }
             .formStyle(.grouped)
             .navigationTitle("Settings")
 #if !os(macOS)

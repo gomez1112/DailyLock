@@ -21,7 +21,16 @@ final class Store {
     private(set) var products: [Product] = []
     private(set) var purchasedProductIDs = Set<String>()
     private(set) var subscriptionStatuses: [SubscriptionGroupID: [SubscriptionStatus]] = [:]
+    /// A computed property that returns only the texture products, sorted by price.
+    var textureProducts: [Product] {
+        products.filter { ProductID.textures.contains($0.id) }
+            .sorted { $0.price < $1.price }
+    }
     
+    /// Checks if a product with the given ID has been purchased.
+    func isPurchased(_ productID: String) -> Bool {
+        purchasedProductIDs.contains(productID)
+    }
     var hasUnlockedLifetime: Bool {
         purchasedProductIDs.contains(ProductID.lifetimeUnlock)
     }
@@ -124,7 +133,7 @@ final class Store {
                 do {
                     let transaction = try await self.checkVerified(result)
                     try await self.fulfill(transaction)
-                    try await self.updateCustomerProductStatus()
+                   // try await self.updateCustomerProductStatus()
                     await transaction.finish()
                 } catch {
                     Log.store.error("Transaction listener error: \(error.localizedDescription, privacy: .public)")

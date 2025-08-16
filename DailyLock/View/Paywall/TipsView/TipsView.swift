@@ -7,9 +7,13 @@
 //  This file is now compliant with iOS 26.0 deprecations regarding UIScreen usage.
 //
 
+import SwiftData
 import SwiftUI
 
 struct TipsView: View {
+    
+    @Query(sort: \TipRecord.date, order: .reverse) private var allTips: [TipRecord]
+    
     @Environment(\.isDark) private var isDark
     @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.dismiss) private var dismiss
@@ -45,14 +49,14 @@ struct TipsView: View {
                                 .padding(.top, 30)
                             
                             // Developer Message
-                            DeveloperMessage(developerMessageExpanded: $developerMessageExpanded)
+                            DeveloperMessage(haptics: dependencies.haptics, developerMessageExpanded: $developerMessageExpanded)
                                 .padding(.top, 30)
                                 .padding(.horizontal, deviceStatus == .compact ? 20 : 40)
                                 
-                            SupportGoal()
+                            SupportGoal(allTips: allTips)
                                 .padding(.top, 30)
                                 .padding(.horizontal, deviceStatus == .compact ? 20 : 40)
-                            TipsOptionSection(purchasedTipName: $purchasedTipName, purchasedTipAmount: $purchasedTipAmount, selectedTipIndex: $selectedTipIndex, showThankYou: $showThankYou)
+                            TipsOptionSection(purchasedTipName: $purchasedTipName, purchasedTipAmount: $purchasedTipAmount, selectedTipIndex: $selectedTipIndex, showThankYou: $showThankYou, products: dependencies.store.products, haptics: dependencies.haptics)
 
                             ImpactSection()
                                 .padding(.top, 40)

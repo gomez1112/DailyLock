@@ -12,17 +12,18 @@ import SwiftUI
 struct TipsOptionSection: View {
     @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.modelContext) private var context
+    
     @Binding var purchasedTipName: String
     @Binding var purchasedTipAmount: Decimal
-    
-    @Environment(AppDependencies.self) private var dependencies
-    
     @Binding var selectedTipIndex: Int?
     @Binding var showThankYou: Bool
     
+    var products: [Product]
+    let haptics: HapticEngine
+    
     var body: some View {
         VStack(spacing: 20) {
-            if !dependencies.store.products.isEmpty {
+            if !products.isEmpty {
                 VStack(spacing: 16) {
                     ForEach(Array(ProductID.tips.enumerated()), id: \.element) { index, tipID in
                         ProductView(id: tipID) {
@@ -49,7 +50,7 @@ struct TipsOptionSection: View {
                         .animation(.spring(response: 0.3), value: selectedTipIndex)
                         .onTapGesture {
                             selectedTipIndex = index
-                            dependencies.haptics.tap()
+                            haptics.tap()
                         }
                         .onInAppPurchaseCompletion { product, result in
                             switch result {
@@ -103,8 +104,4 @@ struct TipsOptionSection: View {
             default: return [.accent, .accent.opacity(0.8)]
         }
     }
-}
-
-#Preview {
-    TipsOptionSection(purchasedTipName: .constant(""), purchasedTipAmount: .constant(0.0), selectedTipIndex: .constant(nil), showThankYou: .constant(true))
 }

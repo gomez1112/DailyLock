@@ -10,7 +10,7 @@ import SwiftUI
 
 struct StreakStatsCard: View {
     @Environment(\.deviceStatus) private var deviceStatus
-    @AppStorage("allowGracePeriod") private var allowGracePeriod = false
+    let allowGracePeriod: Bool
     
     let entries: [MomentumEntry]
     
@@ -225,6 +225,6 @@ struct StreakStatsCard: View {
 }
 
 #Preview(traits: .previewData) {
-    StreakStatsCard(entries: MomentumEntry.samples)
+    StreakStatsCard(allowGracePeriod: false, entries: MomentumEntry.samples)
 }
 

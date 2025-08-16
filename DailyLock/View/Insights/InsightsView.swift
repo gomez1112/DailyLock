@@ -47,9 +47,7 @@ struct InsightsView: View {
     
     private var insightsContent: some View {
         ZStack {
-            Image(isDark ? .brownDarkTexture : .brownLightTexture)
-                .resizable()
-                .ignoresSafeArea()
+            WritingPaper()
             
             ScrollView(.vertical) {
                 VStack {
@@ -58,7 +56,7 @@ struct InsightsView: View {
                     
                     if entries.count >= 1 {
                         VStack(spacing: cardSpacing) {
-                            StreakStatsCard(entries: entries)
+                            StreakStatsCard(allowGracePeriod: dependencies.syncedSetting.allowGracePeriod, entries: entries)
                                 .accessibilityElement(children: .contain)
                                 .accessibilityIdentifier("streakStatsCard")
                                 .onPlatform { view in
@@ -84,7 +82,7 @@ struct InsightsView: View {
                                 }
                                 .buttonStyle(.plain)
                             if foundationModel.isAvailable {
-                                WeeklySummaryCard(generator: InsightGenerator(entries: entries))
+                                WeeklySummaryCard(haptics: dependencies.haptics ,errorState: dependencies.errorState, entries: entries, generator: InsightGenerator(entries: entries))
                                     .premiumFeature(.aiSummaries, isLocked: !dependencies.store.hasUnlockedPremium)
                                     .accessibilityElement(children: .contain)
                                     .accessibilityIdentifier("weeklySummaryCard")

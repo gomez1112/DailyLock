@@ -9,13 +9,15 @@ import SwiftUI
 
 struct PremiumPreviewView: View {
     @State private var selectedFeature = 0
-    
-    let features = [
-        ("Unlimited Entries", "infinity", "Capture every moment throughout your day"),
-        ("AI Insights", "sparkles", "Discover patterns in your thoughts"),
-        ("Mood Analytics", "chart.line.uptrend.xyaxis", "Track emotional journeys"),
-        ("Annual Yearbook", "book.closed", "Beautiful year-end summaries")
-    ]
+    @State private var animationTask: Task<Void, Never>?
+    private var features: [(String, String, String)] {
+        [
+            ("Unlimited Entries", "infinity", "Capture every moment throughout your day"),
+            ("AI Insights", "sparkles", "Discover patterns in your thoughts"),
+            ("Mood Analytics", "chart.line.uptrend.xyaxis", "Track emotional journeys"),
+            ("Annual Yearbook", "book.closed", "Beautiful year-end summaries")
+        ]
+    }
     
     var body: some View {
         VStack(spacing: Constants.Premium.previewVStackSpacing) {
@@ -25,7 +27,7 @@ struct PremiumPreviewView: View {
             Image(systemName: "crown.fill")
                 .font(.system(size: Constants.Premium.previewCrownFontSize))
                 .foregroundStyle(.accent)
-                .symbolEffect(.pulse)
+                .symbolEffect(.pulse, value: selectedFeature)
                 .accessibilityIdentifier("premiumCrown")
                 .accessibilityLabel("Premium feature crown")
             
@@ -37,7 +39,8 @@ struct PremiumPreviewView: View {
             
             // Feature carousel
             TabView(selection: $selectedFeature) {
-                ForEach(0..<features.count, id: \.self) { index in
+                ForEach(features.indices, id: \.self) { index in
+                    if index < features.count {
                     VStack {
                         OnboardingFeatureCard(
                             icon: features[index].1,
@@ -48,6 +51,7 @@ struct PremiumPreviewView: View {
                     .accessibilityIdentifier("featureCard_\(index)")
                     .accessibilityLabel(features[index].0)
                     .tag(index)
+                }
                 }
             }
             #if !os(macOS)
@@ -85,6 +89,9 @@ struct PremiumPreviewView: View {
             Spacer()
         }
         .padding(.horizontal, Constants.Premium.previewHorizontalPadding)
+        .onDisappear {
+            animationTask?.cancel() // Clean up any running animations
+        }
     }
 }
 

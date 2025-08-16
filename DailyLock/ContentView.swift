@@ -12,8 +12,6 @@ struct ContentView: View {
     
     @State private var storeError: String?
     
-    @AppStorage("hasCompletedOnboarding") private var hasCompleted = false
-    
     @Environment(AppDependencies.self) private var dependencies
     @Environment(\.modelContext) private var modelContext
     
@@ -24,7 +22,7 @@ struct ContentView: View {
     
     var body: some View {
         
-        if hasCompleted {
+        if dependencies.syncedSetting.hasCompletedOnboarding {
             contentView
                 .accessibilityIdentifier("mainTabView")
             
@@ -61,6 +59,7 @@ struct ContentView: View {
                     EntryDetailView(entry: entry)
                         .applyIf(Self.isMacOS) { $0.frame(minWidth: AppLayout.timelineMonthSheetMinWidth, minHeight: AppLayout.timelineMonthSheetMinHeight) }
                         .applyIf(Self.isIOS) { $0.presentationDetents([.medium, .large]) }
+                case .textureStoreView: TextureStoreView()
             }
         }
     }

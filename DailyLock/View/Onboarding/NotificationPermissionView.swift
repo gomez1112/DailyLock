@@ -10,11 +10,11 @@ import UserNotifications
 
 struct NotificationPermissionView: View {
     @State private var showBells = false
-    @State private var notificationTime = Calendar.current.date(
-        from: DateComponents(hour: 20, minute: 0)
-    ) ?? Date()
+    @State private var animationTask: Task<Void, Never>?
+    @Environment(AppDependencies.self) private var dependencies
     
     var body: some View {
+        @Bindable var dependencies = dependencies
         VStack(spacing: AppNotificationPermissionView.mainVStackSpacing) {
             Spacer()
             
@@ -25,10 +25,21 @@ struct NotificationPermissionView: View {
                         .font(.system(size: AppNotificationPermissionView.bellSize))
                         .foregroundStyle(.accent)
                         .symbolEffect(.bounce.up.byLayer, options: .repeating, value: showBells)
-                        .animation(.easeInOut(duration: AppNotificationPermissionView.bellsAnimationDuration), value: showBells)
+                        .animation(
+                            .easeInOut(duration: 0.5)
+                            .repeatCount(3, autoreverses: true) // Limited repetitions
+                                .delay(Double(index) * 0.1),
+                            value: showBells
+                        )
                 }
             }
-            .onAppear { showBells = true }
+            .onAppear {
+                showBells = true
+            }
+            .onDisappear {
+                showBells = false // Clean up animation state
+                animationTask?.cancel()
+            }
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("bellAnimationHStack")
             .accessibilityLabel("Animated bells")
@@ -54,7 +65,7 @@ struct NotificationPermissionView: View {
                     
                     DatePicker(
                         "Notification Time",
-                        selection: $notificationTime,
+                        selection: $dependencies.syncedSetting.notificationTime,
                         displayedComponents: .hourAndMinute
                     )
                     #if !os(macOS)
@@ -101,27 +112,32 @@ struct NotificationPermissionView: View {
     
     private func requestNotificationPermission() async {
         let center = UNUserNotificationCenter.current()
-        _ = try? await center.requestAuthorization(options: [.alert, .badge, .sound])
         
-        UserDefaults.standard.set(notificationTime, forKey: "notificationTime")
-        UserDefaults.standard.set(true, forKey: "notificationsEnabled")
+        let permissionGranted = try? await center.requestAuthorization(options: [.alert, .badge, .sound])
         
-        // Schedule notification at selected time
-        let content = UNMutableNotificationContent()
-        content.title = "Time to reflect ✍️"
-        content.body = "What single sentence captures today?"
-        content.sound = .default
-        
-        let components = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
-        
-        let request = UNNotificationRequest(
-            identifier: AppNotification.id,
-            content: content,
-            trigger: trigger
-        )
-        
-        try? await center.add(request)
+        // Only proceed if permission was actually granted
+        if permissionGranted == true {
+            // ✅ 4. Save the settings using the manager
+            dependencies.syncedSetting.save(notifications: true)
+            dependencies.syncedSetting.save(time: dependencies.syncedSetting.notificationTime)
+            
+            // Schedule the notification using the time from the manager
+            let content = UNMutableNotificationContent()
+            content.title = "Time to reflect ✍️"
+            content.body = "What single sentence captures today?"
+            content.sound = .default
+            
+            let components = Calendar.current.dateComponents([.hour, .minute], from: dependencies.syncedSetting.notificationTime)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+            
+            let request = UNNotificationRequest(
+                identifier: AppNotification.id,
+                content: content,
+                trigger: trigger
+            )
+            
+            try? await center.add(request)
+        }
     }
 }
 

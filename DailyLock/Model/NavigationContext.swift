@@ -29,12 +29,14 @@ enum SheetDestination: Identifiable {
     case paywall
     case tips
     case entryDetail(entry: MomentumEntry)
+    case textureStoreView
     
     var id: String {
         switch self {
             case .paywall: "paywall"
             case .tips: "tips"
             case .entryDetail(let entry): entry.id.uuidString
+            case .textureStoreView: "textureStore"
         }
     }
 }

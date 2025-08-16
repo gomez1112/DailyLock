@@ -7,7 +7,7 @@
 
 import UserNotifications
 
-final class ReminderScheduler {
+final class NotificationService {
     let id = Constants.Notification.id
     
     func currentState() async -> (enabled: Bool, authorized: Bool) {

@@ -9,24 +9,25 @@
 import SwiftUI
 
 struct GracePeriodSection: View {
-    @AppStorage("allowGracePeriod") private var allowGracePeriod = false
-    
+    @Environment(AppDependencies.self) private var dependencies
     var body: some View {
+        @Bindable var dependencies = dependencies
+        
         Section {
-            Toggle(isOn: $allowGracePeriod.animation()) {
+            Toggle(isOn: $dependencies.syncedSetting.allowGracePeriod.animation()) {
                 Label {
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Grace Period")
                             .font(.body)
                             .accessibilityIdentifier("gracePeriodTitle")
                         
-                        Text(allowGracePeriod ? "One missed day won't break your streak" : "Streaks require consecutive days")
+                        Text(dependencies.syncedSetting.allowGracePeriod ? "One missed day won't break your streak" : "Streaks require consecutive days")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .accessibilityIdentifier("gracePeriodDescription")
                     }
                 } icon: {
-                    Image(systemName: allowGracePeriod ? "heart.fill" : "calendar.badge.exclamationmark")
+                    Image(systemName: dependencies.syncedSetting.allowGracePeriod ? "heart.fill" : "calendar.badge.exclamationmark")
                         .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(.accent)
                         .accessibilityIdentifier("gracePeriodIcon")
@@ -36,9 +37,11 @@ struct GracePeriodSection: View {
             .tint(.accent)
             .accessibilityIdentifier("gracePeriodToggle")
             .accessibilityLabel("Grace period for streaks")
-            .accessibilityValue(allowGracePeriod ? "Enabled" : "Disabled")
-            .accessibilityHint(allowGracePeriod ? "One missed day won't break your streak" : "Streaks require consecutive days")
-            
+            .accessibilityValue(dependencies.syncedSetting.allowGracePeriod ? "Enabled" : "Disabled")
+            .accessibilityHint(dependencies.syncedSetting.allowGracePeriod ? "One missed day won't break your streak" : "Streaks require consecutive days")
+            .onChange(of: dependencies.syncedSetting.allowGracePeriod) { _, newValue in
+                dependencies.syncedSetting.save(gracePeriod: newValue)
+            }
             // Informational note
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 8) {
@@ -68,10 +71,11 @@ struct GracePeriodSection: View {
     }
     
     private var gracePeriodExplanation: String {
-        if allowGracePeriod {
+        if dependencies.syncedSetting.allowGracePeriod {
             return "If you miss one day, your streak continues. Missing two consecutive days will break it. Both current and longest streaks use this setting."
         } else {
             return "Every day must have an entry to maintain your streak. This applies to both current and longest streak calculations."
         }
     }
 }
+

@@ -11,9 +11,11 @@ struct LockedEntryView: View {
     
     @Environment(\.isDark) private var isDark
     
+    @State private var appearAnimation = false
+    
     let entry: MomentumEntry
     
-    @State private var appearAnimation = false
+    
     
     var body: some View {
         VStack(spacing: AppEntry.cardVerticalSpacing) {

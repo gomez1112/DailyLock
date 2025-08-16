@@ -13,7 +13,6 @@ struct GenerateWeeklyInsightView: View {
     let generator: InsightGenerator
     
     @Environment(\.isDark) private var isDark
-    @Environment(AppDependencies.self) private var dependencies
     
     let closure: () async throws -> Void
     

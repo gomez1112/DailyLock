@@ -15,7 +15,8 @@ final class AppDependencies {
         case preview        // SwiftUI Previews, in-memory with sample data
         case testing        // Unit tests, in-memory and empty
     }
-    
+    var syncedSetting: SyncedSetting
+    let notification: NotificationService
     let dataService: DataService
     let store: Store
     let haptics: HapticEngine
@@ -35,7 +36,8 @@ final class AppDependencies {
             case .testing:
                 container = ModelContainerFactory.createEmptyContainer()
         }
-        
+        self.syncedSetting = SyncedSetting()
+        self.notification = NotificationService()
         self.dataService = DataService(container: container)
         self.navigation = NavigationContext()
         self.haptics = HapticEngine()

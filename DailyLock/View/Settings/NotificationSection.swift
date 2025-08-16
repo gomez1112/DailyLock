@@ -11,15 +11,13 @@ struct NotificationSection: View {
     
     @Environment(AppDependencies.self) private var dependencies
     
-    @State private var notification = ReminderScheduler()
+    @State private var notification = NotificationService()
     @State private var isUpdating = false
     
-    @AppStorage("notificationTime") private var notificationTime = Date()
-    @AppStorage("notificationsEnabled") private var notificationsEnabled = false
-    
     var body: some View {
+        @Bindable var dependencies = dependencies
         Section {
-            Toggle(isOn: $notificationsEnabled.animation()) {
+            Toggle(isOn: $dependencies.syncedSetting.notificationsEnabled.animation()) {
                 Label {
                     VStack(alignment: .leading) {
                         Text("Daily Reminder")
@@ -41,20 +39,22 @@ struct NotificationSection: View {
             .tint(.accent)
             .disabled(isUpdating)
             .accessibilityIdentifier("dailyReminderToggle")
-            .onChange(of: notificationsEnabled) { _, newValue in
+            .onChange(of: dependencies.syncedSetting.notificationsEnabled) { _, newValue in
+                dependencies.syncedSetting.save(notifications: newValue)
                 Task {
                     await handleNotificationToggle(newValue: newValue)
                 }
             }
             
-            if notificationsEnabled {
-                DatePicker(selection: $notificationTime, displayedComponents: .hourAndMinute) {
+            if dependencies.syncedSetting.notificationsEnabled {
+                DatePicker(selection: $dependencies.syncedSetting.notificationTime, displayedComponents: .hourAndMinute) {
                     Label("Time", systemImage: "clock")
                         .symbolRenderingMode(.hierarchical)
                         .accessibilityIdentifier("timePickerLabel")
                 }
                 .disabled(isUpdating)
-                .onChange(of: notificationTime) { _, newTime in
+                .onChange(of: dependencies.syncedSetting.notificationTime) { _, newTime in
+                    dependencies.syncedSetting.save(time: newTime)
                     Task {
                         await handleTimeChange(newTime: newTime)
                     }
@@ -80,8 +80,8 @@ struct NotificationSection: View {
         
         let shouldBeOn = state.enabled && state.authorized
         
-        if notificationsEnabled != shouldBeOn {
-            notificationsEnabled = shouldBeOn
+        if dependencies.syncedSetting.notificationsEnabled != shouldBeOn {
+            dependencies.syncedSetting.notificationsEnabled = shouldBeOn
         }
     }
     
@@ -92,13 +92,13 @@ struct NotificationSection: View {
         defer { isUpdating = false }
         if newValue {
             do {
-                try await notification.updateNotification(for: notificationTime)
-                notificationsEnabled = true
+                try await notification.updateNotification(for: dependencies.syncedSetting.notificationTime)
+                dependencies.syncedSetting.notificationsEnabled = true
             } catch let app as AppError {
-                notificationsEnabled = false
+                dependencies.syncedSetting.save(notifications: false)
                 dependencies.errorState.show(app)
             } catch {
-                notificationsEnabled = false
+                dependencies.syncedSetting.save(notifications: false)
             }
         } else {
             notification.removeNotification()
@@ -107,7 +107,7 @@ struct NotificationSection: View {
     
 
     private func handleTimeChange(newTime: Date) async {
-        guard notificationsEnabled else { return }
+        guard dependencies.syncedSetting.notificationsEnabled else { return }
         isUpdating = true
         defer { isUpdating = false }
         
@@ -115,10 +115,10 @@ struct NotificationSection: View {
             try await notification.updateNotification(for: newTime)
         } catch let app as AppError {
             // Revert toggle if we can't reschedule at the new time
-            notificationsEnabled = false
+            dependencies.syncedSetting.save(notifications: false)
             dependencies.errorState.show(app)
         } catch {
-            notificationsEnabled = false
+            dependencies.syncedSetting.save(notifications: false)
             dependencies.errorState.show(NotificationError.schedulingFailed)
         }
     }

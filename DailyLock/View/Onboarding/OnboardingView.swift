@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    
     @Environment(\.dismiss) private var dismiss
     @Environment(AppDependencies.self) private var dependencies
-    @AppStorage("hasCompletedOnboarding") private var hasCompleted = false
     
     @State private var currentPage = 0
     @State private var dragOffset: CGSize = .zero
@@ -21,7 +21,7 @@ struct OnboardingView: View {
         GeometryReader { geometry in
             ZStack {
                 // Background gradient that changes with pages
-                PaperTextureView()
+                WritingPaper()
                     .ignoresSafeArea()
             }
             .accessibilityElement(children: .contain)
@@ -58,6 +58,7 @@ struct OnboardingView: View {
                     PremiumPreviewView()
                         .tag(3)
                         .accessibilityIdentifier("onboardingPage3")
+                        
                     
                     GetStartedView(onComplete: completeOnboarding)
                         .tag(4)
@@ -98,7 +99,7 @@ struct OnboardingView: View {
     
     private func completeOnboarding() {
         withAnimation(.spring()) {
-            hasCompleted = true
+            dependencies.syncedSetting.save(onboardingCompleted: true)
         }
         dismiss()
     }

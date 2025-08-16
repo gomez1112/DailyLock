@@ -73,6 +73,66 @@
       "productID" : "com.dailylock.tip.large",
       "referenceName" : "LargeTip",
       "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "35880F55",
+      "localizations" : [
+        {
+          "description" : "A Beautiful Brown Paper",
+          "displayName" : "Brown Texture",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.brown.texture",
+      "referenceName" : "BrownTexture",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "810203CE",
+      "localizations" : [
+        {
+          "description" : "A Beautiful Vintage Paper",
+          "displayName" : "Vintage Texture",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.vintage.texture",
+      "referenceName" : "VintageTexture",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "13051DD5",
+      "localizations" : [
+        {
+          "description" : "A Beautiful Water-Color Stained Paper",
+          "displayName" : "Water-Color Stained Texture",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.watercolorstained.texture",
+      "referenceName" : "WaterColorsStainedTexture",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "BE0BC3A3",
+      "localizations" : [
+        {
+          "description" : "A Beautiful Scientific Paper",
+          "displayName" : "Scientific Texture",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.dailylock.scientific.texture",
+      "referenceName" : "scientificTexture",
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {
