@@ -11,7 +11,7 @@ struct PaywallView: View {
     
     @Environment(\.deviceStatus) private var deviceStatus
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.isDark) private var isDark
     @Environment(AppDependencies.self) private var dependencies
   
     @State private var selectedFeatureIndex = 0
@@ -36,7 +36,9 @@ struct PaywallView: View {
             }
             .containerBackground(for: .subscriptionStoreFullHeight) {
                 ZStack {
-                    PaperTextureView()
+                    Image(isDark ? .defaultDarkPaper : .defaultLightPaper)
+                        .resizable()
+                        .ignoresSafeArea()
                     // Floating elements for depth
                     floatingElements
                 }
@@ -142,7 +144,7 @@ struct PaywallView: View {
                 // Value proposition
                 Text("Join thousands capturing life's essence, one sentence at a time")
                     .font(.body)
-                    .foregroundStyle(colorScheme == .dark ? ColorPalette.darkInkColor.opacity(0.8) : ColorPalette.lightInkColor.opacity(0.8))
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor.opacity(0.8) : ColorPalette.lightInkColor.opacity(0.8))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
                     .opacity(animateHero ? 1 : 0)
@@ -227,7 +229,7 @@ struct PaywallView: View {
             // Floating journal pages
             ForEach(0..<3) { index in
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(colorScheme == .dark ? ColorPalette.darkCardBackground.opacity(0.3) : ColorPalette.lightCardBackground.opacity(0.3))
+                    .fill(isDark ? ColorPalette.darkCardBackground.opacity(0.3) : ColorPalette.lightCardBackground.opacity(0.3))
                     .frame(width: 60, height: 80)
                     .rotationEffect(.degrees(Double.random(in: -15...15)))
                     .offset(

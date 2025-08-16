@@ -17,8 +17,7 @@ struct GetStartedView: View {
             
             // Animated checkmarks
             VStack(spacing: Constants.GetStarted.checkmarkSpacing) {
-                accessibilityElement(children: .combine)
-                accessibilityLabel("Benefits of getting started")
+                
                 ForEach(0..<Constants.GetStarted.animatedCheckmarksCount, id: \.self) { index in
                     HStack(spacing: 16) {
                         Image(systemName: "checkmark.circle.fill")
@@ -99,7 +98,7 @@ struct GetStartedView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .previewData) {
     GetStartedView(onComplete: {})
 }
 

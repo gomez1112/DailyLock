@@ -13,6 +13,8 @@ struct NotificationPermissionView: View {
     @State private var animationTask: Task<Void, Never>?
     @Environment(AppDependencies.self) private var dependencies
     
+    let onComplete: () -> Void
+    
     var body: some View {
         @Bindable var dependencies = dependencies
         VStack(spacing: AppNotificationPermissionView.mainVStackSpacing) {
@@ -81,10 +83,11 @@ struct NotificationPermissionView: View {
             }
             
             Spacer()
-            
+
             Button {
                 Task {
                     await requestNotificationPermission()
+                    onComplete()
                 }
             } label: {
                 Label("Enable Notifications", systemImage: "bell.badge")
@@ -99,7 +102,7 @@ struct NotificationPermissionView: View {
             .accessibilityHint("Allows DailyLock to send you reminders at your chosen time.")
             
             Button("Maybe Later") {
-                // Continue without notifications
+                onComplete()
             }
             .foregroundStyle(.secondary)
             .accessibilityIdentifier("maybeLaterButton")
@@ -141,6 +144,6 @@ struct NotificationPermissionView: View {
     }
 }
 
-#Preview {
-    NotificationPermissionView()
+#Preview(traits: .previewData) {
+    NotificationPermissionView(onComplete: {})
 }

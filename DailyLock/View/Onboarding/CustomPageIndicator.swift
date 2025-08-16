@@ -24,5 +24,5 @@ struct CustomPageIndicator: View {
 }
 
 #Preview {
-    CustomPageIndicator(currentPage: 6, totalPages: 10)
+    CustomPageIndicator(currentPage: 0, totalPages: 5)
 }

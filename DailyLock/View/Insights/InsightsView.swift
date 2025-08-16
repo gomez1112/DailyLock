@@ -48,7 +48,7 @@ struct InsightsView: View {
     private var insightsContent: some View {
         ZStack {
             WritingPaper()
-            
+                .ignoresSafeArea()
             ScrollView(.vertical) {
                 VStack {
                     header

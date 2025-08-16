@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PremiumPreviewView: View {
+    @Environment(AppDependencies.self) private var dependencies
     @State private var selectedFeature = 0
     @State private var animationTask: Task<Void, Never>?
     private var features: [(String, String, String)] {
@@ -65,7 +66,7 @@ struct PremiumPreviewView: View {
             
             VStack(spacing: Constants.Premium.previewButtonVStackSpacing) {
                 Button {
-                    // Show paywall
+                    dependencies.navigation.presentedSheet = .paywall
                 } label: {
                     Text("Start Free Trial")
                         .frame(maxWidth: .infinity)

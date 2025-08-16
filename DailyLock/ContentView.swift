@@ -21,14 +21,26 @@ struct ContentView: View {
     
     
     var body: some View {
-        
-        if dependencies.syncedSetting.hasCompletedOnboarding {
-            contentView
-                .accessibilityIdentifier("mainTabView")
-            
-        } else {
-            OnboardingView()
-                .accessibilityIdentifier("onboardingView")
+        Group {
+            if dependencies.syncedSetting.hasCompletedOnboarding {
+                contentView
+                    .accessibilityIdentifier("mainTabView")
+                
+            } else {
+                OnboardingView()
+                    .accessibilityIdentifier("onboardingView")
+            }
+        }
+        .sheet(item: Bindable(dependencies.navigation).presentedSheet) { sheet in
+            switch sheet {
+                case .paywall: PaywallView()
+                case .tips: TipsView()
+                case .entryDetail(entry: let entry):
+                    EntryDetailView(entry: entry)
+                        .applyIf(Self.isMacOS) { $0.frame(minWidth: AppLayout.timelineMonthSheetMinWidth, minHeight: AppLayout.timelineMonthSheetMinHeight) }
+                        .applyIf(Self.isIOS) { $0.presentationDetents([.medium, .large]) }
+                case .textureStoreView: TextureStoreView()
+            }
         }
     }
     private var contentView: some View {
@@ -51,17 +63,6 @@ struct ContentView: View {
 #if !os(macOS)
         .tabViewCustomization($tabViewCustomization)
 #endif
-        .sheet(item: Bindable(dependencies.navigation).presentedSheet) { sheet in
-            switch sheet {
-                case .paywall: PaywallView()
-                case .tips: TipsView()
-                case .entryDetail(entry: let entry):
-                    EntryDetailView(entry: entry)
-                        .applyIf(Self.isMacOS) { $0.frame(minWidth: AppLayout.timelineMonthSheetMinWidth, minHeight: AppLayout.timelineMonthSheetMinHeight) }
-                        .applyIf(Self.isIOS) { $0.presentationDetents([.medium, .large]) }
-                case .textureStoreView: TextureStoreView()
-            }
-        }
     }
 }
 

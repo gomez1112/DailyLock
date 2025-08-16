@@ -3079,6 +3079,7 @@
       }
     },
     "Benefits of getting started" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {

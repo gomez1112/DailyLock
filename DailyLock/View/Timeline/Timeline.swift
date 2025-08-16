@@ -22,7 +22,7 @@ struct Timeline: View {
     var body: some View {
         ZStack {
             WritingPaper()
-            
+                .ignoresSafeArea()
             ScrollView {
                 VStack(spacing: AppTimeline.mainVStackSpacing) {
                     header
