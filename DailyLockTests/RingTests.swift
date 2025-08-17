@@ -1,6 +1,7 @@
 import Testing
 @testable import DailyLock
 
+@MainActor
 @Suite("Ring Tests")
 struct RingTests {
     @Test("item(before:) wraps to last when called on first element")
