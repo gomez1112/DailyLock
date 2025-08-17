@@ -316,65 +316,6 @@
         }
       }
     },
-    "%1$@, %2$lld moments, %3$@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@، %2$lld لحظات، %3$@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$lld Momente, %3$@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$lld momentos, %3$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$lld moments, %3$@"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$lld क्षण, %3$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$lld momenti, %3$@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@、%2$lld モーメント、%3$@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@, %2$lld моменты, %3$@"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@，%2$lld 时刻，%3$@"
-          }
-        }
-      }
-    },
     "%1$lld more coffee%2$@ to reach this month's server costs" : {
       "localizations" : {
         "ar-AE" : {
@@ -429,65 +370,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld更多咖啡%2$@以达到本月的服务器成本"
-          }
-        }
-      }
-    },
-    "%1$lld out of %2$lld characters used" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld من %2$lld الأحرف المستخدمة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld von %2$lld verwendeten Zeichen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld de %2$lld caracteres utilizados"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld sur %2$lld caractères utilisés"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$lld अक्षरों में से%1$lld का इस्तेमाल किया गया"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld su %2$lld caratteri utilizzati"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$lld 文字のうち %1$lld が使用されています"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld из %2$lld использованных символов"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld在使用的%2$lld字符中"
           }
         }
       }
@@ -662,215 +544,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%Lld"
-          }
-        }
-      }
-    },
-    "%lld day" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld أيام"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld أيام"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "يوم%lld"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld أيام"
-                }
-              },
-              "two" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld أيام"
-                }
-              },
-              "zero" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lldيوم"
-                }
-              }
-            }
-          }
-        },
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld tag"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld tage"
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld day"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld days"
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld día"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld días"
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lldjour"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld jours"
-                }
-              }
-            }
-          }
-        },
-        "hi" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld दिन"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld दिन"
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld giorno"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld giorni"
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld日"
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld дней"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld дней"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld день"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld дней"
-                }
-              }
-            }
-          }
-        },
-        "zh" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld 天"
-                }
-              }
-            }
           }
         }
       }
@@ -1576,71 +1249,6 @@
         }
       }
     },
-    "%lld out of %lld characters used" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم استخدام %1$lld من أصل %2$lld حرف"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld von %2$lld Zeichen verwendet"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld out of %2$lld characters used"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld de %2$lld caracteres utilizados"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld sur %2$lld caractères utilisés"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$lld में से %1$lld वर्णों का उपयोग किया गया"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$lld su %2$lld caratteri utilizzati"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$lld 文字中 %1$lld 文字が使用されました"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Использовано %1$lld из %2$lld символов"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已使用 %1$lld 個字元（共 %2$lld 個）"
-          }
-        }
-      }
-    },
     "%lld supporter%@ this month" : {
       "localizations" : {
         "ar-AE" : {
@@ -2093,65 +1701,6 @@
         }
       }
     },
-    "• %@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "• %@"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "•%@"
-          }
-        }
-      }
-    },
     "🎉 Goal reached! Thank you amazing supporters!" : {
       "localizations" : {
         "ar-AE" : {
@@ -2558,65 +2107,6 @@
         }
       }
     },
-    "Allow notifications to receive your daily writing reminder." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اسمح للإشعارات بتلقي تذكير كتابتك اليومي."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erlauben Sie Benachrichtigungen, um Ihre tägliche Schreiberinnerung zu erhalten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permita que las notificaciones reciban su recordatorio diario de escritura."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Autorisez les notifications à recevoir votre rappel d'écriture quotidien."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "अपने दैनिक लेखन अनुस्मारक को प्राप्त करने के लिए सूचनाओं की अनुमति दें।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Consenti alle notifiche di ricevere il tuo promemoria di scrittura giornaliero."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "毎日の書き込みリマインダーを受け取るように通知を許可します。"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Разрешить уведомления для получения ежедневного письменного напоминания."
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "允许通知接收您的每日写作提醒。"
-          }
-        }
-      }
-    },
     "Allows DailyLock to send you reminders at your chosen time." : {
       "localizations" : {
         "ar-AE" : {
@@ -2908,19 +2398,54 @@
       }
     },
     "Apple Health" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Health"
+          }
+        }
+      }
     },
     "Applied" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angewandt"
+          }
+        }
+      }
     },
     "Apply" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Angewandt"
+          }
+        }
+      }
     },
     "Apply this purchased texture." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenden Sie diese gekaufte Textur an."
+          }
+        }
+      }
     },
     "Approaching character limit" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeichenbegrenzung erreicht"
+          }
+        }
+      }
     },
     "Based on %lld entries" : {
       "localizations" : {
@@ -3092,65 +2617,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始7天免费试用，然后每月4.99美元"
-          }
-        }
-      }
-    },
-    "Benefits of getting started" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "فوائد البدء"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vorteile des Einstiegs"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beneficios de empezar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avantages de la mise en route"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "शुरू करने के लाभ"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vantaggi di iniziare"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "始めることの利点"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Преимущества начала работы"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "入门的好处"
           }
         }
       }
@@ -3620,63 +3086,11 @@
       }
     },
     "Character limit reached" : {
-
-    },
-    "Character usage progress" : {
-      "extractionState" : "stale",
       "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تقدم استخدام الشخصية"
-          }
-        },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fortschritt der Zeichenverwendung"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progreso del uso de caracteres"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progression de l'utilisation des caractères"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "चरित्र उपयोग प्रगति"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avanzamento dell'utilizzo dei caratteri"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文字の使用状況"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Прогресс использования символов"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "角色使用进度"
+            "value" : "Zeichenlimit erreicht"
           }
         }
       }
@@ -3861,65 +3275,6 @@
         }
       }
     },
-    "Check Settings" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تحقق من الإعدادات"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einstellungen prüfen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Compruebe la configuración"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vérifier les paramètres"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "सेटिंग्स की जाँच करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controlla le impostazioni"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "設定を確認する"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Проверить Настройки"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "检查设置"
-          }
-        }
-      }
-    },
     "Choose your preferred time:" : {
       "localizations" : {
         "ar-AE" : {
@@ -3979,25 +3334,67 @@
       }
     },
     "Complete today to maintain your %lld day streak!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen Sie es heute ab, um Ihre %lld-Tagesserie aufrechtzuerhalten!"
+          }
+        }
+      }
     },
     "Connect" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbinden"
+          }
+        }
+      }
     },
     "Connect Health" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesundheit verbinden"
+          }
+        }
+      }
     },
     "Connect to Apple Health" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Apple Health verbinden"
+          }
+        }
+      }
     },
     "Connected" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbunden"
+          }
+        }
+      }
     },
     "Connected to Health" : {
 
     },
     "Connected!" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbunden mit Gesundheit"
+          }
+        }
+      }
     },
     "Contact Support" : {
       "localizations" : {
@@ -4058,10 +3455,24 @@
       }
     },
     "Context:" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontext:"
+          }
+        }
+      }
     },
     "Continue" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitermachen"
+          }
+        }
+      }
     },
     "Continue without setting reminders." : {
       "localizations" : {
@@ -4296,7 +3707,14 @@
       }
     },
     "Customization" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anpassung"
+          }
+        }
+      }
     },
     "Daily entry text editor" : {
       "localizations" : {
@@ -4357,7 +3775,14 @@
       }
     },
     "Daily entry text field" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Textfeld für tägliche Einträge"
+          }
+        }
+      }
     },
     "Daily Reminder" : {
       "localizations" : {
@@ -4766,7 +4191,14 @@
       }
     },
     "Date" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datum"
+          }
+        }
+      }
     },
     "Date: %@ (%@)" : {
       "localizations" : {
@@ -4891,7 +4323,14 @@
       }
     },
     "Delete" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Löschen"
+          }
+        }
+      }
     },
     "Delete All Data" : {
       "localizations" : {
@@ -5126,13 +4565,34 @@
       }
     },
     "Discover patterns and get personalized suggestions based on your recent entries." : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entdecken Sie Muster und erhalten Sie personalisierte Vorschläge basierend auf Ihren letzten Einträgen."
+          }
+        }
+      }
     },
     "Dismiss" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zurückweisen"
+          }
+        }
+      }
     },
     "Done" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erledigt"
+          }
+        }
+      }
     },
     "Email the support team" : {
       "localizations" : {
@@ -5193,7 +4653,14 @@
       }
     },
     "Enable Health integration to see mood trends and wellness insights" : {
-
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktivieren Sie die Health-Integration, um Stimmungstrends und Wellness-Einblicke zu erhalten"
+          }
+        }
+      }
     },
     "Enable Notifications" : {
       "localizations" : {
@@ -5670,65 +5137,6 @@
     },
     "Find entries by typing a keyword, phrase, or mood (e.g., 'positive')." : {
 
-    },
-    "Generate emotions" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "توليد المشاعر"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Emotionen erzeugen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Generar emociones"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Générer des émotions"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "भावनाएं उत्पन्न करें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Genera emozioni"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "感情を生み出す"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Генерировать эмоции"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "产生情绪"
-          }
-        }
-      }
     },
     "Generate Now" : {
       "localizations" : {
@@ -6209,65 +5617,6 @@
     "Grace period available" : {
 
     },
-    "Grace period enabled" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تم تمكين فترة السماح"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nachfrist aktiviert"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Período de gracia habilitado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Période de grâce activée"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "अनुग्रह अवधि सक्षम"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Periodo di grazia abilitato"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "猶予期間を有効にしました"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Льготный период включен"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "启用宽限期"
-          }
-        }
-      }
-    },
     "Grace period enabled for calculation" : {
 
     },
@@ -6569,65 +5918,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "它是如何运作的"
-          }
-        }
-      }
-    },
-    "Insight" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "بَصيرة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einblick"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comprensión"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Perspicacité"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "अंतर्दृष्टि"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intuizione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "洞察力"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Понимание"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "洞悉"
           }
         }
       }
@@ -7285,65 +6575,6 @@
         }
       }
     },
-    "Locked" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مغلق"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gesperrt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bloqueado"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verrouillé"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "बंद"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chiuso"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ロックされた"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запертый"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "锁定的"
-          }
-        }
-      }
-    },
     "Locked at" : {
       "localizations" : {
         "ar-AE" : {
@@ -7929,65 +7160,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 的時刻條目，情緒：%2$@"
-          }
-        }
-      }
-    },
-    "Moment entry for %1$@, sentiment: %2$@" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "إدخال اللحظة ل %1$@، الشعور: %2$@"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Momenteintrag für %1$@, Stimmung: %2$@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entrada de momento para %1$@, sentimiento: %2$@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entrée de moment pour %1$@, sentiment : %2$@"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "% 1$@ के लिए पल प्रविष्टि, भावना: %2$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Voce del momento per %1$@, sentimento: %2$@"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@のモーメントエントリ、感情：%2$@"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запись момента для %1$@, настроение: %2$@"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@的时刻条目，情绪：%2$@"
           }
         }
       }
@@ -8697,65 +7869,6 @@
         }
       }
     },
-    "Onboarding pages" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "صفحات الإعداد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onboarding-Seiten"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Páginas de incorporación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pages d'intégration"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ऑनबोर्डिंग पेज"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pagine di onboarding"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "オンボーディングページ"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Страницы адаптации"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "入职页面"
-          }
-        }
-      }
-    },
     "Once locked, this entry cannot be edited. Your words will be preserved exactly as written." : {
       "localizations" : {
         "ar-AE" : {
@@ -8926,65 +8039,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每天一句话"
-          }
-        }
-      }
-    },
-    "Oops!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عفوا!"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoppla!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¡Vaya!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oups !"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "उफ़!"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ops!"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "おっと！"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ой!"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "哎呀！"
           }
         }
       }
@@ -9397,189 +8451,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打开提示表"
-          }
-        }
-      }
-    },
-    "Page %1$lld of %2$lld" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "صفحة %1$lld من %2$lld"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seite %1$lld von %2$lld"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Página %1$lld de %2$lld"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Page %1$lld de %2$lld"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पृष्ठ% 1$lld का%2$lld"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pagina %1$lld di %2$lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$lld の %1$lld ページ"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Страница %1$lld из %2$lld"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "页面 %1$lld 的 %2$lld"
-          }
-        }
-      }
-    },
-    "Page %lld of %lld" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "الصفحة %1$lld من %2$lld"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seite %1$lld von %2$lld"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Page %1$lld of %2$lld"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Página %1$lld de %2$lld"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Page %1$lld sur %2$lld"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पृष्ठ %1$lld का %2$lld"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pagina %1$lld di %2$lld"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%2$lld ページ中 %1$lld ページ"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Страница %1$lld из %2$lld"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "第 %1$lld 頁，共 %2$lld 頁"
-          }
-        }
-      }
-    },
-    "Page indicator" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "مؤشر الصفحة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seitenanzeige"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indicador de página"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indicateur de page"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "पृष्ठ सूचक"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indicatore di pagina"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ページインジケータ"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Индикатор страницы"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "页面指示器"
           }
         }
       }
@@ -10880,65 +9751,6 @@
     },
     "Skip for Now" : {
 
-    },
-    "Skip onboarding" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "تخطي الإعداد"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Onboarding überspringen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saltar la incorporación"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Passer l'intégration"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ऑनबोर्डिंग छोड़ें"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salta l'onboarding"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "オンボーディングをスキップする"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пропустить адаптацию"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "跳过入职"
-          }
-        }
-      }
     },
     "Solo developer" : {
       "localizations" : {
@@ -12353,65 +11165,6 @@
         }
       }
     },
-    "Today's summary" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملخص اليوم"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die heutige Zusammenfassung"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resumen de hoy"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le résumé d'aujourd'hui"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "आज का सारांश"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Riassunto di oggi"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日のまとめ"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сегодняшнее резюме"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今天的总结"
-          }
-        }
-      }
-    },
     "Transform moments into meaning" : {
       "localizations" : {
         "ar-AE" : {
@@ -12777,9 +11530,6 @@
           }
         }
       }
-    },
-    "View Health Insights" : {
-
     },
     "Wax seal for entry" : {
       "localizations" : {
@@ -13302,124 +12052,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "寫下今天最重要的事。\n準備好後永久鎖定。"
-          }
-        }
-      }
-    },
-    "Write what matters most today. Lock it forever when ready." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "اكتب ما يهم أكثر اليوم. أغلقه إلى الأبد عندما يكون جاهزا."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schreiben Sie, was heute am wichtigsten ist. Schließen Sie es für immer ab, wenn Sie bereit sind."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escribe lo que más importa hoy. Enciérralo para siempre cuando esté listo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Écrivez ce qui compte le plus aujourd'hui. Verrouillez-le pour toujours quand vous êtes prêt."
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "आज जो सबसे ज़्यादा मायने रखता है उसे लिखें। तैयार होने पर इसे हमेशा के लिए लॉक करें।"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scrivi ciò che conta di più oggi. Chiudilo per sempre quando sei pronto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日最も重要なことを書いてください。 準備ができたら永遠にロックしてください。"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Напишите, что сегодня важнее всего. Запри его навсегда, когда будешь готов."
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "写下今天最重要的事情。 准备好后永远锁上它。"
-          }
-        }
-      }
-    },
-    "Writing paper background" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "ar-AE" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "خلفية ورق الكتابة"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schreibpapier Hintergrund"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fondo de papel de escribir"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fond de papier d'écriture"
-          }
-        },
-        "hi" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "लेखन काग़ज़ पृष्ठभूमि"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sfondo di carta da lettere"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "紙の背景を書く"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Фон для письма"
-          }
-        },
-        "zh" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "书写纸背景"
           }
         }
       }

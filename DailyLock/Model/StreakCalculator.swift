@@ -28,9 +28,8 @@ struct StreakCalculator {
         )
         
         if let lookBackLimit = lookBackLimit {
-           // let limitDate = calendar.startOfDay(for: Date(timeIntervalSinceNow: -lookBackLimit))
-            let limitDate = Date(timeIntervalSinceNow: -lookBackLimit)
-            completedDays = completedDays.filter { $0 >= limitDate }
+            let cutoff = calendar.startOfDay(for: Date().addingTimeInterval(-lookBackLimit))
+            completedDays = completedDays.filter { $0 >= cutoff }
         }
         return completedDays
     }

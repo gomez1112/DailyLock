@@ -12,6 +12,7 @@ import HealthKit
 
 // MARK: - Main Health Insights View
 struct HealthInsightsView: View {
+    
     @Environment(AppDependencies.self) private var dependencies
     @Environment(\.isDark) private var isDark
     @State private var selectedTimeRange = TimeRange.week

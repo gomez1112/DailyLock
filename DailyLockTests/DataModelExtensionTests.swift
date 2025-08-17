@@ -253,7 +253,7 @@ struct DataModelExtensionTests {
         // Create entries with a gap to test grace period
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
+        _ = calendar.date(byAdding: .day, value: -1, to: today)!
         let twoDaysAgo = calendar.date(byAdding: .day, value: -2, to: today)!
         
         let entries = [

@@ -118,16 +118,16 @@ struct TodayContent: View {
             .scaleEffect(showLockConfirmation ? AppAnimation.lockButtonScale : 1.0)
         }
         #if !os(macOS)
-        .journalingSuggestionsPicker(isPresented: $showSuggestionPicker) { suggestion in
-            if suggestion.items.contains(where: { $0.hasContent(ofType: JournalingSuggestion.Reflection.self) }) {
-                journalingSuggestionVM.processSuggestion(suggestion)
-            }
-            
-        }
+//        .journalingSuggestionsPicker(isPresented: $showSuggestionPicker) { suggestion in
+//            if suggestion.items.contains(where: { $0.hasContent(ofType: JournalingSuggestion.Reflection.self) }) {
+//                journalingSuggestionVM.processSuggestion(suggestion)
+//            }
+//            
+//        }
         #endif
-        .onPlatform { view in
-            view.frame(maxWidth: AppLayout.entryMaxWidth)
-        }
+//        .onPlatform { view in
+//            view.frame(maxWidth: AppLayout.entryMaxWidth)
+//        }
     }
     
     private func handleTextChange(oldValue: String, newValue: String) {

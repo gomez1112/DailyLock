@@ -176,24 +176,6 @@ struct SettingsView: View {
                 }
                 .disabled(isSyncingHealth)
                 
-                // View insights button
-                Button {
-                    dependencies.navigation.presentedSheet = .healthInsightView
-                } label: {
-                    Label {
-                        HStack {
-                            Text("View Health Insights")
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                    } icon: {
-                        Image(systemName: "chart.line.uptrend.xyaxis")
-                            .foregroundStyle(.accent)
-                    }
-                }
-                
                 // Health permissions
                 Button {
 #if !os(macOS)
