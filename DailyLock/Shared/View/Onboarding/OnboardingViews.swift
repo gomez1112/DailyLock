@@ -18,8 +18,6 @@ struct OnboardingViews: View {
                 WelcomeView()
             case .concept:
                 ConceptView()
-            case .health:
-                HealthKitPermissionView(onComplete: goNext)
             case .notifications:
                 NotificationPermissionView(onComplete: goNext)
             case .premium:

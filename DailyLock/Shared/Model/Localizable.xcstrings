@@ -974,9 +974,6 @@
         }
       }
     },
-    "%lld entries" : {
-
-    },
     "%lld moments captured" : {
       "localizations" : {
         "ar-AE" : {
@@ -2398,6 +2395,7 @@
       }
     },
     "Apple Health" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3347,6 +3345,7 @@
       }
     },
     "Connect" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3357,6 +3356,7 @@
       }
     },
     "Connect Health" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3367,6 +3367,7 @@
       }
     },
     "Connect to Apple Health" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3377,6 +3378,7 @@
       }
     },
     "Connected" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3386,10 +3388,8 @@
         }
       }
     },
-    "Connected to Health" : {
-
-    },
     "Connected!" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3458,6 +3458,7 @@
       }
     },
     "Context:" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4194,6 +4195,7 @@
       }
     },
     "Date" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4509,9 +4511,6 @@
         }
       }
     },
-    "Disconnected" : {
-
-    },
     "Discover patterns and get personalized suggestions" : {
       "localizations" : {
         "ar-AE" : {
@@ -4659,6 +4658,7 @@
       }
     },
     "Enable Health integration to see mood trends and wellness insights" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -5745,18 +5745,6 @@
         }
       }
     },
-    "Health" : {
-
-    },
-    "Health Connection Error" : {
-
-    },
-    "Health Insights" : {
-
-    },
-    "Health Integration" : {
-
-    },
     "Help Center" : {
       "localizations" : {
         "ar-AE" : {
@@ -5989,9 +5977,6 @@
         }
       }
     },
-    "Insights Type" : {
-
-    },
     "Insights Unavailable" : {
 
     },
@@ -6111,9 +6096,6 @@
         }
       }
     },
-    "Journal" : {
-
-    },
     "Keep the momentum going" : {
       "localizations" : {
         "ar-AE" : {
@@ -6229,9 +6211,6 @@
           }
         }
       }
-    },
-    "Last synced %@" : {
-
     },
     "Leave a rating for DailyLock in the App Store" : {
       "localizations" : {
@@ -6990,9 +6969,6 @@
         }
       }
     },
-    "Manage Permissions" : {
-
-    },
     "Manage Subscription" : {
       "localizations" : {
         "ar-AE" : {
@@ -7579,9 +7555,6 @@
         }
       }
     },
-    "Mood Trends" : {
-
-    },
     "Navigation" : {
       "localizations" : {
         "ar-AE" : {
@@ -7697,12 +7670,6 @@
           }
         }
       }
-    },
-    "No mood data" : {
-
-    },
-    "No recent mood entries" : {
-
     },
     "Notification Time" : {
       "localizations" : {
@@ -7821,6 +7788,7 @@
       }
     },
     "OK" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -8990,9 +8958,6 @@
         }
       }
     },
-    "Recent Entries" : {
-
-    },
     "Red margin line" : {
       "localizations" : {
         "ar-AE" : {
@@ -9759,9 +9724,6 @@
         }
       }
     },
-    "Skip for Now" : {
-
-    },
     "Solo developer" : {
       "localizations" : {
         "ar-AE" : {
@@ -9993,9 +9955,6 @@
           }
         }
       }
-    },
-    "Start tracking your mood to see trends" : {
-
     },
     "Stats" : {
       "localizations" : {
@@ -10402,15 +10361,6 @@
           }
         }
       }
-    },
-    "Sync Now" : {
-
-    },
-    "Sync your mood data with Apple Health to see how your emotions connect with your overall wellbeing" : {
-
-    },
-    "Synced %@" : {
-
     },
     "Tap to expand" : {
       "localizations" : {
@@ -10823,9 +10773,6 @@
           }
         }
       }
-    },
-    "Time Range" : {
-
     },
     "Timeline" : {
       "localizations" : {
@@ -11483,9 +11430,6 @@
     "User Defaults" : {
 
     },
-    "Valence:" : {
-
-    },
     "Version" : {
       "localizations" : {
         "ar-AE" : {
@@ -11775,9 +11719,6 @@
           }
         }
       }
-    },
-    "Wellness Correlations" : {
-
     },
     "Word Count" : {
       "localizations" : {

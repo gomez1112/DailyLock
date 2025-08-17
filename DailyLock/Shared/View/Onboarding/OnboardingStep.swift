@@ -8,7 +8,7 @@
 
 enum OnboardingStep: Int, CaseIterable, Identifiable, Equatable {
     
-    case welcome, concept, health, notifications, premium, getStarted
+    case welcome, concept, notifications, premium, getStarted
     var id: Int { rawValue }
 
     static var totalPages: Int { allCases.count }

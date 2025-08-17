@@ -40,7 +40,6 @@ struct ContentView: View {
                         .applyIf(Self.isMacOS) { $0.frame(minWidth: AppLayout.timelineMonthSheetMinWidth, minHeight: AppLayout.timelineMonthSheetMinHeight) }
                         .applyIf(Self.isIOS) { $0.presentationDetents([.medium, .large]) }
                 case .textureStoreView: TextureStoreView()
-                case .healthInsightView: HealthInsightsView()
             }
         }
     }

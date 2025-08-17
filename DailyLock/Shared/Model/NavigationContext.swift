@@ -30,7 +30,6 @@ enum SheetDestination: Identifiable {
     case tips
     case entryDetail(entry: MomentumEntry)
     case textureStoreView
-    case healthInsightView
     
     var id: String {
         switch self {
@@ -38,7 +37,6 @@ enum SheetDestination: Identifiable {
             case .tips: "tips"
             case .entryDetail(let entry): entry.id.uuidString
             case .textureStoreView: "textureStore"
-            case .healthInsightView: "healthInsight"
         }
     }
 }

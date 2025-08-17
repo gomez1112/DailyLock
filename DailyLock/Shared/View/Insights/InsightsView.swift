@@ -52,24 +52,9 @@ struct InsightsView: View {
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Tab selector
-                Picker("Insights Type", selection: $selectedTab) {
-                    Text("Journal").tag(0)
-                    Text("Health").tag(1)
-                }
-                .pickerStyle(.segmented)
-                .padding()
-                
-                if selectedTab == 0 {
+
                     // Original journal insights
                     journalInsights
-                } else {
-                    // New health insights
-                    ScrollView {
-                        HealthInsightsView()
-                            .padding(.horizontal)
-                    }
-                }
             }
         }
     }

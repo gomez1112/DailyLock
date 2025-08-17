@@ -32,7 +32,7 @@ struct DailyLockApp: App {
         let container = dependencies.dataService.context.container
         configureAppIntents(with: dependencies)
         AppDependencyManager.shared.add(dependency: container)
-        dependencies.healthStore.startObservingChanges()
+
     }
     
     var body: some Scene {
@@ -40,34 +40,6 @@ struct DailyLockApp: App {
             ContentView()
                 .trackDeviceStatus()
                 .withErrorHandling()
-            #if !os(macOS)
-                .healthDataAccessRequest(
-                    store: dependencies.healthStore.store,
-                    shareTypes: [HKObjectType.stateOfMindType()],
-                    readTypes: healthKitReadTypes,
-                    trigger: dependencies.healthStore.isAuthorized
-                ) { result in
-                    switch result {
-                        case .success:
-                            Task {
-                                await dependencies.healthStore.checkInitialAuthorizationStatus()
-                                await dependencies.healthStore.loadRecentMoodData()
-                            }
-                        case .failure(let error):
-                            Log.healthKit.error("\(error.localizedDescription)")
-                            Task {
-                                do {
-                                    try await dependencies.healthStore.requestAuthorizationTrigger()
-                                    await dependencies.healthStore.checkInitialAuthorizationStatus()
-                                    await dependencies.healthStore.loadRecentMoodData()
-                                } catch {
-                                    Log.app.error("HealthKit authorization failed (manual): \(error)")
-                                }
-                            }
-                    }
-                }
-            #endif
-                
         }
         .environment(dependencies)
         .modelContainer(dependencies.dataService.context.container)

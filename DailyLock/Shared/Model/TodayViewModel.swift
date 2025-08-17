@@ -124,23 +124,7 @@ final class TodayViewModel {
                 sentiment: selectedSentiment,
                 lockedAt: Date()
             )
-        Task {
-            // Extract keywords from the text for HealthKit metadata
-            let keywords = extractKeywords(from: currentText)
-            
-            do {
-                try await dependencies.healthStore.saveMoodEntry(
-                    date: Date(),
-                    sentiment: selectedSentiment,
-                    text: currentText,
-                    keywords: keywords
-                )
-                Log.healthKit.info("Successfully saved mood to HealthKit")
-            } catch {
-                // Don't block the UI, just log the error
-                Log.healthKit.error("Failed to save to HealthKit: \(error.localizedDescription)")
-            }
-        }
+
             let optimisticEntries = entries + [optimisticEntry]
             let newStreakInfo = StreakCalculator.calculateStreak(
                 from: optimisticEntries,

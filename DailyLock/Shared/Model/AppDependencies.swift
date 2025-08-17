@@ -16,7 +16,7 @@ final class AppDependencies {
         case preview        // SwiftUI Previews, in-memory with sample data
         case testing        // Unit tests, in-memory and empty
     }
-    let healthStore: HealthStore
+   
     var syncedSetting: SyncedSetting
     let notification: NotificationService
     let dataService: DataService
@@ -47,7 +47,7 @@ final class AppDependencies {
         let tipLedger = TipLedger(modelContainer: container)
         self.store = Store(tipLedger: tipLedger, errorState: errorState)
         self.tipLedger = TipLedger(modelContainer: container)
-        self.healthStore = HealthStore(errorState: errorState)
+
     }
     
     static func configuredForUITests() -> AppDependencies {
