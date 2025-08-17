@@ -14,25 +14,23 @@ struct ConceptView: View {
     private let fullText = "Today was perfect. Coffee with mom, sunset walk, grateful."
     
     var body: some View {
-        VStack(spacing: AppSpacing.xLarge) {
-            Spacer()
+        OnboardingPageView {
+            VStack {
+                Text(typewriterText)
+                    .font(.sentenceSerif)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .frame(minHeight: 150, alignment: .top) // Ensure space
                 
-                VStack {
-                    Text(typewriterText)
-                        .font(.sentenceSerif)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .frame(minHeight: 150, alignment: .top) // Ensure space
-                    
-                    if showLock {
-                        Image(systemName: "lock.fill")
-                            .font(.title)
-                            .foregroundStyle(.accent)
-                            .transition(.scale.combined(with: .opacity))
-                    }
+                if showLock {
+                    Image(systemName: "lock.fill")
+                        .font(.title)
+                        .foregroundStyle(.accent)
+                        .transition(.scale.combined(with: .opacity))
                 }
+            }
             .frame(maxWidth: AppLayout.lockedEntryMaxWidth)
-            
+        } content: {
             VStack(spacing: AppSpacing.regular) {
                 Text("One Sentence Daily")
                     .font(.title)
@@ -43,11 +41,7 @@ struct ConceptView: View {
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
-            
-            Spacer()
-            Spacer()
         }
-        .padding(.horizontal)
         .task {
             // ✅ This is the corrected, non-freezing animation logic
             await animateTypewriter()

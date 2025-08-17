@@ -30,7 +30,6 @@ struct OnboardingPageView<Visual: View, Content: View>: View {
                     visual
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color(white: 0.5, opacity: 0.1).shadow(.inner(radius: 10)))
                 
                 // Content Panel (Right)
                 VStack {

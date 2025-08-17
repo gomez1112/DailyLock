@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 struct WelcomeView: View {
     @State private var appearAnimation = false
     

@@ -1,22 +1,23 @@
 //
-//  OnboardingView.swift
+//  iOSOnboardingView.swift
 //  DailyLock
 //
-//  Created by Gerard Gomez on 7/24/25.
+//  Created by Gerard Gomez on 8/17/25.
 //
 
 import SwiftUI
 
-struct OnboardingView: View {
-    @Environment(\.isDark) private var isDark
+struct iOSOnboardingView: View {
+    
     @Environment(\.dismiss) private var dismiss
-    @Environment(AppDependencies.self) private var dependencies
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(AppDependencies.self) private var dependencies
     
-    @State private var currentPage = 0
+    @Binding var currentPage: Int
     
-    // Updated to include HealthKit permission page
-    private let totalPages = 6 // Increased from 5 to 6
+    let haptics: HapticEngine
+    private let totalPages = OnboardingStep.totalPages
+    let isDark: Bool
     
     var body: some View {
         GeometryReader { geometry in
@@ -33,19 +34,17 @@ struct OnboardingView: View {
                     }
                     
                     TabView(selection: $currentPage) {
-                        WelcomeView().tag(0)
-                        ConceptView().tag(1)
-                        HealthKitPermissionView(onComplete: goToNextPage).tag(2) // NEW
-                        NotificationPermissionView(onComplete: goToNextPage).tag(3)
-                        PremiumPreviewView().tag(4)
-                        GetStartedView(onComplete: completeOnboarding).tag(5)
+                        ForEach(OnboardingStep.allCases) { step in
+                            OnboardingViews(step: step, goNext: goToNextPage, onFinish: completeOnboarding)
+                                .tag(step.rawValue)
+                        }
                     }
 #if !os(macOS)
                     .tabViewStyle(.page(indexDisplayMode: .never))
 #endif
                     .animation(.spring(response: 0.5, dampingFraction: 0.8), value: currentPage)
                     
-                    CustomPageIndicator(currentPage: currentPage, totalPages: totalPages)
+                    CustomPageIndicator(currentPage: currentPage, totalPages: OnboardingStep.allCases.count)
                         .padding(.bottom, 50)
                 }
                 
@@ -60,7 +59,7 @@ struct OnboardingView: View {
         .statusBarHidden()
 #endif
         .onChange(of: currentPage) { _, _ in
-            dependencies.haptics.select()
+            haptics.select()
         }
     }
     
@@ -88,5 +87,5 @@ struct OnboardingView: View {
 }
 
 #Preview(traits: .previewData) {
-    OnboardingView()
+    iOSOnboardingView(currentPage: .constant(2), haptics: HapticEngine(), isDark: false)
 }
