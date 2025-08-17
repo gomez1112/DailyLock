@@ -31,4 +31,10 @@ struct DateExtensionTests {
     func testCurrentYear() async throws {
         #expect(Date.currentYear == "2025", "Year string should be '2025'")
     }
+
+    @Test("Initializer returns nil for invalid date components")
+    func testInvalidDateComponents() async throws {
+        let invalidDate = Date(year: 2025, month: 13, day: 1)
+        #expect(invalidDate == nil, "Month 13 should produce nil")
+    }
 }
