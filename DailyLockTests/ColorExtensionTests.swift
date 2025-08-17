@@ -49,8 +49,8 @@ extension Color {
         guard UIColor(self).getRed(&r1, green: &g1, blue: &b1, alpha: &a1),
               UIColor(other).getRed(&r2, green: &g2, blue: &b2, alpha: &a2) else { return false }
         #elseif os(macOS)
-        guard NSColor(self).usingColorSpace(.sRGB)?.getRed(&r1, green: &g1, blue: &b1, alpha: &a1) == true,
-              NSColor(other).usingColorSpace(.sRGB)?.getRed(&r2, green: &g2, blue: &b2, alpha: &a2) == true else { return false }
+        guard ((NSColor(self).usingColorSpace(.sRGB)?.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)) != nil) == true,
+              ((NSColor(other).usingColorSpace(.sRGB)?.getRed(&r2, green: &g2, blue: &b2, alpha: &a2)) != nil) == true else { return false }
         #endif
         return abs(Double(r1 - r2)) < tolerance && abs(Double(g1 - g2)) < tolerance && abs(Double(b1 - b2)) < tolerance && abs(Double(a1 - a2)) < tolerance
     }
