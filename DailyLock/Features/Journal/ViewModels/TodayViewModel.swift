@@ -13,6 +13,15 @@ import os
 @Observable
 final class TodayViewModel {
     
+    private let dataService: DataService
+    private let haptics: HapticEngine
+    private let syncedSetting: SyncedSetting
+    
+    init(dataService: DataService, haptics: HapticEngine, syncedSetting: SyncedSetting) {
+        self.dataService = dataService
+        self.haptics = haptics
+        self.syncedSetting = syncedSetting
+    }
     // MARK: - UI State
     var currentText = ""
     var selectedSentiment: Sentiment = .indifferent
@@ -28,7 +37,7 @@ final class TodayViewModel {
     var characterCount: Int { currentText.count }
     var progressToLimit: Double { min(Double(characterCount) / Double(DesignSystem.Text.maxCharacterCount), 1.0) }
     var canLock: Bool { characterCount > 0 && characterCount <= DesignSystem.Text.maxCharacterCount }
-    
+    var allowGracePeriod: Bool { syncedSetting.allowGracePeriod }
     // MARK: - Pure Functions for UI Logic
     
     func updateInkOpacity() {
@@ -87,36 +96,36 @@ final class TodayViewModel {
         let today = Calendar.current.startOfDay(for: Date())
         return entries.first { Calendar.current.isDate($0.date, inSameDayAs: today) }
     }
-    func loadViewModelState(entries: [MomentumEntry], allowGracePeriod: Bool) {
+    func loadViewModelState(entries: [MomentumEntry]) {
             // Load existing entry if it exists
             if let existingEntry = todayEntry(entries: entries), !existingEntry.isLocked {
                 loadExistingEntry(existingEntry)
             }
     
             // Update streak info
-        updateStreakInfo(entries: entries, allowGracePeriod: allowGracePeriod)
+        updateStreakInfo(entries: entries)
         }
     
-    func updateStreakInfo(entries: [MomentumEntry], allowGracePeriod: Bool) {
+    func updateStreakInfo(entries: [MomentumEntry]) {
             let streakInfo = StreakCalculator.calculateStreak(
                 from: entries,
                 allowGracePeriod: allowGracePeriod
             )
             updateStreakInfo(streakInfo)
         }
-    func lockEntry(entries: [MomentumEntry], allowGracePeriod: Bool, dependencies: AppDependencies) {
+    func lockEntry(entries: [MomentumEntry]) {
             let oldStreak = currentStreak
             
             // Save the entry
-            dependencies.dataService.lockEntry(
+            dataService.lockEntry(
                 text: currentText,
                 sentiment: selectedSentiment,
                 for: entries
             )
             
             // Haptic feedback
-            dependencies.haptics.lock()
-            dependencies.haptics.success()
+            haptics.lock()
+            haptics.success()
             
             // Update streak info with optimistic update
             let optimisticEntry = MomentumEntry(

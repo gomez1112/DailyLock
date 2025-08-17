@@ -14,14 +14,14 @@ struct TodayView: View {
     @Environment(\.isDark) private var isDark
     @Environment(\.modelContext) private var modelContext
     
-    @State private var todayVM = TodayViewModel()
+    @State var viewModel: TodayViewModel
     
     @Query(sort: \MomentumEntry.date, order: .reverse) private var allEntries: [MomentumEntry]
     
     @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
-        @Bindable var todayVM = todayVM
+        @Bindable var viewModel = viewModel
         GeometryReader { geometry in
             ZStack {
                 WritingPaper()
@@ -33,7 +33,7 @@ struct TodayView: View {
                             .padding(.top, topPadding)
                             .padding(.bottom, AppSpacing.medium)
                         
-                        if let entry = todayVM.todayEntry(entries: allEntries), entry.isLocked {
+                        if let entry = viewModel.todayEntry(entries: allEntries), entry.isLocked {
                             // Locked Entry Display
                             LockedEntryView(entry: entry)
                                 .accessibilityIdentifier("lockedEntryView")
@@ -46,7 +46,7 @@ struct TodayView: View {
                                     view.frame(maxWidth: AppLayout.entryMaxWidth)
                                 }
                         } else {
-                            TodayContent(currentText: $todayVM.currentText, selectedSentiment: $todayVM.selectedSentiment, showLockConfirmation: $todayVM.showLockConfirmation, allEntries: allEntries, isTextFieldFocused: $isTextFieldFocused, haptics: dependencies.haptics, isInGracePeriod: todayVM.isInGracePeriod, inkOpacity: todayVM.inkOpacity, characterCount: todayVM.characterCount, progressToLimit: todayVM.progressToLimit, currentStreak: todayVM.currentStreak, canLock: todayVM.canLock, progressColor: todayVM.progressColor(progress: todayVM.progressToLimit, isDark: isDark), updateInkOpacity: todayVM.updateInkOpacity)
+                            TodayContent(currentText: $viewModel.currentText, selectedSentiment: $viewModel.selectedSentiment, showLockConfirmation: $viewModel.showLockConfirmation, allEntries: allEntries, isTextFieldFocused: $isTextFieldFocused, haptics: dependencies.haptics, isInGracePeriod: viewModel.isInGracePeriod, inkOpacity: viewModel.inkOpacity, characterCount: viewModel.characterCount, progressToLimit: viewModel.progressToLimit, currentStreak: viewModel.currentStreak, canLock: viewModel.canLock, progressColor: viewModel.progressColor(progress: viewModel.progressToLimit, isDark: isDark), updateInkOpacity: viewModel.updateInkOpacity)
                         }
                         Spacer(minLength: AppSpacing.xxxLarge)
                     }
@@ -62,10 +62,10 @@ struct TodayView: View {
                     }
 #endif
                 }
-                .confirmationDialog("Lock this entry?", isPresented: $todayVM.showLockConfirmation) {
+                .confirmationDialog("Lock this entry?", isPresented: $viewModel.showLockConfirmation) {
                     Button("Lock Entry", role: .destructive) {
                         withAnimation(.spring(response: AppAnimation.springResponse, dampingFraction: AppAnimation.springDamping)) {
-                            todayVM.lockEntry(entries: allEntries, allowGracePeriod: dependencies.syncedSetting.allowGracePeriod, dependencies: dependencies)
+                            viewModel.lockEntry(entries: allEntries)
                         }
                     }
                     Button("Cancel", role: .cancel) {}
@@ -74,29 +74,29 @@ struct TodayView: View {
                     Text("Once locked, this entry cannot be edited. Your words will be preserved exactly as written.")
                 }
                 
-                if todayVM.showConfetti {
+                if viewModel.showConfetti {
                     ConfettiView(sentimentColors: Sentiment.allCases.flatMap { $0.gradient })
                         .accessibilityIdentifier("confettiView")
                         .accessibilityHidden(true)
                         .allowsHitTesting(false)
                 }
                 
-                if todayVM.showStreakAchievement {
-                    StreakAchievementView(streakCount: todayVM.currentStreak)
+                if viewModel.showStreakAchievement {
+                    StreakAchievementView(streakCount: viewModel.currentStreak)
                         .accessibilityIdentifier("streakAchievementView")
-                        .accessibilityLabel("Streak achievement: \(todayVM.currentStreak) days")
+                        .accessibilityLabel("Streak achievement: \(viewModel.currentStreak) days")
                         .transition(.scale.combined(with: .opacity))
                 }
             }
         }
         .onAppear {
-            todayVM.loadViewModelState(entries: allEntries, allowGracePeriod: dependencies.syncedSetting.allowGracePeriod)
+            viewModel.loadViewModelState(entries: allEntries)
         }
         .onChange(of: allEntries) { _, _ in
-            todayVM.updateStreakInfo(entries: allEntries, allowGracePeriod: dependencies.syncedSetting.allowGracePeriod)
+            viewModel.updateStreakInfo(entries: allEntries)
         }
-        .onChange(of: dependencies.syncedSetting.allowGracePeriod) { _, newValue in
-            todayVM.updateStreakInfo(entries: allEntries, allowGracePeriod: newValue)
+        .onChange(of: dependencies.syncedSetting.allowGracePeriod) {
+            viewModel.updateStreakInfo(entries: allEntries)
         }
     }
     
@@ -125,5 +125,5 @@ struct TodayView: View {
 
 
 #Preview(traits: .previewData) {
-    TodayView()
+    TodayView(viewModel: TodayViewModel(dataService: DataService(container: ModelContainerFactory.createEmptyContainer), haptics: HapticEngine(), syncedSetting: SyncedSetting()))
 }

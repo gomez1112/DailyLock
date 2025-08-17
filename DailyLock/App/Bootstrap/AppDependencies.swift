@@ -36,7 +36,7 @@ final class AppDependencies {
             case .preview:
                 container = ModelContainerFactory.createPreviewContainer
             case .testing:
-                container = ModelContainerFactory.createEmptyContainer()
+                container = ModelContainerFactory.createEmptyContainer
         }
         self.syncedSetting = SyncedSetting()
         self.notification = NotificationService()

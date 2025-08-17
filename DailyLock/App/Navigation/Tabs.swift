@@ -44,7 +44,7 @@ enum Tabs: String, Identifiable, Hashable, CaseIterable, Codable {
     @ViewBuilder
     var destination: some View {
         switch self {
-            case .today: TodayView()
+            case .today: TodayViewContainer()
             case .timeline: Timeline()
             case .insights: InsightsView()
             case .settings: SettingsView()
