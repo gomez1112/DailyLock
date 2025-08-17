@@ -18,10 +18,8 @@ struct NotificationPermissionView: View {
     
     var body: some View {
         @Bindable var dependencies = dependencies
-        VStack(spacing: AppNotificationPermissionView.mainVStackSpacing) {
-            Spacer()
-            
-            // Animated bells
+        
+        OnboardingPageView {
             HStack(spacing: AppNotificationPermissionView.bellSpacing) {
                 ForEach(0..<AppNotificationPermissionView.bellCount, id: \.self) { index in
                     Image(systemName: "bell.fill")
@@ -46,6 +44,7 @@ struct NotificationPermissionView: View {
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("bellAnimationHStack")
             .accessibilityLabel("Animated bells")
+        } content: {
             
             VStack(spacing: AppNotificationPermissionView.titleSpacing) {
                 Text("Daily Reminders")
@@ -58,6 +57,8 @@ struct NotificationPermissionView: View {
                     .font(.body)
                     .foregroundStyle(.secondary)
                     .accessibilityIdentifier("notificationSubtitle")
+                    .lineLimit(2...2)
+                    .multilineTextAlignment(.center)
                 
                 // Time picker
                 VStack(spacing: AppNotificationPermissionView.timePickerSpacing) {
@@ -71,47 +72,41 @@ struct NotificationPermissionView: View {
                         selection: $dependencies.syncedSetting.notificationTime,
                         displayedComponents: .hourAndMinute
                     )
-                    #if !os(macOS)
+#if !os(macOS)
                     .datePickerStyle(.wheel)
-                    #endif
+#endif
                     .datePickerStyle(.automatic)
                     .labelsHidden()
                     .frame(height: AppNotificationPermissionView.timePickerHeight)
                     .accessibilityIdentifier("notificationTimePicker")
                     .accessibilityLabel("Preferred notification time picker")
                 }
-                .padding(.top)
-            }
-            
-            Spacer()
-
-            Button {
-                Task {
-                    await requestNotificationPermission()
+                Button {
+                    Task {
+                        await requestNotificationPermission()
+                        onComplete()
+                    }
+                } label: {
+                    Label("Enable Notifications", systemImage: "bell.badge")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.accent)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: AppNotificationPermissionView.enableButtonCornerRadius))
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("enableNotificationsButton")
+                .accessibilityHint("Allows DailyLock to send you reminders at your chosen time.")
+                
+                Button("Maybe Later") {
                     onComplete()
                 }
-            } label: {
-                Label("Enable Notifications", systemImage: "bell.badge")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(.accent)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: AppNotificationPermissionView.enableButtonCornerRadius))
+                .foregroundStyle(.secondary)
+                .accessibilityIdentifier("maybeLaterButton")
+                .accessibilityHint("Continue without setting reminders.")
+                Spacer()
             }
-            .padding(.horizontal, AppNotificationPermissionView.contentHorizontalPadding)
-            .accessibilityIdentifier("enableNotificationsButton")
-            .accessibilityHint("Allows DailyLock to send you reminders at your chosen time.")
-            
-            Button("Maybe Later") {
-                onComplete()
-            }
-            .foregroundStyle(.secondary)
-            .accessibilityIdentifier("maybeLaterButton")
-            .accessibilityHint("Continue without setting reminders.")
-            
-            Spacer()
         }
-        .padding(.horizontal, AppNotificationPermissionView.contentHorizontalPadding)
     }
     
     private func requestNotificationPermission() async {

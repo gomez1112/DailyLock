@@ -78,19 +78,29 @@ struct SettingsView: View {
                     .accessibilityElement(children: .contain)
             }
             .toolbar {
-                Button(role: .destructive) {
-                    do {
-                        try context.delete(model: MomentumEntry.self)
-                    } catch {
-                        dependencies.errorState.show(DatabaseError.deleteFailed)
+                ToolbarItem(placement: .automatic) {
+                    Button(role: .destructive) {
+                        do {
+                            try context.delete(model: MomentumEntry.self)
+                        } catch {
+                            dependencies.errorState.show(DatabaseError.deleteFailed)
+                        }
+                        
+                    } label: {
+                        Label("Delete All Data", systemImage: "trash")
                     }
-                    
-                } label: {
-                    Label("Delete All Data", systemImage: "trash")
+                    .accessibilityIdentifier("deleteAllDataButton")
+                    .accessibilityLabel("Delete All Data")
+                    .accessibilityHint("Deletes all your entries.")
                 }
-                .accessibilityIdentifier("deleteAllDataButton")
-                .accessibilityLabel("Delete All Data")
-                .accessibilityHint("Deletes all your entries.")
+                ToolbarSpacer()
+                ToolbarItem(placement: .automatic) {
+                    Button {
+                        dependencies.syncedSetting.hasCompletedOnboarding = false
+                    } label: {
+                        Label("User Defaults", systemImage: "figure.surfing")
+                    }
+                }
             }
             .scrollContentBackground(.hidden)
             .formStyle(.grouped)
@@ -142,8 +152,8 @@ struct SettingsView: View {
                         .tint(.pink)
                     }
                 } else {
-                    ProgressView()
-                        .scaleEffect(0.8)
+                    Text("Disconnected")
+                        .foregroundStyle(.pink)
                 }
             }
             

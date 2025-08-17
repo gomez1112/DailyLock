@@ -31,15 +31,6 @@ struct HealthKitPermissionView: View {
     @ViewBuilder
     private var visualContent: some View {
         ZStack {
-            // Background gradient
-            LinearGradient(
-                colors: [
-                    Color.pink.opacity(0.1),
-                    Color.purple.opacity(0.05)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
             
             // Animated health icons
             GeometryReader { geometry in
@@ -145,7 +136,7 @@ struct HealthKitPermissionView: View {
             VStack(spacing: 12) {
                 Button {
                     Task {
-                        await requestHealthKitPermission()
+                       try await dependencies.healthStore.requestAuthorization()
                     }
                 } label: {
                     HStack {
@@ -167,6 +158,7 @@ struct HealthKitPermissionView: View {
                     .foregroundStyle(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
+                .buttonStyle(.plain)
                 .disabled(isRequesting || permissionGranted)
                 .accessibilityIdentifier("connectHealthButton")
                 
@@ -195,39 +187,6 @@ struct HealthKitPermissionView: View {
             }
         } message: {
             Text(errorMessage)
-        }
-    }
-    
-    private func requestHealthKitPermission() async {
-        isRequesting = true
-        
-        do {
-            let authorized = try await dependencies.healthStore.requestAuthorization()
-            
-            await MainActor.run {
-                if authorized {
-                    withAnimation(.spring()) {
-                        permissionGranted = true
-                    }
-                    dependencies.haptics.success()
-                    
-                    // Auto-continue after a short delay
-                    Task {
-                        try? await Task.sleep(for: .seconds(1.5))
-                        onComplete()
-                    }
-                } else {
-                    errorMessage = "Permission denied. You can enable it later in Settings."
-                    showError = true
-                }
-                isRequesting = false
-            }
-        } catch {
-            await MainActor.run {
-                errorMessage = error.localizedDescription
-                showError = true
-                isRequesting = false
-            }
         }
     }
 }

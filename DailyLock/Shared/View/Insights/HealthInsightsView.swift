@@ -127,6 +127,7 @@ struct HealthInsightsView: View {
                         .foregroundStyle(.accent)
                         .symbolEffect(.rotate, value: isLoading)
                 }
+                .buttonStyle(.plain)
                 .disabled(isLoading)
             }
             .padding(.horizontal)
@@ -183,6 +184,7 @@ struct HealthInsightsView: View {
                     .foregroundStyle(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
+            .buttonStyle(.plain)
         }
         .padding(.vertical, 60)
     }
