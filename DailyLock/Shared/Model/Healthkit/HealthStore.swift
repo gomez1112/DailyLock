@@ -32,12 +32,11 @@ final class HealthStore {
     // HealthKit types
     private var readTypes: Set<HKObjectType> {
         var types: Set<HKObjectType> = [HKObjectType.stateOfMindType()]
-        
         // Add sleep analysis if available (iOS 16+)
         if #available(iOS 16.0, *) {
             types.insert(HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!)
         }
-        
+    
         // Add mindful minutes
         types.insert(HKObjectType.categoryType(forIdentifier: .mindfulSession)!)
         
@@ -51,9 +50,6 @@ final class HealthStore {
     // MARK: - Initialization
     init(errorState: ErrorState) {
         self.errorState = errorState
-        Task {
-            await checkInitialAuthorizationStatus()
-        }
     }
     
     // MARK: - Authorization

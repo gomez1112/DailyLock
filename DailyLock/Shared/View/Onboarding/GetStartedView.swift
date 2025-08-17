@@ -12,10 +12,8 @@ struct GetStartedView: View {
     @State private var isAnimating = false
     
     var body: some View {
-        VStack(spacing: Constants.GetStarted.vStackSpacing) {
-            Spacer()
-            
-            // Animated checkmarks
+        
+        OnboardingPageView {
             VStack(spacing: Constants.GetStarted.checkmarkSpacing) {
                 
                 ForEach(0..<Constants.GetStarted.animatedCheckmarksCount, id: \.self) { index in
@@ -41,52 +39,51 @@ struct GetStartedView: View {
                     }
                     .accessibilityIdentifier("getStarted_checkmark_\(index)")
                 }
+                Spacer()
             }
             .padding(.horizontal, Constants.GetStarted.horizontalPadding)
-            
-            VStack(spacing: 16) {
-                Text("You're All Set!")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .accessibilityIdentifier("getStarted_heading")
-                    .accessibilityAddTraits(.isHeader)
+        } content: {
+            VStack(spacing: Constants.GetStarted.vStackSpacing) {
                 
-                Text("Start capturing your first moment")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .accessibilityIdentifier("getStarted_subtitle")
-            }
-            
-            Spacer()
-            
-            Button {
-                onComplete()
-            } label: {
-                HStack {
-                    Text("Begin Writing")
-                    Image(systemName: "arrow.right")
+                VStack(spacing: 16) {
+                    Text("You're All Set!")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .accessibilityIdentifier("getStarted_heading")
+                        .accessibilityAddTraits(.isHeader)
+                    
+                    Text("Start capturing your first moment")
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .accessibilityIdentifier("getStarted_subtitle")
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(.accent)
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: Constants.GetStarted.buttonCornerRadius))
-                .shadow(color: .blue.opacity(0.3), radius: Constants.GetStarted.buttonShadowRadius, y: Constants.GetStarted.buttonShadowYOffset)
                 
+                Button {
+                    onComplete()
+                } label: {
+                    HStack {
+                        Text("Begin Writing")
+                        Image(systemName: "arrow.right")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.accent)
+                    .foregroundStyle(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: Constants.GetStarted.buttonCornerRadius))
+                    .shadow(color: .blue.opacity(0.3), radius: Constants.GetStarted.buttonShadowRadius, y: Constants.GetStarted.buttonShadowYOffset)
+                    
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("getStarted_button")
+                .accessibilityLabel("Begin Writing")
+                .scaleEffect(isAnimating ? 1 : Constants.GetStarted.buttonScaleInactive)
+                .opacity(isAnimating ? 1 : 0)
+                .animation(.spring().delay(Constants.GetStarted.buttonSpringDelay), value: isAnimating)
+              
             }
-            .buttonStyle(.plain)
-            .accessibilityIdentifier("getStarted_button")
-            .accessibilityLabel("Begin Writing")
-            .padding(.horizontal, Constants.GetStarted.horizontalPadding)
-            .scaleEffect(isAnimating ? 1 : Constants.GetStarted.buttonScaleInactive)
-            .opacity(isAnimating ? 1 : 0)
-            .animation(.spring().delay(Constants.GetStarted.buttonSpringDelay), value: isAnimating)
-            
-            Spacer()
-        }
-        .padding(.horizontal, Constants.GetStarted.horizontalPadding)
-        .onAppear {
-            isAnimating = true
+            .onAppear {
+                isAnimating = true
+            }
         }
     }
     

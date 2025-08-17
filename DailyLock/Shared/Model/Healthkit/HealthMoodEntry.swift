@@ -29,30 +29,3 @@ struct HealthMoodEntry: Identifiable {
     }
 }
 
-//struct HealthInsight {
-//    let title: String
-//    let description: String
-//    let icon: String
-//    let value: String
-//    let trend: Trend
-//    
-//    enum Trend {
-//        case up, down, stable
-//        
-//        var color: Color {
-//            switch self {
-//            case .up: .green
-//            case .down: .red
-//            case .stable: .blue
-//            }
-//        }
-//        
-//        var icon: String {
-//            switch self {
-//            case .up: "arrow.up.right"
-//            case .down: "arrow.down.right"
-//            case .stable: "arrow.right"
-//            }
-//        }
-//    }
-//}

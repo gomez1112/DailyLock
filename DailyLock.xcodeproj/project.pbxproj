@@ -33,7 +33,7 @@
 		CC0AC6932E3952DD004FEC40 /* Exceptions for "DailyLock" folder in "DailyLockUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Model/Store/Configuration.storekit,
+				Shared/Model/Store/Configuration.storekit,
 			);
 			target = CC28B33E2E2D291700F630B2 /* DailyLockUITests */;
 		};
@@ -42,6 +42,12 @@
 			membershipExceptions = (
 				Info.plist,
 			);
+			platformFiltersByRelativePath = {
+				iOS/iOSOnboardingView.swift = (ios, );
+				iOS/iOSPremiumPreviewView.swift = (ios, );
+				macOS/macOSOnboardingView.swift = (macos, );
+				macOS/macOSPremiumPreviewView.swift = (macos, );
+			};
 			target = CC28B3272E2D291600F630B2 /* DailyLock */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */

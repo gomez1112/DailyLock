@@ -79,7 +79,7 @@ enum Feature {
         static let particleOpacity = 1.0
     }
     enum Onboarding {
-        static let totalPages = 5
+        static let totalPages = 6
         static let pageIndicatorBottomPadding: CGFloat = 50
         static let skipButtonPadding: CGFloat = 16
         static let tabAnimationResponse: Double = 0.5

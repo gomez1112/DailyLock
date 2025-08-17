@@ -2447,6 +2447,9 @@
         }
       }
     },
+    "Back" : {
+
+    },
     "Based on %lld entries" : {
       "localizations" : {
         "ar-AE" : {
@@ -4506,6 +4509,9 @@
         }
       }
     },
+    "Disconnected" : {
+
+    },
     "Discover patterns and get personalized suggestions" : {
       "localizations" : {
         "ar-AE" : {
@@ -5485,6 +5491,9 @@
           }
         }
       }
+    },
+    "Get Started" : {
+
     },
     "Get Suggestion" : {
 
@@ -8572,6 +8581,7 @@
       }
     },
     "Premium feature carousel" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -11468,6 +11478,9 @@
 
     },
     "Upgrade your writing experience with these beautifully crafted paper textures." : {
+
+    },
+    "User Defaults" : {
 
     },
     "Valence:" : {
