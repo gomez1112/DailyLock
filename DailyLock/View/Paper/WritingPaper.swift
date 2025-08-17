@@ -44,7 +44,6 @@ struct WritingPaper: View {
                         Image(textureImage)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .opacity(isDark ? 0.3 : 0.5) // Subtle texture overlay
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .allowsHitTesting(false)
                     )
@@ -93,6 +92,6 @@ struct WritingPaper: View {
     }
 }
 
-#Preview {
+#Preview(traits: .previewData) {
     WritingPaper()
 }

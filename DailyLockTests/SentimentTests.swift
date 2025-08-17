@@ -12,7 +12,7 @@ struct SentimentTests {
     func testAllCases() {
         let cases = Sentiment.allCases
         #expect(cases.contains(.positive))
-        #expect(cases.contains(.neutral))
+        #expect(cases.contains(.indifferent))
         #expect(cases.contains(.negative))
         #expect(cases.count == 3)
     }
@@ -25,7 +25,7 @@ struct SentimentTests {
     @Test("Sentiment inkIntensity values are correct")
     func testInkIntensity() {
         #expect(Sentiment.positive.inkIntensity == 3.0)
-        #expect(Sentiment.neutral.inkIntensity == 2.0)
+        #expect(Sentiment.indifferent.inkIntensity == 2.0)
         #expect(Sentiment.negative.inkIntensity == 1.0)
     }
 

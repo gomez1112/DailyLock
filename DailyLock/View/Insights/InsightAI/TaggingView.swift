@@ -9,6 +9,7 @@ import FoundationModels
 import os
 import SwiftData
 import SwiftUI
+import Playgrounds
 
 @Generable
 struct TaggingResponse: Equatable {
@@ -45,13 +46,17 @@ struct TaggingView: View {
         .transition(.opacity)
         .padding(.horizontal)
         .frame(maxWidth: .infinity, alignment: .leading)
+        .onAppear {
+            print(entries.sorted { $0.date > $1.date }.prefix(7).map { $0.text }.joined(separator: "\n---\n"))
+        }
         .task {
             if !contentTaggingModel.isAvailable {
                 dependencies.errorState.showIntelligenceError(.appleIntelligenceNotEnabled)
             }
             do {
                 let session = LanguageModelSession(model: contentTaggingModel, instructions: "Tag the 3 most important actions and emotions in the given input text. Be positive")
-                let stream = session.streamResponse(to: entries.map(\.text).prefix(7).joined(separator: ", "), generating: TaggingResponse.self, options: GenerationOptions(sampling: .greedy))
+                let stream = session.streamResponse(to: entries.sorted { $0.date > $1.date }.prefix(7).map { $0.text }.joined(separator: "\n---\n"), generating: TaggingResponse.self ,options: GenerationOptions(sampling: .greedy))
+
                 for try await newTags in stream {
                     generateTags = newTags.content
                 }

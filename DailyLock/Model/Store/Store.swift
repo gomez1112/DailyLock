@@ -133,7 +133,7 @@ final class Store {
                 do {
                     let transaction = try await self.checkVerified(result)
                     try await self.fulfill(transaction)
-                   // try await self.updateCustomerProductStatus()
+                    try await self.updateCustomerProductStatus()
                     await transaction.finish()
                 } catch {
                     Log.store.error("Transaction listener error: \(error.localizedDescription, privacy: .public)")

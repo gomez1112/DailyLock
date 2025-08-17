@@ -248,6 +248,16 @@
         }
       }
     },
+    "%@: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lld"
+          }
+        }
+      }
+    },
     "%1$@, %2$@" : {
       "localizations" : {
         "ar-AE" : {
@@ -424,6 +434,7 @@
       }
     },
     "%1$lld out of %2$lld characters used" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -1290,6 +1301,9 @@
         }
       }
     },
+    "%lld entries" : {
+
+    },
     "%lld moments captured" : {
       "localizations" : {
         "ar-AE" : {
@@ -1563,6 +1577,7 @@
       }
     },
     "%lld out of %lld characters used" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -2892,6 +2907,9 @@
         }
       }
     },
+    "Apple Health" : {
+
+    },
     "Applied" : {
 
     },
@@ -3605,6 +3623,7 @@
 
     },
     "Character usage progress" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -3962,6 +3981,24 @@
     "Complete today to maintain your %lld day streak!" : {
 
     },
+    "Connect" : {
+
+    },
+    "Connect Health" : {
+
+    },
+    "Connect to Apple Health" : {
+
+    },
+    "Connected" : {
+
+    },
+    "Connected to Health" : {
+
+    },
+    "Connected!" : {
+
+    },
     "Contact Support" : {
       "localizations" : {
         "ar-AE" : {
@@ -4019,6 +4056,12 @@
           }
         }
       }
+    },
+    "Context:" : {
+
+    },
+    "Continue" : {
+
     },
     "Continue without setting reminders." : {
       "localizations" : {
@@ -4722,6 +4765,9 @@
         }
       }
     },
+    "Date" : {
+
+    },
     "Date: %@ (%@)" : {
       "localizations" : {
         "ar-AE" : {
@@ -5145,6 +5191,9 @@
           }
         }
       }
+    },
+    "Enable Health integration to see mood trends and wellness insights" : {
+
     },
     "Enable Notifications" : {
       "localizations" : {
@@ -5619,6 +5668,9 @@
         }
       }
     },
+    "Find entries by typing a keyword, phrase, or mood (e.g., 'positive')." : {
+
+    },
     "Generate emotions" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -6026,6 +6078,9 @@
         }
       }
     },
+    "Get Suggestion" : {
+
+    },
     "Go write your first Entry!" : {
       "localizations" : {
         "ar-AE" : {
@@ -6332,6 +6387,18 @@
         }
       }
     },
+    "Health" : {
+
+    },
+    "Health Connection Error" : {
+
+    },
+    "Health Insights" : {
+
+    },
+    "Health Integration" : {
+
+    },
     "Help Center" : {
       "localizations" : {
         "ar-AE" : {
@@ -6623,6 +6690,9 @@
         }
       }
     },
+    "Insights Type" : {
+
+    },
     "Insights Unavailable" : {
 
     },
@@ -6742,6 +6812,9 @@
         }
       }
     },
+    "Journal" : {
+
+    },
     "Keep the momentum going" : {
       "localizations" : {
         "ar-AE" : {
@@ -6857,6 +6930,9 @@
           }
         }
       }
+    },
+    "Last synced %@" : {
+
     },
     "Leave a rating for DailyLock in the App Store" : {
       "localizations" : {
@@ -7674,6 +7750,9 @@
         }
       }
     },
+    "Manage Permissions" : {
+
+    },
     "Manage Subscription" : {
       "localizations" : {
         "ar-AE" : {
@@ -8319,6 +8398,9 @@
         }
       }
     },
+    "Mood Trends" : {
+
+    },
     "Navigation" : {
       "localizations" : {
         "ar-AE" : {
@@ -8434,6 +8516,12 @@
           }
         }
       }
+    },
+    "No mood data" : {
+
+    },
+    "No recent mood entries" : {
+
     },
     "Notification Time" : {
       "localizations" : {
@@ -8552,7 +8640,6 @@
       }
     },
     "OK" : {
-      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -8611,6 +8698,7 @@
       }
     },
     "Onboarding pages" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -9373,6 +9461,7 @@
       }
     },
     "Page %lld of %lld" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -9437,6 +9526,7 @@
       }
     },
     "Page indicator" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -10019,6 +10109,9 @@
         }
       }
     },
+    "Recent Entries" : {
+
+    },
     "Red margin line" : {
       "localizations" : {
         "ar-AE" : {
@@ -10310,6 +10403,15 @@
       }
     },
     "Search" : {
+
+    },
+    "Search by text or mood" : {
+
+    },
+    "Search Entries" : {
+
+    },
+    "Search Your Journal" : {
 
     },
     "Secure Payment" : {
@@ -10776,7 +10878,11 @@
         }
       }
     },
+    "Skip for Now" : {
+
+    },
     "Skip onboarding" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -11065,6 +11171,9 @@
           }
         }
       }
+    },
+    "Start tracking your mood to see trends" : {
+
     },
     "Stats" : {
       "localizations" : {
@@ -11471,6 +11580,15 @@
           }
         }
       }
+    },
+    "Sync Now" : {
+
+    },
+    "Sync your mood data with Apple Health to see how your emotions connect with your overall wellbeing" : {
+
+    },
+    "Synced %@" : {
+
     },
     "Tap to expand" : {
       "localizations" : {
@@ -11883,6 +12001,9 @@
           }
         }
       }
+    },
+    "Time Range" : {
+
     },
     "Timeline" : {
       "localizations" : {
@@ -12596,6 +12717,9 @@
     "Upgrade your writing experience with these beautifully crafted paper textures." : {
 
     },
+    "Valence:" : {
+
+    },
     "Version" : {
       "localizations" : {
         "ar-AE" : {
@@ -12653,6 +12777,9 @@
           }
         }
       }
+    },
+    "View Health Insights" : {
+
     },
     "Wax seal for entry" : {
       "localizations" : {
@@ -12886,7 +13013,7 @@
         }
       }
     },
-    "What defined today?" : {
+    "Wellness Correlations" : {
 
     },
     "Word Count" : {

@@ -11,82 +11,50 @@ struct OnboardingView: View {
     @Environment(\.isDark) private var isDark
     @Environment(\.dismiss) private var dismiss
     @Environment(AppDependencies.self) private var dependencies
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     @State private var currentPage = 0
     
-    private let totalPages = AppOnboarding.totalPages
+    // Updated to include HealthKit permission page
+    private let totalPages = 6 // Increased from 5 to 6
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .topTrailing) {
                 Image(isDark ? .defaultDarkPaper : .defaultLightPaper)
                     .resizable()
                     .ignoresSafeArea()
-
-            
-            VStack(spacing: 0) {
-                HStack {
-                    Spacer()
-                    Button("Skip") {
-                        completeOnboarding()
-                    }
-                    .foregroundStyle(.secondary)
-                    .padding(AppOnboarding.skipButtonPadding)
-                    .opacity(currentPage < totalPages - 1 ? 1 : 0)
-                    .accessibilityIdentifier("skipButton")
-                    .accessibilityLabel("Skip onboarding")
-                }
                 
-                TabView(selection: $currentPage) {
-                    WelcomeView()
-                        .tag(0)
-                        .accessibilityIdentifier("onboardingPage0")
+                VStack(spacing: 0) {
+                    // On compact views, the skip button is part of the VStack flow.
+                    if horizontalSizeClass == .compact {
+                        skipButton
+                            .padding()
+                    }
                     
-                    ConceptView()
-                        .tag(1)
-                        .accessibilityIdentifier("onboardingPage1")
-
-                    NotificationPermissionView {
-                        withAnimation {
-                            currentPage += 1
-                        }
+                    TabView(selection: $currentPage) {
+                        WelcomeView().tag(0)
+                        ConceptView().tag(1)
+                        HealthKitPermissionView(onComplete: goToNextPage).tag(2) // NEW
+                        NotificationPermissionView(onComplete: goToNextPage).tag(3)
+                        PremiumPreviewView().tag(4)
+                        GetStartedView(onComplete: completeOnboarding).tag(5)
                     }
-                        .tag(2)
-                        .accessibilityIdentifier("onboardingPage2")
-
-                    PremiumPreviewView()
-                        .tag(3)
-                        .accessibilityIdentifier("onboardingPage3")
-                   // Text("HI")
-                    GetStartedView(onComplete: completeOnboarding)
-                        .tag(4)
-                        .accessibilityIdentifier("onboardingPage4")
+#if !os(macOS)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
+#endif
+                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: currentPage)
+                    
+                    CustomPageIndicator(currentPage: currentPage, totalPages: totalPages)
+                        .padding(.bottom, 50)
                 }
                 
-#if !os(macOS)
-                .tabViewStyle(.page(indexDisplayMode: .never))
-#endif
-                .animation(
-                    .spring(response: AppOnboarding.tabAnimationResponse,
-                            dampingFraction: AppOnboarding.tabAnimationDamping),
-                    value: currentPage
-                )
-                .accessibilityIdentifier("onboardingTabView")
-                .accessibilityLabel("Onboarding pages")
-                .accessibilityValue("Page \(currentPage + 1) of \(totalPages)")
-                
-                CustomPageIndicator(
-                    currentPage: currentPage,
-                    totalPages: totalPages
-                )
-                .padding(.bottom, AppOnboarding.pageIndicatorBottomPadding)
-                .accessibilityIdentifier("pageIndicator")
-                .accessibilityLabel("Page indicator")
-                .accessibilityValue("Page \(currentPage + 1) of \(totalPages)")
+                // On regular views, the skip button is an overlay for better placement.
+                if horizontalSizeClass == .regular {
+                    skipButton
+                        .padding(32)
+                }
             }
-            .accessibilityElement(children: .contain)
-            .accessibilityIdentifier("onboardingMainStack")
-        }
         }
 #if !os(macOS)
         .statusBarHidden()
@@ -96,6 +64,20 @@ struct OnboardingView: View {
         }
     }
     
+    private var skipButton: some View {
+        Button("Skip") {
+            completeOnboarding()
+        }
+        .foregroundStyle(.secondary)
+        .opacity(currentPage < totalPages - 1 ? 1 : 0)
+        .accessibilityIdentifier("skipButton")
+    }
+    
+    private func goToNextPage() {
+        withAnimation {
+            currentPage = min(currentPage + 1, totalPages - 1)
+        }
+    }
     
     private func completeOnboarding() {
         withAnimation(.spring()) {

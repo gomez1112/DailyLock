@@ -5,11 +5,16 @@
 //  Created by Gerard Gomez on 8/10/25.
 //
 
+#if canImport(JournalingSuggestions)
+import JournalingSuggestions
+#endif
+
 import SwiftUI
 import SwiftData
 
 struct TodayContent: View {
-    
+    @State private var showSuggestionPicker = false
+    @State private var journalingSuggestionVM = JournalingSuggestionViewModel()
     @Environment(\.isDark) private var isDark
     
     @Binding var currentText: String
@@ -27,16 +32,15 @@ struct TodayContent: View {
     let canLock: Bool
     let progressColor: TodayViewModel.ProgressColorStyle
     let updateInkOpacity: () -> ()
-  
+    
     var body: some View {
-
         VStack(spacing: AppSpacing.small) {
             // Writing Canvas
             ZStack {
                 // Text Entry
                 VStack(spacing: 0) {
                     TextView(
-                        text: $currentText, haptics: haptics,
+                        text: $currentText, reflectionPrompt: journalingSuggestionVM.firstReflectionPrompt, haptics: haptics,
                         sentiment: selectedSentiment,
                         opacity: inkOpacity,
                         isFocused: isTextFieldFocused
@@ -50,17 +54,11 @@ struct TodayContent: View {
                     }
                     
                     Spacer()
-                    
-                    // Character Progress inside the paper
-                    CharacterProgressView(
-                        progressColor: progressColor, haptics: haptics, current: characterCount,
-                        limit: DesignSystem.Text.maxCharacterCount,
-                        progress: progressToLimit
-                    )
-                    .accessibilityIdentifier("characterProgressView")
-                    .accessibilityLabel("Characters used: \(characterCount) of \(DesignSystem.Text.maxCharacterCount)")
-                    .padding(.horizontal, horizontalPadding)
-                    .padding(.bottom, AppSpacing.medium)
+                    CharacterProgressView(progress: Double(characterCount) / Double(DesignSystem.Text.maxCharacterCount), current: characterCount, limit: DesignSystem.Text.maxCharacterCount)
+                        .accessibilityIdentifier("characterProgressView")
+                        .accessibilityLabel("Characters used: \(characterCount) of \(DesignSystem.Text.maxCharacterCount)")
+                        .padding(.horizontal, horizontalPadding)
+                        .padding(.bottom, AppSpacing.medium)
                 }
                 .frame(height: innerContentHeight)
             }
@@ -99,7 +97,11 @@ struct TodayContent: View {
                 .accessibilityIdentifier("gracePeriodWarning")
                 .accessibilityLabel("Grace period active. Complete today to maintain your streak.")
             }
-            
+            Button("Get Suggestion") {
+                showSuggestionPicker = true
+            }
+            .buttonStyle(.bordered)
+            Spacer()
             // Lock Button
             LockButton(
                 canLock: canLock,
@@ -115,6 +117,14 @@ struct TodayContent: View {
             .padding(.horizontal, buttonPadding)
             .scaleEffect(showLockConfirmation ? AppAnimation.lockButtonScale : 1.0)
         }
+        #if !os(macOS)
+        .journalingSuggestionsPicker(isPresented: $showSuggestionPicker) { suggestion in
+            if suggestion.items.contains(where: { $0.hasContent(ofType: JournalingSuggestion.Reflection.self) }) {
+                journalingSuggestionVM.processSuggestion(suggestion)
+            }
+            
+        }
+        #endif
         .onPlatform { view in
             view.frame(maxWidth: AppLayout.entryMaxWidth)
         }
@@ -143,3 +153,4 @@ struct TodayContent: View {
         platformValue(iOS: AppLayout.innerContentHeight, macOS: AppLayout.innerContentHeight)
     }
 }
+

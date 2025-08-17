@@ -48,7 +48,7 @@ enum DesignSystem {
         
         // MARK: Sentiment Intensities
         static let positiveInkIntensity = 3.0 //
-        static let neutralInkIntensity = 2.0 //
+        static let indifferentInkIntensity = 2.0 //
         static let negativeInkIntensity = 1.0 //
         
         // MARK: TextView Properties

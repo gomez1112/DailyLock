@@ -425,6 +425,8 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DailyLock/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "DailyLock would like to read your mood and wellness data to provide insights on how your emotions correlate with your overall health.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "DailyLock would like to save your daily mood entries to Apple Health to help you track emotional patterns alongside your wellness data.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -472,6 +474,8 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DailyLock/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "DailyLock would like to read your mood and wellness data to provide insights on how your emotions correlate with your overall health.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "DailyLock would like to save your daily mood entries to Apple Health to help you track emotional patterns alongside your wellness data.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

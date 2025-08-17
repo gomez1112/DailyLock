@@ -68,9 +68,10 @@ final class EntryUITests: XCTestCase {
         // Assert that the emotion button is now selected
         XCTAssert(positiveButton.isSelected, "The 'Positive' button should be selected after tapping.")
         
-        let lockTodayButton = app.staticTexts["Lock Today's Entry"].firstMatch
-        XCTAssert(lockTodayButton.exists, "The 'Lock Today's Entry' button should exist.")
-        lockTodayButton.tap()
+        let lockedView = app.otherElements["lockedEntryView"] // Use a more specific identifier
+        XCTAssertTrue(lockedView.waitForExistence(timeout: 2), "The locked entry view should be displayed.")
+
+        lockedView.tap()
         
         // Assert the confirmation button exists before tapping
         let confirmLockButton = app.buttons["Lock Entry"].firstMatch

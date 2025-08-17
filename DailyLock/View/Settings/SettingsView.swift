@@ -5,6 +5,7 @@
 //  Created by Gerard Gomez on 7/20/25.
 //
 
+import HealthKit
 import SwiftData
 import StoreKit
 import SwiftUI
@@ -17,6 +18,8 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var showManageSubscription = false
+    @State private var showHealthInsights = false
+    @State private var isSyncingHealth = false
     
     var body: some View {
         NavigationStack {
@@ -25,9 +28,12 @@ struct SettingsView: View {
                     .accessibilityIdentifier("premiumSection")
                     .accessibilityElement(children: .contain)
                 
+                enhancedHealthKitSection
+                
                 GracePeriodSection()
                     .accessibilityIdentifier("gracePeriodSection")
                     .accessibilityElement(children: .contain)
+                
                 NotificationSection()
                     .accessibilityIdentifier("notificationSection")
                     .accessibilityElement(children: .contain)
@@ -49,6 +55,7 @@ struct SettingsView: View {
                     .accessibilityHint("Opens tips sheet")
                 }
                 .accessibilityElement(children: .contain)
+                
                 Section("Customization") {
                     Button {
                         dependencies.navigation.presentedSheet = .textureStoreView
@@ -57,6 +64,7 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.plain)
                 }
+                
                 SupportSection()
                     .accessibilityIdentifier("supportSection")
                     .accessibilityElement(children: .contain)
@@ -90,11 +98,134 @@ struct SettingsView: View {
 #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
 #endif
-
+            
 #if !os(macOS)
             .manageSubscriptionsSheet(isPresented: $showManageSubscription)
 #endif
         }
+    }
+    
+    // Enhanced HealthKit Section with more features
+    private var enhancedHealthKitSection: some View {
+        Section("Health Integration") {
+            HStack {
+                Label("Apple Health", systemImage: "heart.text.square.fill")
+                    .foregroundStyle(.pink)
+                
+                Spacer()
+                
+                if let isAuthorized = dependencies.healthStore.isAuthorized {
+                    if isAuthorized {
+                        VStack(alignment: .trailing, spacing: 4) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(.green)
+                                Text("Connected")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.green)
+                            }
+                            
+                            if let lastSync = dependencies.healthStore.lastSyncDate {
+                                Text("Synced \(lastSync.formatted(.relative(presentation: .named)))")
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    } else {
+                        Button("Connect") {
+                            Task {
+                                _ = try? await dependencies.healthStore.requestAuthorization()
+                            }
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(.pink)
+                    }
+                } else {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                }
+            }
+            
+            // Additional Health Actions
+            if dependencies.healthStore.isAuthorized == true {
+                // Sync button
+                Button {
+                    Task {
+                        await syncWithHealth()
+                    }
+                } label: {
+                    Label {
+                        HStack {
+                            Text("Sync Now")
+                            Spacer()
+                            if isSyncingHealth {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                            } else if dependencies.healthStore.syncedEntriesCount > 0 {
+                                Text("\(dependencies.healthStore.syncedEntriesCount) entries")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    } icon: {
+                        Image(systemName: "arrow.triangle.2.circlepath")
+                            .foregroundStyle(.accent)
+                            .symbolEffect(.rotate, value: isSyncingHealth)
+                    }
+                }
+                .disabled(isSyncingHealth)
+                
+                // View insights button
+                Button {
+                    dependencies.navigation.presentedSheet = .healthInsightView
+                } label: {
+                    Label {
+                        HStack {
+                            Text("View Health Insights")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                        }
+                    } icon: {
+                        Image(systemName: "chart.line.uptrend.xyaxis")
+                            .foregroundStyle(.accent)
+                    }
+                }
+                
+                // Health permissions
+                Button {
+#if !os(macOS)
+                    if let url = URL(string: "x-apple-health://") {
+                        openURL(url)
+                    }
+#endif
+                } label: {
+                    Label {
+                        Text("Manage Permissions")
+                    } icon: {
+                        Image(systemName: "gear")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .foregroundStyle(.secondary)
+            }
+        }
+    }
+    
+    private func syncWithHealth() async {
+        isSyncingHealth = true
+        
+        do {
+            let entries = try dependencies.dataService.fetchAllEntries()
+            try await dependencies.healthStore.syncEntries(entries)
+            dependencies.haptics.success()
+        } catch {
+            dependencies.errorState.show(error as? AppError ?? DatabaseError.loadFailed)
+        }
+        
+        isSyncingHealth = false
     }
 }
 

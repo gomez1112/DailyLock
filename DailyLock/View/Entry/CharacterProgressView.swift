@@ -8,77 +8,85 @@
 import SwiftUI
 
 struct CharacterProgressView: View {
-    
-    @Environment(\.isDark) private var isDark
-    
-    @State private var showWarning = false
-    
-    let progressColor: TodayViewModel.ProgressColorStyle  // Now passed in
-    let haptics: HapticEngine
+    let progress: Double
     let current: Int
     let limit: Int
-    let progress: Double
     
     var body: some View {
-        VStack {
-            Gauge(value: progress, in: 0...1) {
-                HStack {
-                    Spacer()
-                    Text("\(current)/\(limit)")
-                        .contentTransition(.numericText(value: progress))
-                        .animation(.default, value: progress)
-                        .foregroundStyle(warningColor)
-                        .accessibilityIdentifier("CharacterProgressText")
+        VStack(spacing: 8) {
+            // Character count label
+            HStack {
+                Spacer()
+                Text("\(current)/\(limit)")
+                    .font(.caption)
+                    .foregroundStyle(textColor)
+                    .contentTransition(.numericText())
+                    .animation(.default, value: current)
+            }
+            
+            // Progress bar
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    // Background track
+                    Capsule()
+                        .fill(.quaternary)
+                        .frame(height: 4)
+                    
+                    // Progress fill with gradient
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: gradientColors,
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geometry.size.width * progress, height: 4)
+                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: progress)
+                    
+                    // Animated indicator dot
+                    Circle()
+                        .fill(.white)
+                        .frame(width: 12, height: 12)
+                        .overlay(Circle().stroke(strokeColor, lineWidth: 2))
+                        .offset(x: max(0, min(geometry.size.width - 12, geometry.size.width * progress - 6)))
+                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: progress)
                 }
             }
-            .tint(color(for: progressColor))
-            .accessibilityIdentifier("CharacterProgressGauge")
+            .frame(height: 12)
             
+            // Warning text
             if progress > 0.9 {
-                Text("Approaching character limit")
+                Text(progress >= 1.0 ? "Character limit reached" : "Approaching character limit")
                     .font(.caption2)
-                    .foregroundStyle(.orange)
-                    .transition(.opacity)
-            } else if progress >= 1.0 {
-                Text("Character limit reached")
-                    .font(.caption2)
-                    .foregroundStyle(.red)
-                    .transition(.opacity)
-            }
-        }
-        .accessibilityLabel("Character usage progress")
-        .accessibilityValue("\(current) out of \(limit) characters used")
-        .accessibilityElement(children: .combine)
-        .onChange(of: progress) { _, newValue in
-            if newValue > 0.9 && !showWarning {
-                showWarning = true
-                haptics.warning()
-            } else if newValue <= 0.9 {
-                showWarning = false
+                    .foregroundStyle(progress >= 1.0 ? .red : .orange)
+                    .transition(.opacity.combined(with: .scale))
+                    .animation(.easeInOut, value: progress > 0.9)
             }
         }
     }
     
-    private var warningColor: Color {
-        if progress >= 1.0 {
-            return .red
-        } else if progress > 0.9 {
-            return .orange
-        } else {
-            return isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor
-        }
+    private var gradientColors: [Color] {
+        if progress >= 1.0 { return [.red, .pink] }
+        if progress > 0.9 { return [.orange, .red] }
+        if progress > 0.7 { return [.yellow, .orange] }
+        return [.green, .mint]
     }
     
-    private func color(for style: TodayViewModel.ProgressColorStyle) -> Color {
-        switch style {
-            case .red: return .red
-            case .orange: return .orange
-            case .darkLine: return ColorPalette.darkLineColor
-            case .lightLine: return ColorPalette.lightLineColor
-        }
+    private var strokeColor: Color {
+        if progress >= 1.0 { return .red }
+        if progress > 0.9 { return .orange }
+        if progress > 0.7 { return .yellow }
+        return .green
+    }
+    
+    private var textColor: Color {
+        if progress >= 1.0 { return .red }
+        if progress > 0.9 { return .orange }
+        return .secondary
     }
 }
 
 #Preview(traits: .previewData) {
-    CharacterProgressView(progressColor: .darkLine, haptics: HapticEngine(), current: 170, limit: DesignSystem.Text.maxCharacterCount, progress: 0.95)
+    CharacterProgressView(progress: 0.5, current: 90, limit: 180)
 }

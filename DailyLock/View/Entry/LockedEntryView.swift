@@ -6,17 +6,14 @@
 //
 
 import SwiftUI
-
 struct LockedEntryView: View {
-    
+ 
     @Environment(\.isDark) private var isDark
     
     @State private var appearAnimation = false
     
     let entry: MomentumEntry
-    
-    
-    
+
     var body: some View {
         VStack(spacing: AppEntry.cardVerticalSpacing) {
             // Wax Seal
@@ -30,6 +27,7 @@ struct LockedEntryView: View {
             
            entryCard
         }
+        
         .onAppear {
             withAnimation(.spring(response: AppAnimation.springResponse, dampingFraction: AppAnimation.springDamping).delay(AppAnimation.delay)) {
                 appearAnimation = true

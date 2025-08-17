@@ -7,6 +7,7 @@
 
 import Observation
 import SwiftData
+import Foundation
 
 @Observable
 final class AppDependencies {
@@ -15,6 +16,7 @@ final class AppDependencies {
         case preview        // SwiftUI Previews, in-memory with sample data
         case testing        // Unit tests, in-memory and empty
     }
+    let healthStore: HealthStore
     var syncedSetting: SyncedSetting
     let notification: NotificationService
     let dataService: DataService
@@ -45,5 +47,14 @@ final class AppDependencies {
         let tipLedger = TipLedger(modelContainer: container)
         self.store = Store(tipLedger: tipLedger, errorState: errorState)
         self.tipLedger = TipLedger(modelContainer: container)
+        self.healthStore = HealthStore(errorState: errorState)
+    }
+    
+    static func configuredForUITests() -> AppDependencies {
+        let config: Configuration = .testing
+        let deps = AppDependencies(configuration: config)
+        let arguments = ProcessInfo.processInfo.arguments
+        DebugSetup.applyDebugArguments(arguments, container: deps.dataService.context.container)
+        return deps
     }
 }

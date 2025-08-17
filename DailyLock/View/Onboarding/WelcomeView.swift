@@ -6,15 +6,12 @@
 //
 
 import SwiftUI
-
 struct WelcomeView: View {
     @State private var appearAnimation = false
     
     var body: some View {
-        VStack(spacing: AppWelcome.vStackSpacing) {
-            Spacer()
-            
-            // Animated icon
+        OnboardingPageView {
+            // Visual Panel
             Image(systemName: "book.closed.fill")
                 .font(.system(size: AppWelcome.iconFontSize))
                 .foregroundStyle(.accent)
@@ -23,7 +20,8 @@ struct WelcomeView: View {
                 .opacity(appearAnimation ? 1 : 0)
                 .accessibilityIdentifier("welcomeIcon")
                 .accessibilityLabel("Welcome book icon")
-            
+        } content: {
+            // Content Panel
             VStack(spacing: 16) {
                 Text("Welcome to DailyLock")
                     .font(.largeTitle)
@@ -44,12 +42,7 @@ struct WelcomeView: View {
                     .accessibilityHint("App tagline")
             }
             .accessibilityElement(children: .combine)
-            
-            Spacer()
-            Spacer()
         }
-        .padding(.horizontal, AppWelcome.horizontalPadding)
-        .accessibilityIdentifier("welcomeVStack")
         .onAppear {
             withAnimation(.spring(response: AppWelcome.springResponse, dampingFraction: AppWelcome.springDamping).delay(AppWelcome.animationDelay)) {
                 appearAnimation = true

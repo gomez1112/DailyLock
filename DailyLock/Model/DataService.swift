@@ -54,7 +54,7 @@ final class DataService {
             entry.text = text
             entry.sentiment = sentiment
             entry.lockedAt = Date()
-            entry.wordCount = text.split(separator: " ").count
+            entry.wordCount = MomentumEntry.calculateWordCount(from: text)
         } else {
             // Create a new entry
             let newEntry = MomentumEntry(text: text, sentiment: sentiment, lockedAt: Date())

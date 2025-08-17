@@ -72,7 +72,9 @@ struct GetStartedView: View {
                 .foregroundStyle(.white)
                 .clipShape(RoundedRectangle(cornerRadius: Constants.GetStarted.buttonCornerRadius))
                 .shadow(color: .blue.opacity(0.3), radius: Constants.GetStarted.buttonShadowRadius, y: Constants.GetStarted.buttonShadowYOffset)
+                
             }
+            .buttonStyle(.plain)
             .accessibilityIdentifier("getStarted_button")
             .accessibilityLabel("Begin Writing")
             .padding(.horizontal, Constants.GetStarted.horizontalPadding)

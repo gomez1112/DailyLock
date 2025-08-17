@@ -38,7 +38,7 @@ struct MoodDistributionCard: View {
             }
             .chartForegroundStyleScale([
                 Sentiment.positive.rawValue: Color(hex: "FFD700") ?? .black,
-                Sentiment.neutral.rawValue: Color(hex: "C0C0C0") ?? .black,
+                Sentiment.indifferent.rawValue: Color(hex: "C0C0C0") ?? .black,
                 Sentiment.negative.rawValue: Color(hex: "6495ED") ?? .black
             ])
             .frame(height: deviceStatus == .compact ? 140 : 180)

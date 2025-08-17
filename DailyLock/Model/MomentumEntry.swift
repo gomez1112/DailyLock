@@ -22,13 +22,13 @@ enum MomentumEntrySchemaV1: VersionedSchema {
         var id = UUID()
         var date = Date()
         var text = ""
-        var sentiment = Sentiment.neutral
+        var sentiment = Sentiment.indifferent
         var lockedAt: Date?
         var wordCount = 0
         var topKeywords: [String]?
         var inkColor = "#1a1a1a" 
         
-        init(date: Date = Date(), text: String = "", sentiment: Sentiment = Sentiment.neutral, lockedAt: Date? = nil) {
+        init(date: Date = Date(), text: String = "", sentiment: Sentiment = Sentiment.indifferent, lockedAt: Date? = nil) {
             self.date = Calendar.current.startOfDay(for: date)
             self.text = text
             self.sentiment = sentiment

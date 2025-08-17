@@ -86,5 +86,8 @@ final class ErrorState {
     func showNotificationError(_ type: NotificationError) {
         show(type)
     }
+    func showHealthKitError(_ type: HealthKitError) {
+        show(type)
+    }
 }
 

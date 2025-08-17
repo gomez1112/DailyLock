@@ -38,7 +38,6 @@ struct TextureStoreView: View {
                                     Image(ProductID.texturePreviews(isDark: isDark)[product.id] ?? "paperclip")
                                         .resizable()
                                 }
-                                // The updated style handles all the state logic
                                 .productViewStyle(.texture)
                             }
                         }
@@ -48,9 +47,16 @@ struct TextureStoreView: View {
                 }
                 .padding()
             }
-            .background(Color(.systemGroupedBackground))
+            
+#if os(iOS)
+            .background(Color(uiColor: .systemGroupedBackground))
+#else
+            .background(Color(NSColor.windowBackgroundColor))
+#endif
             .navigationTitle("Texture Store")
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") {
@@ -194,5 +200,3 @@ extension ProductViewStyle where Self == TextureProductStyle {
 #Preview(traits: .previewData) {
     TextureStoreView()
 }
-
-

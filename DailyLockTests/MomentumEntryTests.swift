@@ -8,13 +8,13 @@ import Testing
 @Suite("MomentumEntry Tests")
 struct MomentumEntryTests {
     
-    @Test("Default initialization produces today's date, empty text, .neutral sentiment, not locked")
+    @Test("Default initialization produces today's date, empty text, .indifferent sentiment, not locked")
     func testDefaultInitialization() {
         let entry = MomentumEntry()
         let today = Calendar.current.startOfDay(for: Date())
         #expect(Calendar.current.isDate(entry.date, inSameDayAs: today))
         #expect(entry.text == "")
-        #expect(entry.sentiment == .neutral)
+        #expect(entry.sentiment == .indifferent)
         #expect(entry.lockedAt == nil)
         #expect(entry.isLocked == false)
         #expect(entry.wordCount == 0)
@@ -41,9 +41,9 @@ struct MomentumEntryTests {
         let today = Date()
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         let past = Calendar.current.date(byAdding: .day, value: -5, to: today)!
-        let entryToday = MomentumEntry(date: today, text: "", sentiment: .neutral, lockedAt: nil)
-        let entryYesterday = MomentumEntry(date: yesterday, text: "", sentiment: .neutral, lockedAt: nil)
-        let entryPast = MomentumEntry(date: past, text: "", sentiment: .neutral, lockedAt: nil)
+        let entryToday = MomentumEntry(date: today, text: "", sentiment: .indifferent, lockedAt: nil)
+        let entryYesterday = MomentumEntry(date: yesterday, text: "", sentiment: .indifferent, lockedAt: nil)
+        let entryPast = MomentumEntry(date: past, text: "", sentiment: .indifferent, lockedAt: nil)
         #expect(entryToday.displayDate == "Today")
         #expect(entryYesterday.displayDate == "Yesterday")
         #expect(entryPast.displayDate != "Today")

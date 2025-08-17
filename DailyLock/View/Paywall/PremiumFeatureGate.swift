@@ -55,6 +55,7 @@ struct PremiumFeatureGate: View {
                     .clipShape(RoundedRectangle(cornerRadius: AppLayout.radiusLarge))
                     .shadow(color: Color(.accent).opacity(DesignSystem.Shadow.darkShadowOpacity), radius: DesignSystem.Shadow.shadowLarge, y: DesignSystem.Shadow.shadowSmall)
             }
+            .buttonStyle(.plain)
             .padding(.horizontal, AppSpacing.regular)
             .accessibilityIdentifier("upgradeButton")
         }

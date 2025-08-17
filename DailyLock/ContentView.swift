@@ -9,8 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    
-    @State private var storeError: String?
+
     
     @Environment(AppDependencies.self) private var dependencies
     @Environment(\.modelContext) private var modelContext
@@ -29,6 +28,7 @@ struct ContentView: View {
             } else {
                 OnboardingView()
                     .accessibilityIdentifier("onboardingView")
+                    
             }
         }
         .sheet(item: Bindable(dependencies.navigation).presentedSheet) { sheet in
@@ -40,6 +40,7 @@ struct ContentView: View {
                         .applyIf(Self.isMacOS) { $0.frame(minWidth: AppLayout.timelineMonthSheetMinWidth, minHeight: AppLayout.timelineMonthSheetMinHeight) }
                         .applyIf(Self.isIOS) { $0.presentationDetents([.medium, .large]) }
                 case .textureStoreView: TextureStoreView()
+                case .healthInsightView: HealthInsightsView()
             }
         }
     }

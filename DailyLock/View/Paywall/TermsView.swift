@@ -27,6 +27,7 @@ struct TermsView: View {
                     }
                 }
             }
+            .buttonStyle(.plain)
         }
         .font(.caption)
         .foregroundStyle(.secondary)

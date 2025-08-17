@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSJournalingUsageDescription</key>
+	<string>DailyLock would like to access your journaling suggestions to help you capture meaningful moments from your day.</string>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>DailyLock sends daily reminders to help you capture your thoughts</string>
 	<key>UIBackgroundModes</key>

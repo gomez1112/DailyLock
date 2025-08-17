@@ -8,13 +8,14 @@
 
 import Foundation
 import Observation
+import os
 
 @Observable
 final class TodayViewModel {
     
     // MARK: - UI State
     var currentText = ""
-    var selectedSentiment: Sentiment = .neutral
+    var selectedSentiment: Sentiment = .indifferent
     var inkOpacity: Double = DesignSystem.Text.inkOpacity
     var showLockConfirmation = false
     var showConfetti = false
@@ -78,7 +79,7 @@ final class TodayViewModel {
     
     func reset() {
         currentText = ""
-        selectedSentiment = .neutral
+        selectedSentiment = .indifferent
         inkOpacity = DesignSystem.Text.inkOpacity
         showLockConfirmation = false
     }
@@ -123,6 +124,23 @@ final class TodayViewModel {
                 sentiment: selectedSentiment,
                 lockedAt: Date()
             )
+        Task {
+            // Extract keywords from the text for HealthKit metadata
+            let keywords = extractKeywords(from: currentText)
+            
+            do {
+                try await dependencies.healthStore.saveMoodEntry(
+                    date: Date(),
+                    sentiment: selectedSentiment,
+                    text: currentText,
+                    keywords: keywords
+                )
+                Log.healthKit.info("Successfully saved mood to HealthKit")
+            } catch {
+                // Don't block the UI, just log the error
+                Log.healthKit.error("Failed to save to HealthKit: \(error.localizedDescription)")
+            }
+        }
             let optimisticEntries = entries + [optimisticEntry]
             let newStreakInfo = StreakCalculator.calculateStreak(
                 from: optimisticEntries,
@@ -136,6 +154,14 @@ final class TodayViewModel {
                 triggerAchievementAnimation()
             }
         
+    }
+    private func extractKeywords(from text: String) -> [String] {
+        // Simple keyword extraction - in production, you might use NLP
+        let words = text.components(separatedBy: .whitespacesAndNewlines)
+            .filter { $0.count > 4 } // Only words with more than 4 characters
+            .prefix(5) // Take top 5 words
+        
+        return Array(words)
     }
     enum ProgressColorStyle {
         case red
