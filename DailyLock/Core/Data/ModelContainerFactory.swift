@@ -43,7 +43,7 @@ struct ModelContainerFactory {
         }
     }
     // ✨ For Unit Tests (in-memory with NO data)
-    static func createEmptyContainer() -> ModelContainer {
+    static var createEmptyContainer: ModelContainer {
         do {
             // Creates an in-memory container but does NOT add sample data
             return try ModelContainer(for: schema, configurations: configuration(isStoredInMemoryOnly: true))
