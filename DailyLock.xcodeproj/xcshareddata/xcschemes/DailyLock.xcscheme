@@ -75,7 +75,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
-         identifier = "../../DailyLock/Shared/Model/Store/Configuration.storekit">
+         identifier = "../../DailyLock/Core/Client/StoreClient/Configuration.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
