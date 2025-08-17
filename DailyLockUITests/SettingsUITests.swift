@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import StoreKitTest
 import XCTest
 
 @MainActor
@@ -17,10 +16,6 @@ final class SettingsUITests: XCTestCase {
     override func setUpWithError() throws {
         
         continueAfterFailure = false
-        
-        let session = try SKTestSession(configurationFileNamed: "Configuration")
-        session.disableDialogs = true          // no system alerts during tests
-        session.clearTransactions()
         
         app = XCUIApplication()
         app.launchArguments = [ "enable-testing", "skipOnboarding"]

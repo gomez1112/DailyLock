@@ -5,7 +5,6 @@
 //  Created by Gerard Gomez on 7/27/25.
 //
 
-import StoreKitTest
 import XCTest
 
 final class DailyLockUITests: XCTestCase {
@@ -15,9 +14,6 @@ final class DailyLockUITests: XCTestCase {
     override func setUpWithError() throws {
         
         continueAfterFailure = false
-        let session = try SKTestSession(configurationFileNamed: "Configuration")
-        session.disableDialogs = true          // no system alerts during tests
-        session.clearTransactions()
         
         app = XCUIApplication()
         app.launchArguments = ["enable-testing", "skipOnboarding"]
