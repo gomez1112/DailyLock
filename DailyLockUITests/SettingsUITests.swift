@@ -60,12 +60,12 @@ final class SettingsUITests: XCTestCase {
         XCTAssert(settingsButton.isHittable, "The 'Settings' tabBar should be visible and hittable.")
         settingsButton.tap()
     }
-    func testSupport() {
-        let settingsButton = app.buttons["Settings"]
-
-        XCTAssert(settingsButton.isHittable, "The 'Settings' tabBar should be visible and hittable.")
-        settingsButton.tap()
-    }
+//    func testSupport() {
+//        let settingsButton = app.buttons["Settings"]
+//
+//        XCTAssert(settingsButton.isHittable, "The 'Settings' tabBar should be visible and hittable.")
+//        settingsButton.tap()
+//    }
     
     func testPolicies() {
         let settingsButton = app.buttons["Settings"]

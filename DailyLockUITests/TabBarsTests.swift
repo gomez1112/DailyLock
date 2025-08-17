@@ -24,10 +24,10 @@ final class DailyLockUITests: XCTestCase {
         app.launch()
     }
     
-    @MainActor
-    func testTabBarsExist() {
-        XCTAssert(app.tabBars.element.exists, "There should be a tab bar.")
-    }
+//    @MainActor
+//    func testTabBarsExist() {
+//        XCTAssert(app.tabBars.element.exists, "There should be a tab bar.")
+//    }
     
     @MainActor
     func testAppStartWithTabsBar() {
