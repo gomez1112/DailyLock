@@ -15,7 +15,7 @@ struct DataModelExtensionTests {
     init() {
             let container = ModelContainerFactory.createPreviewContainer
             model = DataService(container: container)
-        todayVM = TodayViewModel()
+        todayVM = TodayViewModel(dataService: model, haptics: HapticEngine(), syncedSetting: SyncedSetting())
         timelineVM = TimelineViewModel()
     }
     static func create(onDay offset: Int, lockedAt: Date? = Date()) -> MomentumEntry {
