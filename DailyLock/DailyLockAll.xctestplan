@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "BAFCDE26-6272-43F4-86F9-FCA82E62713D",
+      "name" : "Configuration 1",
+      "options" : {
+        "threadSanitizerEnabled" : false,
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "addressSanitizer" : {
+      "enabled" : true
+    },
+    "testTimeoutsEnabled" : true,
+    "threadSanitizerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DailyLock.xcodeproj",
+        "identifier" : "CC28B3342E2D291700F630B2",
+        "name" : "DailyLockTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:DailyLock.xcodeproj",
+        "identifier" : "CC28B33E2E2D291700F630B2",
+        "name" : "DailyLockUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

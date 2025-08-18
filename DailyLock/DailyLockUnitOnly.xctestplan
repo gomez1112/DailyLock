@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "8AF46947-D2E6-4587-AA47-8C98B9A2AA11",
+      "name" : "Local-Fast",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : true
+        },
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
+    },
+    {
+      "id" : "6C3CDC2A-33F8-4738-B49E-2F4CEF7CC547",
+      "name" : "CI-Thorough",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : true
+        },
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DailyLock.xcodeproj",
+        "identifier" : "CC28B3342E2D291700F630B2",
+        "name" : "DailyLockTests"
+      }
+    }
+  ],
+  "version" : 1
+}
