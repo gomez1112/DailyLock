@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "6A85A2E7-A255-4B41-AD4A-C2A8725E830B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DailyLock.xcodeproj",
+        "identifier" : "CC28B3342E2D291700F630B2",
+        "name" : "DailyLockTests"
+      }
+    }
+  ],
+  "version" : 1
+}

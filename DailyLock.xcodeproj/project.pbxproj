@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CC273DA92E52C47A00523E18 /* DailyLockUnitOnly.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = CC273DA82E52C47A00523E18 /* DailyLockUnitOnly.xctestplan */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		CC28B3362E2D291700F630B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC273DA82E52C47A00523E18 /* DailyLockUnitOnly.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = DailyLockUnitOnly.xctestplan; path = TestPlans/DailyLockUnitOnly.xctestplan; sourceTree = "<group>"; };
 		CC28B3282E2D291600F630B2 /* DailyLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC28B3352E2D291700F630B2 /* DailyLockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyLockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC28B33F2E2D291700F630B2 /* DailyLockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyLockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +107,7 @@
 		CC28B31F2E2D291600F630B2 = {
 			isa = PBXGroup;
 			children = (
+				CC273DA82E52C47A00523E18 /* DailyLockUnitOnly.xctestplan */,
 				CC28B32A2E2D291600F630B2 /* DailyLock */,
 				CC28B3382E2D291700F630B2 /* DailyLockTests */,
 				CC28B3422E2D291700F630B2 /* DailyLockUITests */,
@@ -241,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC273DA92E52C47A00523E18 /* DailyLockUnitOnly.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
