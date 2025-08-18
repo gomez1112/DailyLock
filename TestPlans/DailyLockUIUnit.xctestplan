@@ -1,0 +1,31 @@
+{
+  "configurations" : [
+    {
+      "id" : "60D8C80E-1BD1-43EA-B682-8617934E99E5",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DailyLock.xcodeproj",
+        "identifier" : "CC28B3342E2D291700F630B2",
+        "name" : "DailyLockTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:DailyLock.xcodeproj",
+        "identifier" : "CC28B33E2E2D291700F630B2",
+        "name" : "DailyLockUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
