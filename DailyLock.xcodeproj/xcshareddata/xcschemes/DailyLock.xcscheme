@@ -30,11 +30,8 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:DailyLockUnitOnly.xctestplan"
+            reference = "container:DailyLock/TestPlans/DailyLockUnitOnly.xctestplan"
             default = "YES">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:DailyLockAll.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>
