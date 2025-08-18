@@ -1,5 +1,6 @@
 // AppDelegate.swift
 // Extracted from DailyLockApp.swift for modularity
+// Need to refactor this
 #if !os(macOS)
 import UIKit
 import UserNotifications
