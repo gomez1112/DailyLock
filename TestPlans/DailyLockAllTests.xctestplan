@@ -20,6 +20,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:DailyLock.xcodeproj",
         "identifier" : "CC28B33E2E2D291700F630B2",

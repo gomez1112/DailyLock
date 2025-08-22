@@ -97,57 +97,43 @@ final class TodayViewModel {
         return entries.first { Calendar.current.isDate($0.date, inSameDayAs: today) }
     }
     func loadViewModelState(entries: [MomentumEntry]) {
-            // Load existing entry if it exists
-            if let existingEntry = todayEntry(entries: entries), !existingEntry.isLocked {
-                loadExistingEntry(existingEntry)
-            }
-    
-            // Update streak info
-        updateStreakInfo(entries: entries)
+        // Load existing entry if it exists
+        if let existingEntry = todayEntry(entries: entries), !existingEntry.isLocked {
+            loadExistingEntry(existingEntry)
         }
+        
+        // Update streak info
+        updateStreakInfo(entries: entries)
+    }
     
     func updateStreakInfo(entries: [MomentumEntry]) {
-            let streakInfo = StreakCalculator.calculateStreak(
-                from: entries,
-                allowGracePeriod: allowGracePeriod
-            )
-            updateStreakInfo(streakInfo)
-        }
-    func lockEntry(entries: [MomentumEntry]) {
-            let oldStreak = currentStreak
-            
-            // Save the entry
-            dataService.lockEntry(
-                text: currentText,
-                sentiment: selectedSentiment,
-                for: entries
-            )
-            
-            // Haptic feedback
-            haptics.lock()
-            haptics.success()
-            
-            // Update streak info with optimistic update
-            let optimisticEntry = MomentumEntry(
-                text: currentText,
-                sentiment: selectedSentiment,
-                lockedAt: Date()
-            )
-
-            let optimisticEntries = entries + [optimisticEntry]
-            let newStreakInfo = StreakCalculator.calculateStreak(
-                from: optimisticEntries,
-                allowGracePeriod: allowGracePeriod
-            )
-            
-            updateStreakInfo(newStreakInfo)
-            
-            // Check for achievement
-            if shouldShowAchievement(oldStreak: oldStreak, newStreak: newStreakInfo.count) {
-                triggerAchievementAnimation()
-            }
-        
+        let streakInfo = StreakCalculator.calculateStreak(
+            from: entries,
+            allowGracePeriod: allowGracePeriod
+        )
+        updateStreakInfo(streakInfo)
     }
+    
+    /// This is the new function that will be called from the View's onChange modifier.
+    /// It compares the streak before and after the data changes to decide if an achievement should be shown.
+    func processEntriesUpdate(newEntries: [MomentumEntry]) {
+        let oldStreak = self.currentStreak
+        self.updateStreakInfo(entries: newEntries)
+        let newStreak = self.currentStreak
+        
+        if shouldShowAchievement(oldStreak: oldStreak, newStreak: newStreak) {
+            triggerAchievementAnimation()
+        }
+    }
+    
+    /// This function is now simplified. Its only job is to save the data.
+    /// The UI will react to the data change via the @Query property wrapper.
+    func handleEntryLock() {
+        dataService.lockEntry(text: currentText, sentiment: selectedSentiment)
+        haptics.lock()
+        haptics.success()
+    }
+    
     private func extractKeywords(from text: String) -> [String] {
         // Simple keyword extraction - in production, you might use NLP
         let words = text.components(separatedBy: .whitespacesAndNewlines)

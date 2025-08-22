@@ -4,6 +4,9 @@
 import Foundation
 import SwiftData
 
+import Foundation
+import SwiftData
+
 /// `DebugSetup` provides utility functions to configure and manipulate the app's data model and user defaults
 /// for debugging and UI testing scenarios. It enables the injection of mock data, the resetting of persistent
 /// state, and the customization of app behavior based on command line arguments.
@@ -30,7 +33,10 @@ struct DebugSetup {
     /// - Note: This method is only active and has effect when building in DEBUG mode. In release builds,
     ///   it has no effect.
     static func applyDebugArguments(_ arguments: [String], container: ModelContainer) {
-        #if DEBUG
+#if DEBUG
+        // Use the correct key-value store that the app uses (iCloud KVS)
+        let store = NSUbiquitousKeyValueStore.default
+        
         if arguments.contains("two-day-streak") {
             try? container.mainContext.delete(model: MomentumEntry.self)
             let calendar = Calendar.current
@@ -46,11 +52,16 @@ struct DebugSetup {
             try? container.mainContext.delete(model: MomentumEntry.self)
         }
         if arguments.contains("-resetOnboarding") {
-            UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+            // Write to the correct store
+            store.set(false, forKey: "hasCompletedOnboarding")
         }
         if arguments.contains("skipOnboarding") {
-            UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+            // Write to the correct store
+            store.set(true, forKey: "hasCompletedOnboarding")
         }
-        #endif
+        
+        // Ensure the changes are saved before the app continues launching for the test
+        store.synchronize()
+#endif
     }
 }
