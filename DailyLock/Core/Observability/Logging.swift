@@ -39,6 +39,4 @@ nonisolated enum Log {
     
     /// Logs events related to the AI/FoundationModels interactions.
     static let intelligence = Logger(subsystem: subsystem, category: "Intelligence")
-    
-    static let healthKit = Logger(subsystem: subsystem, category: "HealthKit")
 }

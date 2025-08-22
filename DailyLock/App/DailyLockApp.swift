@@ -6,10 +6,6 @@
 //
 
 import AppIntents
-#if !os(macOS)
-import HealthKit
-import HealthKitUI
-#endif
 import SwiftData
 import SwiftUI
 import os
@@ -87,18 +83,5 @@ struct DailyLockApp: App {
     private func configureAppIntents(with dependencies: AppDependencies) {
         AppDependencyManager.shared.add(dependency: dependencies)
     }
-    #if !os(macOS)
-    private var healthKitReadTypes: Set<HKObjectType> {
-        var types: Set<HKObjectType> = [HKObjectType.stateOfMindType()]
-        
-        // Add additional types for correlation analysis
-        if #available(iOS 16.0, *) {
-            types.insert(HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!)
-        }
-        types.insert(HKObjectType.categoryType(forIdentifier: .mindfulSession)!)
-        
-        return types
-    }
-    #endif
 }
 

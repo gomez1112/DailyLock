@@ -5,7 +5,6 @@
 //  Created by Gerard Gomez on 7/20/25.
 //
 
-import HealthKit
 import SwiftData
 import StoreKit
 import SwiftUI
