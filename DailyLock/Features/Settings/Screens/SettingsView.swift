@@ -19,6 +19,7 @@ struct SettingsView: View {
     @State private var showManageSubscription = false
     @State private var showHealthInsights = false
     @State private var isSyncingHealth = false
+    @State private var showingWipeAlert = false
     
     var body: some View {
         NavigationStack {
@@ -75,30 +76,30 @@ struct SettingsView: View {
                     .accessibilityElement(children: .contain)
             }
             .toolbar {
-                ToolbarItem(placement: .automatic) {
-                    Button(role: .destructive) {
-                        do {
-                            try context.delete(model: MomentumEntry.self)
-                        } catch {
-                            dependencies.errorState.show(DatabaseError.deleteFailed)
-                        }
-                        
-                    } label: {
+                ToolbarItem {
+                    Button(role: .destructive) { showingWipeAlert = true } label: {
                         Label("Delete All Data", systemImage: "trash")
                     }
-                    .accessibilityIdentifier("deleteAllDataButton")
-                    .accessibilityLabel("Delete All Data")
-                    .accessibilityHint("Deletes all your entries.")
                 }
-                ToolbarSpacer()
-                ToolbarItem(placement: .automatic) {
+                ToolbarSpacer(.fixed)
+#if DEBUG
+                ToolbarItem {
                     Button {
                         dependencies.syncedSetting.hasCompletedOnboarding = false
-                    } label: {
-                        Label("User Defaults", systemImage: "figure.surfing")
-                    }
+                    } label: { Label("Reset Onboarding", systemImage: "figure.surfing") }
                 }
+#endif
             }
+            .alert("Delete All Data?", isPresented: $showingWipeAlert) {
+                Button("Delete", role: .destructive) {
+                    do { try context.delete(model: MomentumEntry.self) }
+                    catch { dependencies.errorState.show(DatabaseError.deleteFailed) }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This removes all entries and cannot be undone.")
+            }
+
             .scrollContentBackground(.hidden)
             .formStyle(.grouped)
             .navigationTitle("Settings")
