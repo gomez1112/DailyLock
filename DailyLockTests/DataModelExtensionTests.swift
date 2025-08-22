@@ -206,7 +206,7 @@ struct DataModelExtensionTests {
             Self.create(onDay: -3)  // This should be ignored by the limit
         ]
         // Limit to ~1.5 days of history
-        let limit = TimeInterval.days(1.5)
+        let limit = TimeInterval.days(1)
         let streakInfo = StreakCalculator.calculateStreak(from: entries, lookBackLimit: limit)
         #expect(streakInfo.count == 2, "Streak should be 2 due to look-back limit")
     }

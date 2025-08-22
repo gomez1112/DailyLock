@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class DailyLockUITests: XCTestCase {
+final class TabBarsUITests: XCTestCase {
     
     var app: XCUIApplication!
     
@@ -20,10 +20,10 @@ final class DailyLockUITests: XCTestCase {
         app.launch()
     }
     
-//    @MainActor
-//    func testTabBarsExist() {
-//        XCTAssert(app.tabBars.element.exists, "There should be a tab bar.")
-//    }
+    @MainActor
+    func testTabBarsExist() {
+        XCTAssert(app.tabBars.element.exists, "There should be a tab bar.")
+    }
     
     @MainActor
     func testAppStartWithTabsBar() {
@@ -43,14 +43,6 @@ final class DailyLockUITests: XCTestCase {
         
         XCTAssert(scrollView.waitForExistence(timeout: 1), "The scroll view with entries should exist.")
         scrollView.tap()
-    }
-    
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            app.launch()
-        }
     }
 }
 

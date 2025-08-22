@@ -9,7 +9,7 @@ import SwiftData
 import SwiftUI
 
 struct TodayView: View {
-
+    
     @Environment(AppDependencies.self) private var dependencies
     @Environment(\.isDark) private var isDark
     @Environment(\.modelContext) private var modelContext
@@ -65,7 +65,8 @@ struct TodayView: View {
                 .confirmationDialog("Lock this entry?", isPresented: $viewModel.showLockConfirmation) {
                     Button("Lock Entry", role: .destructive) {
                         withAnimation(.spring(response: AppAnimation.springResponse, dampingFraction: AppAnimation.springDamping)) {
-                            viewModel.lockEntry(entries: allEntries)
+                            // Call the new, simplified lock handler
+                            viewModel.handleEntryLock()
                         }
                     }
                     Button("Cancel", role: .cancel) {}
@@ -92,8 +93,10 @@ struct TodayView: View {
         .onAppear {
             viewModel.loadViewModelState(entries: allEntries)
         }
-        .onChange(of: allEntries) { _, _ in
-            viewModel.updateStreakInfo(entries: allEntries)
+        .onChange(of: allEntries) { _, newEntries in
+            // The view now tells the view model to process the update.
+            // This is the single source of truth for streak updates.
+            viewModel.processEntriesUpdate(newEntries: newEntries)
         }
         .onChange(of: dependencies.syncedSetting.allowGracePeriod) {
             viewModel.updateStreakInfo(entries: allEntries)
@@ -121,6 +124,7 @@ struct TodayView: View {
         platformValue(iOS: AppSpacing.large, macOS: AppSpacing.small)
     }
 }
+
 
 
 

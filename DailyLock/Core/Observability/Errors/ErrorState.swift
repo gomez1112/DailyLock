@@ -35,15 +35,14 @@ final class ErrorState {
         processNextError()
     }
     
-    func dismiss() {
-            isShowingError = false
+    func dismiss() async {
+        isShowingError = false
         
-        // Process next error after a delay
-        Task {
-            try? await Task.sleep(for: .milliseconds(300))
-                self.currentError = nil
-                self.processNextError()
-        }
+        try? await Task.sleep(for: .milliseconds(300))
+        
+        self.currentError = nil
+        self.processNextError()
+        
     }
     
     func clearAll() {

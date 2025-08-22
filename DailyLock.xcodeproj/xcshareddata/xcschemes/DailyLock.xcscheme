@@ -34,7 +34,7 @@
             default = "YES">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:TestPlans/DailyLockUIUnit.xctestplan">
+            reference = "container:TestPlans/DailyLockAllTests.xctestplan">
          </TestPlanReference>
       </TestPlans>
       <Testables>

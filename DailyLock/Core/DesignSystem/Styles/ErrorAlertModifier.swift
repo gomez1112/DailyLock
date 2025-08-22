@@ -24,7 +24,10 @@ struct ErrorAlertModifier: ViewModifier {
                 }
                 
                 Button("Dismiss", role: .cancel) {
-                    dependencies.errorState.dismiss()
+                    Task {
+                        await dependencies.errorState.dismiss()
+                    }
+                    
                 }
             } message: {
                 VStack {
@@ -53,7 +56,7 @@ struct ErrorAlertModifier: ViewModifier {
                 Button("Try Again") {
                     Task {
                         await retryAction()
-                        dependencies.errorState.dismiss()
+                        await dependencies.errorState.dismiss()
                     }
                 }
                 
@@ -64,13 +67,20 @@ struct ErrorAlertModifier: ViewModifier {
                         openURL(url)
                     }
 #endif
-                    dependencies.errorState.dismiss()
+                    Task {
+                       await dependencies.errorState.dismiss()
+                    }
+                    
                 }
                 
             case .upgrade:
                 Button("Upgrade") {
                     dependencies.navigation.presentedSheet = .paywall
-                    dependencies.errorState.dismiss()
+                    Task {
+                        await dependencies.errorState.dismiss()
+                    }
+                    
+  
                 }
                 
             case .contact:
@@ -78,14 +88,17 @@ struct ErrorAlertModifier: ViewModifier {
                     if let url = URL(string: "mailto:gerard@transfinite.cloud") {
                         openURL(url)
                     }
-                    dependencies.errorState.dismiss()
+                    Task {
+                     await dependencies.errorState.dismiss()
+                    }
+                    
                 }
                 
             case .custom(let label, let customAction):
                 Button(label) {
                     Task {
                         await customAction()
-                        dependencies.errorState.dismiss()
+                        await dependencies.errorState.dismiss()
                     }
                 }
         }

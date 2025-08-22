@@ -8,7 +8,8 @@
 import Foundation
 import Combine
 
-@MainActor
+import Foundation
+
 @Observable
 final class SyncedSetting {
     
@@ -24,8 +25,19 @@ final class SyncedSetting {
     
     init() {
         // --- Load Initial Values ---
-        // Load values from iCloud or use defaults if they don't exist.
-        self.hasCompletedOnboarding = store.bool(forKey: "hasCompletedOnboarding")
+        
+        // FOR UI TESTING: Check launch arguments first to override stored values.
+        // This avoids race conditions with iCloud KVS synchronization.
+        if ProcessInfo.processInfo.arguments.contains("-resetOnboarding") {
+            self.hasCompletedOnboarding = false
+        } else if ProcessInfo.processInfo.arguments.contains("skipOnboarding") {
+            self.hasCompletedOnboarding = true
+        } else {
+            // Standard app launch: Load from iCloud KVS.
+            self.hasCompletedOnboarding = store.bool(forKey: "hasCompletedOnboarding")
+        }
+        
+        // Load other values from iCloud or use defaults if they don't exist.
         self.selectedTexture = store.object(forKey: "selectedTexture") as? String ?? "defaultDarkPaper"
         self.allowGracePeriod = store.bool(forKey: "allowGracePeriod")
         self.notificationsEnabled = store.bool(forKey: "notificationsEnabled")
@@ -93,4 +105,3 @@ final class SyncedSetting {
         store.set(time.timeIntervalSince1970, forKey: "notificationTime")
     }
 }
-

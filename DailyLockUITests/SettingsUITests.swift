@@ -39,8 +39,9 @@ final class SettingsUITests: XCTestCase {
     }
 
     func testCancelNotification() {
+
         let settingsButton = app.buttons["Settings"]
-        let toggle = app.switches["0"].firstMatch
+        let toggle = app.switches["Daily Reminder, A gentle nudge to capture today"].switches.firstMatch
         
         XCTAssert(settingsButton.isHittable, "The 'Settings' tabBar should be visible and hittable.")
         settingsButton.tap()
@@ -55,12 +56,6 @@ final class SettingsUITests: XCTestCase {
         XCTAssert(settingsButton.isHittable, "The 'Settings' tabBar should be visible and hittable.")
         settingsButton.tap()
     }
-//    func testSupport() {
-//        let settingsButton = app.buttons["Settings"]
-//
-//        XCTAssert(settingsButton.isHittable, "The 'Settings' tabBar should be visible and hittable.")
-//        settingsButton.tap()
-//    }
     
     func testPolicies() {
         let settingsButton = app.buttons["Settings"]

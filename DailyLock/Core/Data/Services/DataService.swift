@@ -48,7 +48,9 @@ final class DataService {
     // MARK: - Entry-Specific Operations
     
     /// Finds or creates today's entry and locks it with the provided text and sentiment.
-    func lockEntry(text: String, sentiment: Sentiment, for allEntries: [MomentumEntry]) {
+    /// This function now fetches internally, simplifying the call site.
+    func lockEntry(text: String, sentiment: Sentiment) {
+        let allEntries = (try? fetchAllEntries()) ?? []
         if let entry = todayEntry(for: allEntries) {
             // Update existing entry
             entry.text = text

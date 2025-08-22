@@ -21,80 +21,48 @@ final class EntryUITests: XCTestCase {
     }
     
     
-//    func testCanWriteAnEntry() {
-//        let editor = app.textFields["entryTextView"]
-//        XCTAssertTrue(editor.waitForExistence(timeout: 2), "THe main entry text field should exist.")
-//        editor.tap()
-//        
-//        let testText = "Today is a great day to get to know everyone better."
-//        editor.typeText(testText)
-//        XCTAssertEqual(editor.value as? String, testText, "The text view should contain the text that was typed.")
-//    }
+    func testCanWriteAnEntry() {
+        let editor = app.textFields["entryTextView"]
+        XCTAssertTrue(editor.waitForExistence(timeout: 2), "THe main entry text field should exist.")
+        editor.tap()
+        
+        let testText = "Today is a great day to get to know everyone better."
+        editor.typeText(testText)
+        XCTAssertEqual(editor.value as? String, testText, "The text view should contain the text that was typed.")
+    }
     
-//    func testCanWriteAnEntryAndPickEmotion() {
-//  
-//        let entryTextField = app.textFields["What defined today?"].firstMatch
-//        XCTAssert(entryTextField.exists, "The main entry text field should exist.")
-//        entryTextField.tap()
-//        
-//        let entryText = "Today is a great day to get to know everyone better."
-//        entryTextField.typeText(entryText)
-//        
-//        let positiveButton = app.segmentedControls.buttons["Positive"].firstMatch
-//        XCTAssert(positiveButton.exists, "The 'Positive' emotion button should exist.")
-//        positiveButton.tap()
-//        
-//        // Assert that the emotion button is now selected
-//        XCTAssert(positiveButton.isSelected, "The 'Positive' button should be selected after tapping.")
-//    }
+    func testCanWriteAnEntryAndPickEmotion() {
+  
+        let entryTextField = app.textFields["entryTextView"]
+        XCTAssert(entryTextField.exists, "The main entry text field should exist.")
+        entryTextField.tap()
+        
+        let entryText = "Today is a great day to get to know everyone better."
+        entryTextField.typeText(entryText)
+        
+        let positiveButton = app.segmentedControls.buttons["Positive"].firstMatch
+        XCTAssert(positiveButton.exists, "The 'Positive' emotion button should exist.")
+        positiveButton.tap()
+        
+        // Assert that the emotion button is now selected
+        XCTAssert(positiveButton.isSelected, "The 'Positive' button should be selected after tapping.")
+    }
     
-//    func testCanLockEntry() {
-//
-//        let entryTextField = app.textFields["What defined today?"].firstMatch
-//        XCTAssert(entryTextField.exists, "The main entry text field should exist.")
-//        entryTextField.tap()
-//        
-//        let entryText = "Today is a great day to get to know everyone better."
-//        entryTextField.typeText(entryText)
-//        
-//        let positiveButton = app.segmentedControls.buttons["Positive"].firstMatch
-//        XCTAssert(positiveButton.exists, "The 'Positive' emotion button should exist.")
-//        positiveButton.tap()
-//        
-//        // Assert that the emotion button is now selected
-//        XCTAssert(positiveButton.isSelected, "The 'Positive' button should be selected after tapping.")
-//        
-//        let lockedView = app.otherElements["lockedEntryView"] // Use a more specific identifier
-//        XCTAssertTrue(lockedView.waitForExistence(timeout: 2), "The locked entry view should be displayed.")
-//
-//        lockedView.tap()
-//        
-//        // Assert the confirmation button exists before tapping
-//        let confirmLockButton = app.buttons["Lock Entry"].firstMatch
-//        XCTAssert(confirmLockButton.exists, "The confirmation 'Lock Entry' button should appear.")
-//        confirmLockButton.tap()
-//        
-//        // Assert that the entry field is now locked (e.g., a "Locked" text appears)
-//        // Note: You may need to adjust the identifier based on your actual UI
-//        XCTAssertFalse(app.staticTexts["Entry Locked"].exists, "No entry locked button")
-//
-//    }
-    
-//    func testEntryButtonWorksAndNavigateToToday() {
-// 
-//        app.buttons["Timeline"].firstMatch.tap()
-//        
-//        let writeEntryButton = app.buttons["Write First Entry"].firstMatch
-//        let todayTabButton = app.tabBars.buttons["Today"]
-//        
-//        XCTAssert(writeEntryButton.exists, "The 'Write First Entry' button should be visible on the timeline.")
-//        writeEntryButton.tap()
-//        
-//        // Assert that we have navigated back to the "Today" screen
-//        
-//        XCTAssert(todayTabButton.isSelected, "The 'Today' tab should be selected.")
-//        
-//    }
+    func testEntryButtonWorksAndNavigateToToday() {
+ 
+        app.buttons["Timeline"].firstMatch.tap()
+        
+        let writeEntryButton = app.buttons["Write First Entry"].firstMatch
+        let todayTabButton = app.tabBars.buttons["Today"]
+        
+        XCTAssert(writeEntryButton.exists, "The 'Write First Entry' button should be visible on the timeline.")
+        writeEntryButton.tap()
+        
+        // Assert that we have navigated back to the "Today" screen
+        
+        XCTAssert(todayTabButton.isSelected, "The 'Today' tab should be selected.")
+        
+    }
     
     func testCanOpenPaywallOnInsightsAndCloseIt() {
         
