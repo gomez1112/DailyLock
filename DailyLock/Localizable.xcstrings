@@ -4308,7 +4308,11 @@
         }
       }
     },
+    "Delete All Data?" : {
+
+    },
     "Deletes all your entries." : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -8858,6 +8862,9 @@
         }
       }
     },
+    "Reset Onboarding" : {
+
+    },
     "Restore Purchases" : {
       "localizations" : {
         "ar-AE" : {
@@ -10443,6 +10450,9 @@
         }
       }
     },
+    "This removes all entries and cannot be undone." : {
+
+    },
     "This texture is currently applied." : {
 
     },
@@ -11213,9 +11223,6 @@
 
     },
     "Upgrade your writing experience with these beautifully crafted paper textures." : {
-
-    },
-    "User Defaults" : {
 
     },
     "Version" : {
