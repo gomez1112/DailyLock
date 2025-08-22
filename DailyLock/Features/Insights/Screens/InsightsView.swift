@@ -159,6 +159,7 @@ struct InsightsView: View {
                 Button("Go write your first Entry!") {
                     dependencies.navigation.navigate(to: .today)
                 }
+                .foregroundStyle(.accent)
                 .buttonStyle(.plain)
             }
         }

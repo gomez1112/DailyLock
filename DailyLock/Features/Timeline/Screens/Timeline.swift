@@ -40,6 +40,8 @@ struct Timeline: View {
                                 Text("Write First Entry")
                                     .accessibilityIdentifier("writeFirstEntryButton")
                             }
+                            .buttonStyle(.plain)
+                            .foregroundStyle(.accent)
                         }
 
                     } else {

@@ -27,8 +27,10 @@ struct LockButton: View {
                     .accessibilityIdentifier("LockButtonText")
             }
             .foregroundStyle(foregroundColor)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, verticalPadding)
+            .padding()
+            .buttonSizing(.flexible)
+           // .frame(maxWidth: .infinity)
+            
             .background(background)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
             .scaleEffect(isPressed ? AppAnimation.lockAnimationScale : (isHovered ? AppAnimation.hoverScale : 1.0))
