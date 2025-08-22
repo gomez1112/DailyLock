@@ -2279,6 +2279,7 @@
       }
     },
     "App tagline" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -9624,6 +9625,7 @@
       }
     },
     "Start capturing your first moment" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -9680,6 +9682,9 @@
           }
         }
       }
+    },
+    "Start capturing your first moment. A beautiful journey awaits." : {
+
     },
     "Start Free Trial" : {
       "localizations" : {
@@ -11388,6 +11393,7 @@
       }
     },
     "Welcome book icon" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ar-AE" : {
           "stringUnit" : {
@@ -12317,6 +12323,9 @@
           }
         }
       }
+    },
+    "Your new daily habit is ready." : {
+
     }
   },
   "version" : "1.0"

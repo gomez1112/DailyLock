@@ -104,7 +104,6 @@ struct NotificationPermissionView: View {
                 .foregroundStyle(.secondary)
                 .accessibilityIdentifier("maybeLaterButton")
                 .accessibilityHint("Continue without setting reminders.")
-                Spacer()
             }
         }
     }

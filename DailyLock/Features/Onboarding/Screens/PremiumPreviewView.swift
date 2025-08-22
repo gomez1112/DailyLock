@@ -62,8 +62,6 @@ struct PremiumPreviewView: View {
                 .frame(height: Constants.Premium.previewFeatureCarouselHeight)
 #endif
                 
-                Spacer()
-                
                 VStack(spacing: Constants.Premium.previewButtonVStackSpacing) {
                     Button {
                         dependencies.navigation.presentedSheet = .paywall
@@ -89,7 +87,6 @@ struct PremiumPreviewView: View {
                         .accessibilityLabel("7 days free, then $4.99 per month")
                 }
                 
-                Spacer()
             }
             .padding(.horizontal, Constants.Premium.previewHorizontalPadding)
             .onDisappear {
