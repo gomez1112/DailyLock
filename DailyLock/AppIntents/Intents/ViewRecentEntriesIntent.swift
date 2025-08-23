@@ -18,9 +18,13 @@ struct ViewRecentEntriesIntent: AppIntent {
     @Dependency
     private var dataService: DataService
     
+    static var parameterSummary: some ParameterSummary {
+        Summary("Show entries from the last \(\.$daysBack) days")
+    }
+    
     @MainActor
     func perform() async throws -> some IntentResult & ShowsSnippetView {
-        let entries = try dataService.recent7Entries()
+        let entries = try Array(dataService.fetchAllEntries().prefix(daysBack))
         
         let unavailableView = ContentUnavailableView("No entries", systemImage: "tray")
         if entries.isEmpty {
@@ -29,8 +33,5 @@ struct ViewRecentEntriesIntent: AppIntent {
         
         return .result(view: RecentEntriesSnippetView(entries: entries))
     }
-    
-    static var parameterSummary: some ParameterSummary {
-        Summary("Show entries from the last 7 days")
-    }
+
 }

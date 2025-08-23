@@ -9459,7 +9459,7 @@
         }
       }
     },
-    "Show entries from the last 7 days" : {
+    "Show entries from the last ${daysBack} days" : {
 
     },
     "Show Less" : {
