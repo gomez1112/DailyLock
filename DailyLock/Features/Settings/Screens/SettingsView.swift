@@ -92,7 +92,7 @@ struct SettingsView: View {
             }
             .alert("Delete All Data?", isPresented: $showingWipeAlert) {
                 Button("Delete", role: .destructive) {
-                    do { try context.delete(model: MomentumEntry.self) }
+                    do { try dependencies.dataService.deleteAll(MomentumEntry.self)}
                     catch { dependencies.errorState.show(DatabaseError.deleteFailed) }
                 }
                 Button("Cancel", role: .cancel) {}

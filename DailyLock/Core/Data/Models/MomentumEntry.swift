@@ -27,8 +27,10 @@ enum MomentumEntrySchemaV1: VersionedSchema {
         var wordCount = 0
         var topKeywords: [String]?
         var inkColor = "#1a1a1a" 
+        var selectedTexture = "default"
         
-        init(date: Date = Date(), text: String = "", sentiment: Sentiment = Sentiment.indifferent, lockedAt: Date? = nil) {
+        init(id: UUID = UUID(), date: Date = Date(), text: String = "", sentiment: Sentiment = Sentiment.indifferent, lockedAt: Date? = nil, selectedTexture: String = "default") {
+            self.id = id
             self.date = Calendar.current.startOfDay(for: date)
             self.text = text
             self.sentiment = sentiment
@@ -36,6 +38,7 @@ enum MomentumEntrySchemaV1: VersionedSchema {
             self.wordCount = Self.calculateWordCount(from: text)
             self.inkColor = Self.getRandomInkColor()
             self.topKeywords = nil
+            self.selectedTexture = selectedTexture
         }
         
         var isLocked: Bool { lockedAt != nil }
@@ -70,5 +73,9 @@ enum MomentumEntrySchemaV1: VersionedSchema {
             let colors = ["#1a1a1a", "#2c3e50", "#34495e", "#16213e"]
             return colors.randomElement() ?? "#1a1a1a"  // Provide default instead of force unwrap
         }
+        var entity: MomentumEntryEntity {
+            .init(from: MomentumEntry(id: id, date: date, text: text, sentiment: sentiment, lockedAt: lockedAt))
+        }
     }
 }
+

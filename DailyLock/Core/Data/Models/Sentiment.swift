@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum Sentiment: String, Codable, CaseIterable, Identifiable {
+enum Sentiment: String, Codable, CaseIterable, Identifiable, Hashable {
     
     case positive
     case indifferent

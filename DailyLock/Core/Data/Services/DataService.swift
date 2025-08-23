@@ -8,6 +8,7 @@
 import Foundation
 import Observation
 import SwiftData
+import os
 
 @Observable
 final class DataService {
@@ -18,12 +19,23 @@ final class DataService {
         context = container.mainContext
     }
     
-    func save<T: PersistentModel>(_ model: T) {
+    func save() {
+        do {
+            try context.save()
+            Log.data.info("DataService: Context saved successfully after deletion")
+        } catch {
+            Log.data.error("DataService: Failed to save context after deletion: Error: \(error.localizedDescription)")
+        }
+    }
+    func insert<T: PersistentModel>(_ model: T) {
         context.insert(model)
+        save()
     }
     
     func delete<T: PersistentModel>(_ model: T) {
+        Log.data.info("DataService: Attempting to delete Object....")
         context.delete(model)
+        save()
     }
     
     func deleteAll(_ model: any PersistentModel.Type) throws {
@@ -32,10 +44,19 @@ final class DataService {
         } catch {
             throw DatabaseError.deleteFailed
         }
+        save()
     }
     
     func fetchAllEntries() throws -> [MomentumEntry] {
         let descriptor = FetchDescriptor<MomentumEntry>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        return try context.fetch(descriptor)
+    }
+    
+    func recent7Entries() throws -> [MomentumEntry] {
+        var descriptor = FetchDescriptor<MomentumEntry>(
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
+        descriptor.fetchLimit = 7
         return try context.fetch(descriptor)
     }
     
@@ -60,7 +81,7 @@ final class DataService {
         } else {
             // Create a new entry
             let newEntry = MomentumEntry(text: text, sentiment: sentiment, lockedAt: Date())
-            context.insert(newEntry)
+            insert(newEntry)
         }
     }
     
@@ -69,4 +90,31 @@ final class DataService {
         let today = Calendar.current.startOfDay(for: Date())
         return allEntries.first { Calendar.current.isDate($0.date, inSameDayAs: today) }
     }
+    
+    func entryEntities(matching predicate: Predicate<MomentumEntry> = #Predicate { _ in true}, sortBy: [SortDescriptor<MomentumEntry>] = [SortDescriptor(\.date, order: .reverse)], limit: Int? = nil) throws -> [MomentumEntryEntity] {
+        var entryDescriptor = FetchDescriptor<MomentumEntry>(predicate: predicate, sortBy: sortBy)
+        entryDescriptor.fetchLimit = limit
+        
+        let fetchedEntries = try context.fetch(entryDescriptor)
+        return fetchedEntries.map(MomentumEntryEntity.init)
+    }
+    
+    func entryCount(matching predicate: Predicate<MomentumEntry> = #Predicate { _ in true}) throws -> Int {
+        let entryDescriptor = FetchDescriptor<MomentumEntry>(predicate: predicate)
+        return try context.fetchCount(entryDescriptor)
+    }
+    
+    func select(entity: MomentumEntryEntity, navigation: NavigationContext) throws {
+        let id = entity.id
+        
+        let results = try fetchAllEntries().filter { $0.id == id }
+        
+        if let result = results.first {
+            navigation.presentedSheet = .entryDetail(entry: result)
+        }
+    }
+    func suggest5Entities() throws -> [MomentumEntryEntity] {
+        Array(try entryEntities().prefix(5))
+    }
 }
+

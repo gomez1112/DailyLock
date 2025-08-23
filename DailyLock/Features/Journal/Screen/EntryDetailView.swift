@@ -16,6 +16,10 @@ struct EntryDetailView: View {
     
     let entry: MomentumEntry
     
+    var entryEntity: MomentumEntryEntity {
+        MomentumEntryEntity(from: entry)
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -41,6 +45,11 @@ struct EntryDetailView: View {
                 }
             }
             .animation(.default, value: entry)
+            .toolbar {
+                ToolbarItem {
+                    ShareLink(item: entryEntity, preview: entryEntity.sharePreview)
+                }
+            }
         }
         .accessibilityIdentifier("Entries-\(entry.id)")
         .onAppear {

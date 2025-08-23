@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TimelineConnector: View {
     @Environment(\.isDark) private var isDark
+    
     var body: some View {
         HStack(spacing: AppTimeline.connectorSpacing) {
             Rectangle()
