@@ -43,8 +43,8 @@ struct DebugSetup {
             let today = Date()
             let yesterday = calendar.date(byAdding: .day, value: -1, to: today)!
             let beforeYesterday = calendar.date(byAdding: .day, value: -2, to: today)!
-            let yesterdayEntry = MomentumEntry(date: yesterday, text: "Yesterday's entry", lockedAt: yesterday)
-            let beforeYesterdayEntry = MomentumEntry(date: beforeYesterday, text: "Day before's entry", lockedAt: beforeYesterday)
+            let yesterdayEntry = MomentumEntry(date: yesterday, detail: "Yesterday's entry", lockedAt: yesterday)
+            let beforeYesterdayEntry = MomentumEntry(date: beforeYesterday, detail: "Day before's entry", lockedAt: beforeYesterday)
             container.mainContext.insert(yesterdayEntry)
             container.mainContext.insert(beforeYesterdayEntry)
         }

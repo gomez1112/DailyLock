@@ -59,7 +59,7 @@ struct EntryDetailView: View {
         }
     }
     private var entryBody: some View {
-        Text(entry.text)
+        Text(entry.detail)
             .font(.sentenceSerif)
             .foregroundStyle(isDark ? Color.white : Color(hex: entry.inkColor) ?? .black)
             .multilineTextAlignment(.center)
@@ -67,7 +67,7 @@ struct EntryDetailView: View {
             .opacity(appearAnimation ? 1 : 0)
             .offset(y: appearAnimation ? 0 : 20)
             .accessibilityIdentifier("EntryDetailView-Body")
-            .accessibilityLabel(entry.text)
+            .accessibilityLabel(entry.detail)
             .accessibilityAddTraits(.isHeader)
     }
     private var entryContent: some View {

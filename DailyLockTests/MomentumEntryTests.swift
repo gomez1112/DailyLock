@@ -13,7 +13,7 @@ struct MomentumEntryTests {
         let entry = MomentumEntry()
         let today = Calendar.current.startOfDay(for: Date())
         #expect(Calendar.current.isDate(entry.date, inSameDayAs: today))
-        #expect(entry.text == "")
+        #expect(entry.detail == "")
         #expect(entry.sentiment == .indifferent)
         #expect(entry.lockedAt == nil)
         #expect(entry.isLocked == false)
@@ -28,8 +28,8 @@ struct MomentumEntryTests {
         let text = "This is a test entry with seven words."
         let sentiment: Sentiment = .positive
         let lockDate = date
-        let entry = MomentumEntry(date: date, text: text, sentiment: sentiment, lockedAt: lockDate)
-        #expect(entry.text == text)
+        let entry = MomentumEntry(date: date, detail: text, sentiment: sentiment, lockedAt: lockDate)
+        #expect(entry.detail == text)
         #expect(entry.sentiment == .positive)
         #expect(entry.lockedAt != nil)
         #expect(entry.isLocked == true)
@@ -41,9 +41,9 @@ struct MomentumEntryTests {
         let today = Date()
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today)!
         let past = Calendar.current.date(byAdding: .day, value: -5, to: today)!
-        let entryToday = MomentumEntry(date: today, text: "", sentiment: .indifferent, lockedAt: nil)
-        let entryYesterday = MomentumEntry(date: yesterday, text: "", sentiment: .indifferent, lockedAt: nil)
-        let entryPast = MomentumEntry(date: past, text: "", sentiment: .indifferent, lockedAt: nil)
+        let entryToday = MomentumEntry(date: today, detail: "", sentiment: .indifferent, lockedAt: nil)
+        let entryYesterday = MomentumEntry(date: yesterday, detail: "", sentiment: .indifferent, lockedAt: nil)
+        let entryPast = MomentumEntry(date: past, detail: "", sentiment: .indifferent, lockedAt: nil)
         #expect(entryToday.displayDate == "Today")
         #expect(entryYesterday.displayDate == "Yesterday")
         #expect(entryPast.displayDate != "Today")
@@ -56,7 +56,7 @@ struct MomentumEntryTests {
         let samples = MomentumEntry.samples
         #expect(samples.count == 11, "Should match hardcoded count")
         for entry in samples {
-            #expect(!entry.text.isEmpty)
+            #expect(!entry.detail.isEmpty)
             #expect(entry.lockedAt != nil)
             #expect(entry.wordCount > 0)
         }

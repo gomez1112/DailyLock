@@ -4388,6 +4388,9 @@
         }
       }
     },
+    "Detail" : {
+
+    },
     "Disabled" : {
       "localizations" : {
         "ar-AE" : {
@@ -4829,9 +4832,6 @@
           }
         }
       }
-    },
-    "Entry Text" : {
-
     },
     "Entry text: %@. Word count: %lld. %@" : {
       "localizations" : {
@@ -6354,6 +6354,9 @@
           }
         }
       }
+    },
+    "Lock my entry saying ${detail} with a ${sentiment} mood" : {
+
     },
     "Lock my entry saying ${entryText} with a ${sentiment} mood" : {
 
@@ -8195,6 +8198,9 @@
           }
         }
       }
+    },
+    "Open to Today" : {
+
     },
     "Opens DailyLock to the Today screen to write a new entry." : {
 
@@ -11010,7 +11016,10 @@
         }
       }
     },
-    "title" : {
+    "Title" : {
+
+    },
+    "Title of your entry" : {
 
     },
     "Today" : {
@@ -11678,6 +11687,9 @@
           }
         }
       }
+    },
+    "What is your title?" : {
+
     },
     "What would you like to write?" : {
 

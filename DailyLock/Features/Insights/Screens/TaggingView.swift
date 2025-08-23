@@ -47,7 +47,7 @@ struct TaggingView: View {
         .padding(.horizontal)
         .frame(maxWidth: .infinity, alignment: .leading)
         .onAppear {
-            print(entries.sorted { $0.date > $1.date }.prefix(7).map { $0.text }.joined(separator: "\n---\n"))
+            print(entries.sorted { $0.date > $1.date }.prefix(7).map { $0.detail }.joined(separator: "\n---\n"))
         }
         .task {
             if !contentTaggingModel.isAvailable {
@@ -55,7 +55,7 @@ struct TaggingView: View {
             }
             do {
                 let session = LanguageModelSession(model: contentTaggingModel, instructions: "Tag the 3 most important actions and emotions in the given input text. Be positive")
-                let stream = session.streamResponse(to: entries.sorted { $0.date > $1.date }.prefix(7).map { $0.text }.joined(separator: "\n---\n"), generating: TaggingResponse.self ,options: GenerationOptions(sampling: .greedy))
+                let stream = session.streamResponse(to: entries.sorted { $0.date > $1.date }.prefix(7).map { $0.detail }.joined(separator: "\n---\n"), generating: TaggingResponse.self ,options: GenerationOptions(sampling: .greedy))
 
                 for try await newTags in stream {
                     generateTags = newTags.content

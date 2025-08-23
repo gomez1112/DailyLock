@@ -37,6 +37,18 @@ struct LockedEntryView: View {
     private var entryCard: some View {
         // Entry Card
         VStack(spacing: AppEntry.entryCardSpacing) {
+            
+            // Show title if present
+            if !entry.title.isEmpty {
+                Text(entry.title)
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 8)
+                    .accessibilityIdentifier("entryTitle")
+            }
+            
             entryText
             
             Divider()
@@ -90,7 +102,7 @@ struct LockedEntryView: View {
         .accessibilityElement(children: .combine)
     }
     private var entryText: some View {
-        Text(entry.text)
+        Text(entry.detail)
             .font(.sentenceSerif)
             .foregroundStyle(isDark ? Color.white.opacity(0.9) : Color(hex: entry.inkColor)?.opacity(0.9) ?? .black)
             .multilineTextAlignment(.center)

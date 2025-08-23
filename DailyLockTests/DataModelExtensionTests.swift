@@ -20,7 +20,7 @@ struct DataModelExtensionTests {
     }
     static func create(onDay offset: Int, lockedAt: Date? = Date()) -> MomentumEntry {
         let date = Calendar.current.date(byAdding: .day, value: offset, to: Date())!
-        return MomentumEntry(date: date, text: "Test Entry", sentiment: .indifferent, lockedAt: lockedAt)
+        return MomentumEntry(date: date, detail: "Test Entry", sentiment: .indifferent, lockedAt: lockedAt)
     }
     // Test a single-day streak from today.
     @Test("Current Streak: 1-Day Streak Today Only")
@@ -257,7 +257,7 @@ struct DataModelExtensionTests {
         let twoDaysAgo = calendar.date(byAdding: .day, value: -2, to: today)!
         
         let entries = [
-            MomentumEntry(date: twoDaysAgo, text: "Day 1", sentiment: .indifferent, lockedAt: twoDaysAgo),
+            MomentumEntry(date: twoDaysAgo, detail: "Day 1", sentiment: .indifferent, lockedAt: twoDaysAgo),
             // yesterday is missing - this would be the grace period
             // today not completed yet
         ]
@@ -278,13 +278,13 @@ struct DataModelExtensionTests {
 
     @Test("characterCount returns correct count")
     func testCharacterCount() {
-        todayVM.currentText = "Hello, world!"
+        todayVM.currentDetail = "Hello, world!"
         #expect(todayVM.characterCount == 13)
     }
 
     @Test("progressToLimit caps at 1.0")
     func testProgressToLimit() {
-        todayVM.currentText = String(repeating: "a", count: 200)
+        todayVM.currentDetail = String(repeating: "a", count: 200)
         #expect(todayVM.progressToLimit == 1.0)
     }
 

@@ -20,7 +20,7 @@ struct MomentumEntryQuery: EntityQuery, EntityStringQuery, EnumerableEntityQuery
     /// Finds entries whose text contains the matching string.
     func entities(matching string: String) async throws -> [MomentumEntryEntity] {
         try dataService.entryEntities(matching: #Predicate {
-            $0.text.localizedStandardContains(string)
+            $0.detail.localizedStandardContains(string)
         })
     }
     

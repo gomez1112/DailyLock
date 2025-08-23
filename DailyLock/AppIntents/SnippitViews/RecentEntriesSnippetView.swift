@@ -22,7 +22,7 @@ struct RecentEntriesSnippetView: View {
                             .foregroundStyle(entry.sentiment.color)
                     }
                     
-                    Text(entry.text)
+                    Text(entry.detail)
                         .font(.system(.body))
                 }
                 .padding(.vertical, 4)

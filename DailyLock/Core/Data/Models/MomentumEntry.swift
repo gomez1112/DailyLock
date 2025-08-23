@@ -20,25 +20,39 @@ enum MomentumEntrySchemaV1: VersionedSchema {
     @Model
     final class MomentumEntry: Identifiable {
         var id = UUID()
-        var date = Date()
-        var text = ""
-        var sentiment = Sentiment.indifferent
-        var lockedAt: Date?
-        var wordCount = 0
-        var topKeywords: [String]?
-        var inkColor = "#1a1a1a" 
-        var selectedTexture = "default"
         
-        init(id: UUID = UUID(), date: Date = Date(), text: String = "", sentiment: Sentiment = Sentiment.indifferent, lockedAt: Date? = nil, selectedTexture: String = "default") {
+        @Attribute(.spotlight)
+        var date = Date()
+        
+        @Attribute(.spotlight)
+        var title = ""
+        
+        @Attribute(.spotlight)
+        var detail = ""
+        
+        var sentiment = Sentiment.indifferent
+        
+        @Attribute(.spotlight)
+        var lockedAt: Date?
+        
+        @Attribute(.spotlight)
+        var wordCount = 0
+        
+        @Attribute(.spotlight)
+        var topKeywords: [String]?
+        
+        var inkColor = "#1a1a1a"
+        
+        init(id: UUID = UUID(), date: Date = Date(), title: String = "", detail: String = "", sentiment: Sentiment = Sentiment.indifferent, lockedAt: Date? = nil) {
             self.id = id
             self.date = Calendar.current.startOfDay(for: date)
-            self.text = text
+            self.title = title
+            self.detail = detail
             self.sentiment = sentiment
             self.lockedAt = lockedAt
-            self.wordCount = Self.calculateWordCount(from: text)
+            self.wordCount = Self.calculateWordCount(from: detail)
             self.inkColor = Self.getRandomInkColor()
             self.topKeywords = nil
-            self.selectedTexture = selectedTexture
         }
         
         var isLocked: Bool { lockedAt != nil }
@@ -74,7 +88,7 @@ enum MomentumEntrySchemaV1: VersionedSchema {
             return colors.randomElement() ?? "#1a1a1a"  // Provide default instead of force unwrap
         }
         var entity: MomentumEntryEntity {
-            .init(from: MomentumEntry(id: id, date: date, text: text, sentiment: sentiment, lockedAt: lockedAt))
+            .init(from: MomentumEntry(id: id, date: date, detail: detail, sentiment: sentiment, lockedAt: lockedAt))
         }
     }
 }

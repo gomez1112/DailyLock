@@ -31,7 +31,7 @@ struct ViewModelTests {
             viewModel.searchText = "recipe" // Should find one entry
             viewModel.filterEntries(allEntries: allEntries)
             #expect(viewModel.filteredEntries.count == 1)
-            #expect(viewModel.filteredEntries.first?.text.contains("recipe") ?? false)
+            #expect(viewModel.filteredEntries.first?.detail.contains("recipe") ?? false)
         }
         
         @Test("filterEntries is case-insensitive")

@@ -20,3 +20,7 @@ struct TodayViewContainer: View {
         )
     }
 }
+
+#Preview(traits: .previewData) {
+    TodayViewContainer()
+}
