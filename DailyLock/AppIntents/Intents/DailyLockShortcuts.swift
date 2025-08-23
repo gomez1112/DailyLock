@@ -72,11 +72,12 @@ struct DailyLockShortcuts: AppShortcutsProvider {
             phrases: ["Summarize my journal in \(.applicationName)"],
             shortTitle: "Summarize Journal",
             systemImageName: "book.fill")
-        
+        #if os(iOS)
         AppShortcut(
             intent: OpenEntryIntent(),
             phrases: ["Open entry in \(.applicationName)"],
             shortTitle: "Open Entry",
             systemImageName: "book.fill")
+        #endif
     }
 }

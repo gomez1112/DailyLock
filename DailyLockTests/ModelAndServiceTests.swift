@@ -119,7 +119,7 @@ struct ModelAndServiceTests {
             let dataService = DataService(container: container)
             
             
-            dataService.lockEntry(text: "New", sentiment: .positive)
+            dataService.lockEntry(title: "Title", detail: "New", sentiment: .positive)
             
             let newAllEntries = try dataService.fetchAllEntries()
             #expect(newAllEntries.count == 1)
@@ -134,9 +134,9 @@ struct ModelAndServiceTests {
             let dataService = DataService(container: container)
             
             let existingEntry = MomentumEntry(detail: "Old", sentiment: .negative)
-            dataService.save(existingEntry)
+            dataService.insert(existingEntry)
             
-            dataService.lockEntry(text: "Updated", sentiment: .positive)
+            dataService.lockEntry(title: "Title", detail: "Updated", sentiment: .positive)
             
             #expect(existingEntry.detail == "Updated")
             #expect(existingEntry.sentiment == .positive)

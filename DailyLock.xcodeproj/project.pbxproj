@@ -50,6 +50,7 @@
 				Info.plist,
 			);
 			platformFiltersByRelativePath = {
+				AppIntents/Intents/OpenEntryIntent.swift = (ios, );
 				Features/Onboarding/Platform/iOS/iOSOnboardingView.swift = (ios, );
 				Features/Onboarding/Platform/iOS/iOSPremiumPreviewView.swift = (ios, );
 				Features/Onboarding/Platform/macOS/macOSOnboardingView.swift = (macos, );

@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-
+    
     @Environment(AppDependencies.self) private var dependencies
     @Environment(\.modelContext) private var modelContext
     
@@ -18,20 +18,21 @@ struct ContentView: View {
     @AppStorage("sidebarCustomizations") var tabViewCustomization: TabViewCustomization
 #endif
     
-    
     var body: some View {
         Group {
             if dependencies.syncedSetting.hasCompletedOnboarding {
                 contentView
                     .accessibilityIdentifier("mainTabView")
+#if os(iOS)
                     .onAppIntentExecution(OpenEntryIntent.self) { _ in
                         dependencies.navigation.navigate(to: .today)
                     }
+#endif
                 
             } else {
                 OnboardingView()
                     .accessibilityIdentifier("onboardingView")
-                    
+                
             }
         }
         .sheet(item: Bindable(dependencies.navigation).presentedSheet) { sheet in
@@ -68,7 +69,6 @@ struct ContentView: View {
 #endif
     }
 }
-
 
 #Preview(traits: .previewData) {
     ContentView()

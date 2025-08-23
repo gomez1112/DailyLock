@@ -52,6 +52,7 @@ struct DailyLockApp: App {
 
         #if os(macOS)
         .windowStyle(.hiddenTitleBar)
+        .windowResizability(.contentSize)
         .windowToolbarStyle(.unified(showsTitle: true))
         .commands {
             CommandGroup(replacing: .newItem) {

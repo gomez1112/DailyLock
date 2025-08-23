@@ -31,17 +31,17 @@ struct TextView: View {
             .foregroundStyle(textColor)
             .scrollContentBackground(.hidden)
             .focused(isFocused)
-            .onChange(of: text) { _, newValue in
+            .onChange(of: detail) { _, newValue in
                 // Use the same simple, robust truncation logic as iOS.
                 if newValue.count > characterLimit {
-                    text = String(newValue.prefix(characterLimit))
+                    detail = String(newValue.prefix(characterLimit))
                     haptics.tap() // Provide gentle feedback on limit
                 }
             }
             .accessibilityIdentifier("textEditor")
             .accessibilityLabel("Daily entry text editor")
             .accessibilityHint("Write about what defined your day. Maximum \(characterLimit) characters.")
-            .accessibilityValue(text)
+            .accessibilityValue(detail)
     }
 #else
         VStack {

@@ -36,4 +36,3 @@ struct ModelContainerFactoryTests {
         #expect(!config.isStoredInMemoryOnly)
     }
 }
-
