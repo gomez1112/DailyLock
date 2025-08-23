@@ -13,30 +13,43 @@ struct StreakInfo {
 /// A utility to calculate current and longest streaks from a list of entries.
 struct StreakCalculator {
     
-    // MARK: - Private Helper
-    
-    /// Creates a filtered and normalized set of completed days from an array of entries.
-    private static func getCompletedDays(from entries: [MomentumEntry], lookBackLimit: TimeInterval?) -> Set<Date> {
-        let calendar = Calendar.current
-        let startOfToday = calendar.startOfDay(for: Date())
+    static func journalStatistics(for entries: [MomentumEntry]) -> JournalStatisticsSummary {
+        let stats = JournalStatisticsSummary()
+        stats.summaryStartDate = entries.last?.date ?? Date()
+        let streakInfo = Self.calculateStreak(from: entries)
         
-        var completedDays = Set(
-            entries
-                .filter(\.isLocked)
-                .map { calendar.startOfDay(for: $0.date) }
-                .filter { $0 <= startOfToday } // prevent future days from skewing streaks
-        )
+        stats.currentStreak = streakInfo.count
+        stats.longestStreak = Self.calculateLongestStreak(for: entries)
+        stats.totalEntries = entries.filter(\.isLocked).count
+        stats.totalWordsWritten = Self.totalWordsOverall(for: entries)
         
-        if let lookBackLimit = lookBackLimit {
-            let cutoff = calendar.startOfDay(for: Date().addingTimeInterval(-lookBackLimit))
-            completedDays = completedDays.filter { $0 >= cutoff }
-        }
-        return completedDays
+        return stats
     }
-
-    
     // MARK: - Public API
+    static func totalWordsOverall(for entries: [MomentumEntry]) -> Int {
+        // Sum the word counts of all entries.
+        return entries.reduce(0) { $0 + $1.wordCount }
+    }
     
+    static func totalWordsThisMonth(for entries: [MomentumEntry]) -> Int {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        let monthlyEntries = entries.filter { calendar.isDate($0.date, equalTo: now, toGranularity: .month)}
+        
+        return monthlyEntries.reduce(0) { $0 + $1.wordCount }
+        
+    }
+    static func totalWordsThisYear(for entries: [MomentumEntry]) -> Int {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        // Filter entries to include only those from the current year.
+        let yearlyEntries = entries.filter { calendar.isDate($0.date, equalTo: now, toGranularity: .year)}
+        
+        // Sum the word counts of the filtered entries.
+        return yearlyEntries.reduce(0) { $0 + $1.wordCount }
+    }
     /// Calculates the user's current streak ending today.
     static func calculateStreak(from entries: [MomentumEntry],
                                 allowGracePeriod: Bool = false,
@@ -162,4 +175,25 @@ struct StreakCalculator {
         
         return longestStreak
     }
+    // MARK: - Private Helper
+    
+    /// Creates a filtered and normalized set of completed days from an array of entries.
+    private static func getCompletedDays(from entries: [MomentumEntry], lookBackLimit: TimeInterval?) -> Set<Date> {
+        let calendar = Calendar.current
+        let startOfToday = calendar.startOfDay(for: Date())
+        
+        var completedDays = Set(
+            entries
+                .filter(\.isLocked)
+                .map { calendar.startOfDay(for: $0.date) }
+                .filter { $0 <= startOfToday } // prevent future days from skewing streaks
+        )
+        
+        if let lookBackLimit = lookBackLimit {
+            let cutoff = calendar.startOfDay(for: Date().addingTimeInterval(-lookBackLimit))
+            completedDays = completedDays.filter { $0 >= cutoff }
+        }
+        return completedDays
+    }
+
 }

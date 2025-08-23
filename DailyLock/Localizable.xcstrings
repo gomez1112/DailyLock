@@ -974,6 +974,9 @@
         }
       }
     },
+    "%lld entries" : {
+
+    },
     "%lld moments captured" : {
       "localizations" : {
         "ar-AE" : {
@@ -3266,6 +3269,15 @@
         }
       }
     },
+    "Check Mood Distribution" : {
+
+    },
+    "Check Mood Patterns" : {
+
+    },
+    "Check your current journaling streak." : {
+
+    },
     "Choose your preferred time:" : {
       "localizations" : {
         "ar-AE" : {
@@ -3517,6 +3529,9 @@
           }
         }
       }
+    },
+    "Creates and locks a new journal entry for today without opening the app." : {
+
     },
     "Current streak" : {
       "localizations" : {
@@ -4117,6 +4132,9 @@
           }
         }
       }
+    },
+    "Date" : {
+
     },
     "Date: %@ (%@)" : {
       "localizations" : {
@@ -4751,6 +4769,9 @@
         }
       }
     },
+    "Entry" : {
+
+    },
     "Entry text" : {
       "localizations" : {
         "ar-AE" : {
@@ -4808,6 +4829,9 @@
           }
         }
       }
+    },
+    "Entry Text" : {
+
     },
     "Entry text: %@. Word count: %lld. %@" : {
       "localizations" : {
@@ -5224,6 +5248,9 @@
         }
       }
     },
+    "Generate Weekly Summary" : {
+
+    },
     "Generating Insights..." : {
       "localizations" : {
         "ar-AE" : {
@@ -5397,6 +5424,9 @@
           }
         }
       }
+    },
+    "Get Current Streak" : {
+
     },
     "Get Started" : {
 
@@ -5709,6 +5739,9 @@
         }
       }
     },
+    "Here is your weekly summary: %@" : {
+
+    },
     "Hey there! I'm Gerard, and I built DailyLock because I believe in the power of daily reflection. As a solo developer, every tip helps me dedicate more time to making DailyLock better for you. \nYour support means I can keep the app ad-free, add new features, and continue providing updates. Thank you for being part of this journey! 🙏" : {
       "localizations" : {
         "ar-AE" : {
@@ -5824,6 +5857,9 @@
           }
         }
       }
+    },
+    "Indifferent" : {
+
     },
     "Insights" : {
       "localizations" : {
@@ -5944,6 +5980,9 @@
         }
       }
     },
+    "Is Locked" : {
+
+    },
     "Join thousands capturing life's essence, one sentence at a time" : {
       "localizations" : {
         "ar-AE" : {
@@ -6001,6 +6040,21 @@
           }
         }
       }
+    },
+    "journal" : {
+
+    },
+    "Journal Entry" : {
+
+    },
+    "Journal Statistics" : {
+
+    },
+    "Journal Statistics Summary" : {
+
+    },
+    "Journal Summary" : {
+
     },
     "Keep the momentum going" : {
       "localizations" : {
@@ -6118,6 +6172,9 @@
         }
       }
     },
+    "Large" : {
+
+    },
     "Leave a rating for DailyLock in the App Store" : {
       "localizations" : {
         "ar-AE" : {
@@ -6175,6 +6232,9 @@
           }
         }
       }
+    },
+    "Leave a Tip" : {
+
     },
     "Loading Textures..." : {
 
@@ -6294,6 +6354,9 @@
           }
         }
       }
+    },
+    "Lock my entry saying ${entryText} with a ${sentiment} mood" : {
+
     },
     "Lock this entry?" : {
       "localizations" : {
@@ -6991,6 +7054,9 @@
         }
       }
     },
+    "Medium" : {
+
+    },
     "Moment entry for %@, sentiment: %@" : {
       "localizations" : {
         "ar-AE" : {
@@ -7519,6 +7585,9 @@
         }
       }
     },
+    "Negative" : {
+
+    },
     "New Entry" : {
       "localizations" : {
         "ar-AE" : {
@@ -7576,6 +7645,15 @@
           }
         }
       }
+    },
+    "No entries" : {
+
+    },
+    "No entries found. Try adding some entries to get started!" : {
+
+    },
+    "No entries yet." : {
+
     },
     "Notification Time" : {
       "localizations" : {
@@ -7635,6 +7713,9 @@
         }
       }
     },
+    "Number of Days" : {
+
+    },
     "Number of moments captured" : {
       "localizations" : {
         "ar-AE" : {
@@ -7689,6 +7770,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捕获的时刻数量"
+          }
+        }
+      }
+    },
+    "On %@, you wrote: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "On %1$@, you wrote: %2$@"
           }
         }
       }
@@ -7925,6 +8016,9 @@
         }
       }
     },
+    "Open Entry" : {
+
+    },
     "Open Privacy Policy" : {
       "localizations" : {
         "ar-AE" : {
@@ -8101,6 +8195,9 @@
           }
         }
       }
+    },
+    "Opens DailyLock to the Today screen to write a new entry." : {
+
     },
     "Opens the privacy policy in your browser" : {
       "localizations" : {
@@ -8336,6 +8433,9 @@
           }
         }
       }
+    },
+    "Positive" : {
+
     },
     "Preferred notification time picker" : {
       "localizations" : {
@@ -8688,6 +8788,12 @@
         }
       }
     },
+    "Read Entry" : {
+
+    },
+    "Read Entry From Date" : {
+
+    },
     "Read Full Summary" : {
       "localizations" : {
         "ar-AE" : {
@@ -8745,6 +8851,12 @@
           }
         }
       }
+    },
+    "Read my entry from ${date}" : {
+
+    },
+    "Reads or displays the journal entry from a specific date." : {
+
     },
     "Red margin line" : {
       "localizations" : {
@@ -9109,6 +9221,12 @@
         }
       }
     },
+    "See your mood distribution over time" : {
+
+    },
+    "See your recent journal entries" : {
+
+    },
     "Select sentiment" : {
       "localizations" : {
         "ar-AE" : {
@@ -9341,6 +9459,9 @@
         }
       }
     },
+    "Show entries from the last 7 days" : {
+
+    },
     "Show Less" : {
       "localizations" : {
         "ar-AE" : {
@@ -9514,6 +9635,9 @@
           }
         }
       }
+    },
+    "Small" : {
+
     },
     "Solo developer" : {
       "localizations" : {
@@ -9751,6 +9875,12 @@
         }
       }
     },
+    "Start New Entry" : {
+
+    },
+    "stats" : {
+
+    },
     "Stats" : {
       "localizations" : {
         "ar-AE" : {
@@ -9808,6 +9938,9 @@
           }
         }
       }
+    },
+    "Stats tracking" : {
+
     },
     "Streak achievement: %lld days" : {
       "localizations" : {
@@ -10099,6 +10232,12 @@
         }
       }
     },
+    "Summarize Journal" : {
+
+    },
+    "Summarizes your journal" : {
+
+    },
     "Support DailyLock" : {
       "localizations" : {
         "ar-AE" : {
@@ -10156,6 +10295,9 @@
           }
         }
       }
+    },
+    "Supports the developer by leaving a tip." : {
+
     },
     "Tap to expand" : {
       "localizations" : {
@@ -10332,6 +10474,9 @@
       }
     },
     "Texture Store" : {
+
+    },
+    "Thank you so much for your support! It means the world." : {
 
     },
     "Thank You! 💖" : {
@@ -10746,6 +10891,9 @@
         }
       }
     },
+    "Tip Size" : {
+
+    },
     "Tips are brewing..." : {
       "localizations" : {
         "ar-AE" : {
@@ -10862,6 +11010,9 @@
         }
       }
     },
+    "title" : {
+
+    },
     "Today" : {
       "localizations" : {
         "ar-AE" : {
@@ -10919,6 +11070,12 @@
           }
         }
       }
+    },
+    "Today's entry is already locked. You can only write one entry per day." : {
+
+    },
+    "tracking" : {
+
     },
     "Transform moments into meaning" : {
       "localizations" : {
@@ -11225,6 +11382,9 @@
     "Upgrade your writing experience with these beautifully crafted paper textures." : {
 
     },
+    "Uses AI to generate a summary of your last 7 days of entries. Requires DailyLock+." : {
+
+    },
     "Version" : {
       "localizations" : {
         "ar-AE" : {
@@ -11282,6 +11442,9 @@
           }
         }
       }
+    },
+    "View Recent Entries" : {
+
     },
     "Wax seal for entry" : {
       "localizations" : {
@@ -11515,6 +11678,12 @@
           }
         }
       }
+    },
+    "What would you like to write?" : {
+
+    },
+    "Which date would you like to read?" : {
+
     },
     "Word Count" : {
       "localizations" : {
@@ -11809,6 +11978,25 @@
     "Writing paper with %@ texture" : {
 
     },
+    "You completed %lld entries %@. Incredible!" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You completed %1$lld entries %2$@. Incredible!"
+          }
+        }
+      }
+    },
+    "You do not have the lifetime premium or the subscription. Try subscribing for more features!" : {
+
+    },
+    "You have no entries" : {
+
+    },
+    "You have no entries yet." : {
+
+    },
     "You need at least 1 entries to see insights" : {
       "localizations" : {
         "ar-AE" : {
@@ -11924,6 +12112,9 @@
           }
         }
       }
+    },
+    "You wrote %@ entries." : {
+
     },
     "You're All Set!" : {
       "localizations" : {
@@ -12098,6 +12289,9 @@
           }
         }
       }
+    },
+    "Your entry has been locked." : {
+
     },
     "Your Impact" : {
       "localizations" : {

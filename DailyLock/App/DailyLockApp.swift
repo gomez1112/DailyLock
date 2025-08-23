@@ -25,10 +25,19 @@ struct DailyLockApp: App {
             _dependencies = State(initialValue: AppDependencies())
         }
         
-        let container = dependencies.dataService.context.container
-        configureAppIntents(with: dependencies)
-        AppDependencyManager.shared.add(dependency: container)
-
+        let navigation = dependencies.navigation
+        let dataService = dependencies.dataService
+        let syncedSetting = dependencies.syncedSetting
+        let store = dependencies.store
+        let errorState = dependencies.errorState
+        
+        AppDependencyManager.shared.add(dependency: navigation)
+        AppDependencyManager.shared.add(dependency: dataService)
+        AppDependencyManager.shared.add(dependency: syncedSetting)
+        AppDependencyManager.shared.add(dependency: store)
+        AppDependencyManager.shared.add(dependency: errorState)
+        
+        DailyLockShortcuts.updateAppShortcutParameters()
     }
     
     var body: some Scene {
@@ -79,9 +88,6 @@ struct DailyLockApp: App {
                 .frame(width: AppLayout.settingsWindowWidth, height: AppLayout.settingsWindowHeight)
         }
         #endif
-    }
-    private func configureAppIntents(with dependencies: AppDependencies) {
-        AppDependencyManager.shared.add(dependency: dependencies)
     }
 }
 

@@ -42,7 +42,6 @@ final class ErrorState {
         
         self.currentError = nil
         self.processNextError()
-        
     }
     
     func clearAll() {
@@ -83,6 +82,9 @@ final class ErrorState {
         show(type)
     }
     func showNotificationError(_ type: NotificationError) {
+        show(type)
+    }
+    func showIntentError(_ type: IntentError) {
         show(type)
     }
 }

@@ -5,6 +5,8 @@
 //  Created by Gerard Gomez on 7/20/25.
 //
 
+import AppIntents
+import CoreSpotlight
 import SwiftData
 import SwiftUI
 
@@ -14,6 +16,7 @@ struct TodayView: View {
     @Environment(\.isDark) private var isDark
     @Environment(\.modelContext) private var modelContext
     
+    @State private var indexingTask: Task<Void, Error>?
     @State var viewModel: TodayViewModel
     
     @Query(sort: \MomentumEntry.date, order: .reverse) private var allEntries: [MomentumEntry]
@@ -97,6 +100,9 @@ struct TodayView: View {
             // The view now tells the view model to process the update.
             // This is the single source of truth for streak updates.
             viewModel.processEntriesUpdate(newEntries: newEntries)
+            Task {
+                await indexEntries(from: newEntries)
+            }
         }
         .onChange(of: dependencies.syncedSetting.allowGracePeriod) {
             viewModel.updateStreakInfo(entries: allEntries)
@@ -122,6 +128,22 @@ struct TodayView: View {
     
     private var topPadding: CGFloat {
         platformValue(iOS: AppSpacing.large, macOS: AppSpacing.small)
+    }
+    func indexEntries(from entries: [MomentumEntry]) async {
+        indexingTask?.cancel() // Cancel any previous task
+        indexingTask = Task {
+            do {
+                let entities = entries.map { MomentumEntryEntity(from: $0) }
+                try await CSSearchableIndex.default().indexAppEntities(entities)
+            } catch {
+                // It's good practice to handle cancellation errors silently
+                if error is CancellationError {
+                    print("Indexing was cancelled.")
+                } else {
+                    print("Error indexing entries: \(error.localizedDescription)")
+                }
+            }
+        }
     }
 }
 
