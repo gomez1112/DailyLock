@@ -49,7 +49,7 @@ struct TodayView: View {
                                     view.frame(maxWidth: AppLayout.entryMaxWidth)
                                 }
                         } else {
-                            TodayContent(currentText: $viewModel.currentText, selectedSentiment: $viewModel.selectedSentiment, showLockConfirmation: $viewModel.showLockConfirmation, allEntries: allEntries, isTextFieldFocused: $isTextFieldFocused, haptics: dependencies.haptics, isInGracePeriod: viewModel.isInGracePeriod, inkOpacity: viewModel.inkOpacity, characterCount: viewModel.characterCount, progressToLimit: viewModel.progressToLimit, currentStreak: viewModel.currentStreak, canLock: viewModel.canLock, progressColor: viewModel.progressColor(progress: viewModel.progressToLimit, isDark: isDark), updateInkOpacity: viewModel.updateInkOpacity)
+                            TodayContent(title: $viewModel.title, currentDetail: $viewModel.currentDetail, selectedSentiment: $viewModel.selectedSentiment, showLockConfirmation: $viewModel.showLockConfirmation, allEntries: allEntries, isTextFieldFocused: $isTextFieldFocused, haptics: dependencies.haptics, isInGracePeriod: viewModel.isInGracePeriod, inkOpacity: viewModel.inkOpacity, characterCount: viewModel.characterCount, progressToLimit: viewModel.progressToLimit, currentStreak: viewModel.currentStreak, canLock: viewModel.canLock, progressColor: viewModel.progressColor(progress: viewModel.progressToLimit, isDark: isDark), updateInkOpacity: viewModel.updateInkOpacity)
                         }
                         Spacer(minLength: AppSpacing.xxxLarge)
                     }

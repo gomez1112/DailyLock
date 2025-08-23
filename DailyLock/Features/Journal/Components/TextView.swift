@@ -11,20 +11,22 @@ import SwiftUI
 struct TextView: View {
     @Environment(\.isDark) private var isDark
     
-    @Binding var text: String
+    @Binding var title: String
+    @Binding var detail: String
     let reflectionPrompt: String
     let haptics: HapticEngine
     let sentiment: Sentiment
     var opacity: Double
     let isFocused: FocusState<Bool>.Binding
     
-    // Define the character limit in one place
     private let characterLimit = DesignSystem.Text.maxCharacterCount
     
     var body: some View {
 #if os(macOS)
-        // BIND DIRECTLY to $text. No extra state needed.
-        TextEditor(text: $text)
+        VStack {
+            TextField("Title of your entry", text: $title)
+            Divider()
+        TextEditor(text: $detail)
             .font(.sentenceSerif)
             .foregroundStyle(textColor)
             .scrollContentBackground(.hidden)
@@ -40,8 +42,14 @@ struct TextView: View {
             .accessibilityLabel("Daily entry text editor")
             .accessibilityHint("Write about what defined your day. Maximum \(characterLimit) characters.")
             .accessibilityValue(text)
+    }
 #else
-        TextField(reflectionPrompt, text: $text, axis: .vertical)
+        VStack {
+            TextField("Title of your entry", text: $title)
+            Divider()
+                .overlay(isDark ? ColorPalette.darkLineColor.opacity(0.3) : ColorPalette.lightLineColor.opacity(0.3))
+            
+        TextField(reflectionPrompt, text: $detail, axis: .vertical)
             .font(.sentenceSerif)
             .foregroundStyle(textColor)
             .lineSpacing(DesignSystem.Text.defaultLineSpacing)
@@ -51,12 +59,13 @@ struct TextView: View {
             .accessibilityIdentifier("textField")
             .accessibilityLabel("Daily entry text field")
             .accessibilityHint("Write about what defined your day. Maximum \(characterLimit) characters.")
-            .accessibilityValue(text)
-            .onChange(of: text) { _, newValue in
+            .accessibilityValue(detail)
+            .onChange(of: detail) { _, newValue in
                 if newValue.count > characterLimit {
-                    text = String(newValue.prefix(characterLimit))
+                    detail = String(newValue.prefix(characterLimit))
                 }
             }
+    }
 #endif
     }
     
@@ -68,12 +77,12 @@ struct TextView: View {
 }
 
 
-#Preview("Default") {
-    @Previewable @State var text = "A sample entry for today."
+#Preview(traits: .previewData) {
+    @Previewable @State var detail = "A sample entry for today."
     @FocusState var isFocused: Bool
 
     TextView(
-        text: $text, reflectionPrompt: "What did you do today?", haptics: HapticEngine(),
+        title: .constant("Title"), detail: $detail, reflectionPrompt: "What did you do today?", haptics: HapticEngine(),
         sentiment: .indifferent,
         opacity: 1.0,
         isFocused: $isFocused

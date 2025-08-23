@@ -27,7 +27,7 @@ final class SearchViewModel {
         } else {
             let lowercasedQuery = searchText.lowercased()
             filteredEntries = allEntries.filter { entry in
-                let textMatch = entry.text.lowercased().contains(lowercasedQuery)
+                let textMatch = entry.detail.lowercased().contains(lowercasedQuery)
                 let sentimentMatch = entry.sentiment.rawValue.lowercased().contains(lowercasedQuery)
                 return textMatch || sentimentMatch
             }

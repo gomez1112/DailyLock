@@ -23,7 +23,8 @@ final class TodayViewModel {
         self.syncedSetting = syncedSetting
     }
     // MARK: - UI State
-    var currentText = ""
+    var title = ""
+    var currentDetail = ""
     var selectedSentiment: Sentiment = .indifferent
     var inkOpacity: Double = DesignSystem.Text.inkOpacity
     var showLockConfirmation = false
@@ -34,14 +35,14 @@ final class TodayViewModel {
     var hasUsedGrace = false
     
     // MARK: - Computed Properties (Pure functions)
-    var characterCount: Int { currentText.count }
+    var characterCount: Int { currentDetail.count }
     var progressToLimit: Double { min(Double(characterCount) / Double(DesignSystem.Text.maxCharacterCount), 1.0) }
     var canLock: Bool { characterCount > 0 && characterCount <= DesignSystem.Text.maxCharacterCount }
     var allowGracePeriod: Bool { syncedSetting.allowGracePeriod }
     // MARK: - Pure Functions for UI Logic
     
     func updateInkOpacity() {
-        inkOpacity = min(Double(currentText.count) / DesignSystem.Text.inkOpacityMaxDenominator, 1.0)
+        inkOpacity = min(Double(currentDetail.count) / DesignSystem.Text.inkOpacityMaxDenominator, 1.0)
     }
     
     func progressColor(progress: Double, isDark: Bool) -> ProgressColorStyle {
@@ -55,7 +56,7 @@ final class TodayViewModel {
     }
     
     func loadExistingEntry(_ entry: MomentumEntry) {
-        currentText = entry.text
+        currentDetail = entry.detail
         selectedSentiment = entry.sentiment
         updateInkOpacity()
     }
@@ -87,7 +88,8 @@ final class TodayViewModel {
     }
     
     func reset() {
-        currentText = ""
+        title = ""
+        currentDetail = ""
         selectedSentiment = .indifferent
         inkOpacity = DesignSystem.Text.inkOpacity
         showLockConfirmation = false
@@ -129,7 +131,7 @@ final class TodayViewModel {
     /// This function is now simplified. Its only job is to save the data.
     /// The UI will react to the data change via the @Query property wrapper.
     func handleEntryLock() {
-        dataService.lockEntry(text: currentText, sentiment: selectedSentiment)
+        dataService.lockEntry(title: title, detail: currentDetail, sentiment: selectedSentiment)
         haptics.lock()
         haptics.success()
     }

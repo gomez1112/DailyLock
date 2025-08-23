@@ -17,7 +17,7 @@ final class NavigationContext {
     func navigate(to tab: Tabs) {
         selectedTab = tab
     }
-    
+
     func pop() {
         if !path.isEmpty {
             path.removeLast()

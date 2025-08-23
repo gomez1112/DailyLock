@@ -24,7 +24,7 @@ struct MomentumEntryEntity: IndexedEntity {
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
             title: "\(date, format: .relative(presentation: .named))",
-            subtitle: "\(text)"
+            subtitle: "\(title)"
         )
     }
     
@@ -33,7 +33,8 @@ struct MomentumEntryEntity: IndexedEntity {
     
     var attributeSet: CSSearchableItemAttributeSet {
         let attributeSet = defaultAttributeSet
-        attributeSet.title = text
+        attributeSet.title = title
+        attributeSet.contentDescription = detail
         attributeSet.addedDate = date
         return attributeSet
     }
@@ -42,13 +43,16 @@ struct MomentumEntryEntity: IndexedEntity {
     
     var id: UUID
     
-    @Property(title: "title")
-    var text: String
+    @Property(indexingKey: \.title)
+    var title: String
     
-    @Property(title: "Date")
+    @Property(indexingKey: \.contentDescription)
+    var detail: String
+    
+    @Property(indexingKey: \.addedDate)
     var date: Date
     
-    @Property(title: "Sentiment")
+    @Property
     var sentiment: Sentiment
     
     @Property(title: "Is Locked")
@@ -59,7 +63,8 @@ struct MomentumEntryEntity: IndexedEntity {
     
     init(from entry: MomentumEntry) {
         self.id = entry.id
-        self.text = entry.text
+        self.title = entry.title
+        self.detail = entry.detail
         self.date = entry.date
         self.sentiment = entry.sentiment
         self.isLocked = entry.isLocked
@@ -83,7 +88,7 @@ extension MomentumEntryEntity: Transferable {
                 Image(.brownLightTexture)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                Text(entry.text)
+                Text(entry.title)
             }
                 .frame(width: 600))
             renderer.render { size, renderer in
@@ -100,7 +105,8 @@ extension MomentumEntryEntity: Transferable {
         DataRepresentation(exportedContentType: .image) { try $0.imageRepresentationData }
         DataRepresentation(exportedContentType: .plainText) {
             """
-            Entry: \($0.text)
+            Entry: \($0.title)
+            Detail: \($0.detail)
             Date: \($0.date)
             Sentiment: \($0.sentiment.rawValue.capitalized)
             """.data(using: .utf8)!
@@ -145,6 +151,6 @@ extension MomentumEntryEntity: Transferable {
 
 extension MomentumEntryEntity {
     var sharePreview: SharePreview<Never, Image> {
-        SharePreview(text, icon: Image("defaultDarkPaper"))
+        SharePreview(title, icon: Image("defaultDarkPaper"))
     }
 }

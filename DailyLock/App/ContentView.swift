@@ -5,12 +5,12 @@
 //  Created by Gerard Gomez on 7/20/25.
 //
 
+import AppIntents
 import SwiftData
 import SwiftUI
 
 struct ContentView: View {
 
-    
     @Environment(AppDependencies.self) private var dependencies
     @Environment(\.modelContext) private var modelContext
     
@@ -24,6 +24,9 @@ struct ContentView: View {
             if dependencies.syncedSetting.hasCompletedOnboarding {
                 contentView
                     .accessibilityIdentifier("mainTabView")
+                    .onAppIntentExecution(OpenEntryIntent.self) { _ in
+                        dependencies.navigation.navigate(to: .today)
+                    }
                 
             } else {
                 OnboardingView()

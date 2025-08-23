@@ -11,14 +11,17 @@ struct LockTodaysEntry: AppIntent {
     static let title: LocalizedStringResource = "Lock Today's Entry"
     static let description = IntentDescription("Creates and locks a new journal entry for today without opening the app.")
     
-    @Parameter(title: "Entry Text", requestValueDialog: "What would you like to write?")
-    var entryText: String
+    @Parameter(title: "Title", requestValueDialog: "What is your title?")
+    var title: String
+    
+    @Parameter(title: "Detail", requestValueDialog: "What would you like to write?")
+    var detail: String
     
     @Parameter(title: "Sentiment")
     var sentiment: Sentiment
     
     static var parameterSummary: some ParameterSummary {
-        Summary("Lock my entry saying \(\.$entryText) with a \(\.$sentiment) mood")
+        Summary("Lock my entry saying \(\.$detail) with a \(\.$sentiment) mood")
     }
     
     @Dependency var dataService: DataService
@@ -31,7 +34,7 @@ struct LockTodaysEntry: AppIntent {
         if dataService.todayEntry(for: entries) != nil {
             return .result(dialog: "Today's entry is already locked. You can only write one entry per day.")
         } else {
-            dataService.lockEntry(text: entryText, sentiment: sentiment)
+            dataService.lockEntry(title: title, detail: detail, sentiment: sentiment)
             return .result(dialog: "Your entry has been locked.")
         }
         

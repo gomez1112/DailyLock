@@ -68,8 +68,15 @@ struct TimelineEntry: View {
                         .accessibilityHint(Text("This entry is private and locked."))
                 }
             }
+            if !entry.title.isEmpty {
+                Text(entry.title)
+                    .font(.headline)
+                    .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                    .lineLimit(1)
+                    .accessibilityIdentifier("entryTitle")
+            }
             
-            Text(entry.text)
+            Text(entry.detail)
                 // Use app-specific font size constant for timeline entry text
                 .font(.system(size: DesignSystem.Text.Font.timelineEntryText))
                 .foregroundStyle(isDark ? Color.white.opacity(AppTimeline.entryTextOpacity) : Color(hex: entry.inkColor) ?? .black.opacity(AppTimeline.entryTextOpacity))
@@ -87,7 +94,7 @@ struct TimelineEntry: View {
         .padding(AppTimeline.entryCardPadding)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("entryCard")
-        .accessibilityLabel(Text("Entry text: \(entry.text). Word count: \(entry.wordCount). \(entry.isLocked ? "This entry is locked." : "This entry is not locked.")"))
+        .accessibilityLabel(Text("Entry text: \(entry.detail). Word count: \(entry.wordCount). \(entry.isLocked ? "This entry is locked." : "This entry is not locked.")"))
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: AppPremium.cardCornerRadius)

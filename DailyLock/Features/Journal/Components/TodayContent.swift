@@ -17,7 +17,8 @@ struct TodayContent: View {
     @State private var journalingSuggestionVM = JournalingSuggestionViewModel()
     @Environment(\.isDark) private var isDark
     
-    @Binding var currentText: String
+    @Binding var title: String
+    @Binding var currentDetail: String
     @Binding var selectedSentiment: Sentiment
     @Binding var showLockConfirmation: Bool
     
@@ -40,7 +41,7 @@ struct TodayContent: View {
                 // Text Entry
                 VStack(spacing: 0) {
                     TextView(
-                        text: $currentText, reflectionPrompt: journalingSuggestionVM.firstReflectionPrompt, haptics: haptics,
+                        title: $title, detail: $currentDetail, reflectionPrompt: journalingSuggestionVM.firstReflectionPrompt, haptics: haptics,
                         sentiment: selectedSentiment,
                         opacity: inkOpacity,
                         isFocused: isTextFieldFocused
@@ -49,7 +50,7 @@ struct TodayContent: View {
                     .accessibilityLabel("Text entry for today")
                     .frame(height: textViewHeight)
                     .padding(.horizontal, horizontalPadding)
-                    .onChange(of: currentText) { oldValue, newValue in
+                    .onChange(of: currentDetail) { oldValue, newValue in
                         handleTextChange(oldValue: oldValue, newValue: newValue)
                     }
                     

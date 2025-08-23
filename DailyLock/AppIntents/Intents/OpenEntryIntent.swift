@@ -7,19 +7,10 @@
 
 import AppIntents
 
-struct OpenEntryIntent: OpenIntent {
-    static let title: LocalizedStringResource = "Open Entry"
+struct OpenEntryIntent: OpenIntent, TargetContentProvidingIntent {
     
-    
-    @Dependency private var navigation: NavigationContext
-    @Dependency private var dataService: DataService
+    static let title: LocalizedStringResource = "Open to Today"
     
     @Parameter(title: "Entry")
     var target: MomentumEntryEntity
-    
-    @MainActor
-    func perform() async throws -> some IntentResult {
-        try dataService.select(entity: target, navigation: navigation)
-        return .result()
-    }
 }

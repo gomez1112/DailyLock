@@ -70,17 +70,18 @@ final class DataService {
     
     /// Finds or creates today's entry and locks it with the provided text and sentiment.
     /// This function now fetches internally, simplifying the call site.
-    func lockEntry(text: String, sentiment: Sentiment) {
+    func lockEntry(title: String, detail: String, sentiment: Sentiment) {
         let allEntries = (try? fetchAllEntries()) ?? []
         if let entry = todayEntry(for: allEntries) {
             // Update existing entry
-            entry.text = text
+            entry.title = title
+            entry.detail = detail
             entry.sentiment = sentiment
             entry.lockedAt = Date()
-            entry.wordCount = MomentumEntry.calculateWordCount(from: text)
+            entry.wordCount = MomentumEntry.calculateWordCount(from: detail)
         } else {
             // Create a new entry
-            let newEntry = MomentumEntry(text: text, sentiment: sentiment, lockedAt: Date())
+            let newEntry = MomentumEntry(title: title, detail: detail, sentiment: sentiment, lockedAt: Date())
             insert(newEntry)
         }
     }

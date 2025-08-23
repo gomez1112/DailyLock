@@ -24,7 +24,7 @@ final class InsightGenerator {
             """
             Here is an array of the user's journal entries from the last 7 days. You must base your summary on these entries:
             """
-            entries.sorted { $0.date > $1.date }.prefix(7).map { $0.text }.joined(separator: "\n---\n")
+            entries.sorted { $0.date > $1.date }.prefix(7).map { $0.detail }.joined(separator: "\n---\n")
             
         }
     }

@@ -39,7 +39,7 @@ struct ReadEntry: AppIntent {
         
         return .result(
             value: MomentumEntryEntity(from: entry),
-            dialog: "On \(entry.date.formatted(date: .long, time: .omitted)), you wrote: \(entry.text)"
+            dialog: "On \(entry.date.formatted(date: .long, time: .omitted)), you wrote: \(entry.detail)"
         )
     }
 }
