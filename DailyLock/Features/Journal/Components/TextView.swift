@@ -25,6 +25,10 @@ struct TextView: View {
 #if os(macOS)
         VStack {
             TextField("Title of your entry", text: $title)
+                .font(.sentenceSerif)
+                .font(.headline)
+                .textFieldStyle(.plain)
+
             Divider()
         TextEditor(text: $detail)
             .font(.sentenceSerif)
@@ -46,6 +50,11 @@ struct TextView: View {
 #else
         VStack {
             TextField("Title of your entry", text: $title)
+                .font(.headline)
+                .font(.sentenceSerif)
+                .textFieldStyle(.plain)
+                .accessibilityIdentifier("entryTitleField")
+                .multilineTextAlignment(.center)
             Divider()
                 .overlay(isDark ? ColorPalette.darkLineColor.opacity(0.3) : ColorPalette.lightLineColor.opacity(0.3))
             

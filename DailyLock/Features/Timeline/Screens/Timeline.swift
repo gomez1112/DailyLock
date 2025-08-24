@@ -23,35 +23,42 @@ struct Timeline: View {
         ZStack {
             WritingPaper()
                 .ignoresSafeArea()
-            ScrollView {
-                VStack(spacing: AppTimeline.mainVStackSpacing) {
-                    header
-                        .padding(.top, AppSpacing.large)
-                    
-                    if timelineVM.groupedEntries(for: entries).isEmpty {
-                        ContentUnavailableView {
-                            Label("Your journey starts here", systemImage: "pencil.line")
-                        } description: {
-                            Text("Capture your first moment to begin building your timeline")
-                        } actions: {
-                            Button {
-                                dependencies.navigation.navigate(to: .today)
-                            } label: {
-                                Text("Write First Entry")
-                                    .accessibilityIdentifier("writeFirstEntryButton")
+            VStack(spacing: 0) {
+                header
+                //.padding(.top, AppSpacing.large)
+                if timelineVM.viewModel == .list {
+                ScrollView {
+                    VStack(spacing: AppTimeline.mainVStackSpacing) {
+                        
+                        
+                        if timelineVM.groupedEntries(for: entries).isEmpty {
+                            ContentUnavailableView {
+                                Label("Your journey starts here", systemImage: "pencil.line")
+                            } description: {
+                                Text("Capture your first moment to begin building your timeline")
+                            } actions: {
+                                Button {
+                                    dependencies.navigation.navigate(to: .today)
+                                } label: {
+                                    Text("Write First Entry")
+                                        .accessibilityIdentifier("writeFirstEntryButton")
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(.accent)
                             }
-                            .buttonStyle(.plain)
-                            .foregroundStyle(.accent)
+                            
+                        } else {
+                            EntriesView(entries: entries, dependencies: dependencies, timelineVM: timelineVM)
+                                .applyIf(deviceStatus != .compact) { $0.frame(maxWidth: AppLayout.timelineContentMaxWidth) }
+                            Spacer(minLength: AppTimeline.entriesSpacerMin)
                         }
-
-                    } else {
-                        EntriesView(entries: entries, dependencies: dependencies, timelineVM: timelineVM)
-                            .applyIf(deviceStatus != .compact) { $0.frame(maxWidth: AppLayout.timelineContentMaxWidth) }
-                        Spacer(minLength: AppTimeline.entriesSpacerMin)
                     }
+                    .frame(maxWidth: .infinity)
                 }
-                .frame(maxWidth: .infinity)
-            }
+                } else {
+                    CalendarView(timelineVM: timelineVM)
+                }
+        }
         }
         .scrollBounceBehavior(.basedOnSize)
         .onAppear {
@@ -75,6 +82,15 @@ struct Timeline: View {
                 .accessibilityIdentifier("timelineMomentCount")
                 .accessibilityLabel("Number of moments captured")
                 .accessibilityValue("\(entries.count)")
+            
+            Picker("View Mode", selection: $timelineVM.viewModel.animation()) {
+                ForEach(TimelineViewModel.ViewMode.allCases) { view in
+                    Label(view.title, systemImage: view.symbol)
+                        .tag(view)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
         }
         .padding(.bottom, AppTimeline.headerBottomPadding)
     }

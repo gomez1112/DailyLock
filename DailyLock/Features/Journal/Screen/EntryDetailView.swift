@@ -26,11 +26,19 @@ struct EntryDetailView: View {
                 Color(isDark ? ColorPalette.darkLineColor : ColorPalette.lightLineColor)
                     .ignoresSafeArea()
                 ScrollView {
-                    VStack(spacing: AppSpacing.large) {
-
+                    VStack {
+                        if !entry.title.isEmpty {
+                            Text(entry.title)
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .fontDesign(.serif)
+                                .foregroundStyle(isDark ? ColorPalette.darkInkColor : ColorPalette.lightInkColor)
+                                .padding(.top)
+                                .accessibilityIdentifier("entryDetailTitle")
+                        }
                         dateHeader
                         entryContent
-                    
+                    Spacer()
                     }
                     .padding()
                 }

@@ -55,6 +55,10 @@
 				Features/Onboarding/Platform/iOS/iOSPremiumPreviewView.swift = (ios, );
 				Features/Onboarding/Platform/macOS/macOSOnboardingView.swift = (macos, );
 				Features/Onboarding/Platform/macOS/macOSPremiumPreviewView.swift = (macos, );
+				Features/Timeline/Platform/iOS/CalendarRepresentableView.swift = (ios, );
+				Features/Timeline/Platform/iOS/iOSCalendarView.swift = (ios, );
+				Features/Timeline/Platform/macOS/macOSCalendarDayView.swift = (macos, );
+				Features/Timeline/Platform/macOS/macOSCalendarView.swift = (macos, );
 			};
 			target = CC28B3272E2D291600F630B2 /* DailyLock */;
 		};

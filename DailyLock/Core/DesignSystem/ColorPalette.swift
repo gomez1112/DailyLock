@@ -20,9 +20,9 @@ enum ColorPalette {
     static let darkInkColor = SwiftUI.Color(hex: "E5E5E7") ?? .black //
     
     // MARK: Sentiment Colors
-    static let sentimentPositiveGradient = [SwiftUI.Color(hex: "FFE5B4") ?? .black, SwiftUI.Color(hex: "FFDAB9") ?? .black, SwiftUI.Color(hex: "FFD700") ?? .black ]
-    static let sentimentIndifferentGradient = [SwiftUI.Color(hex: "E8E8E8") ?? .black, SwiftUI.Color(hex: "D3D3D3") ?? .black, SwiftUI.Color(hex: "C0C0C0") ?? .black ]
-    static let sentimentNegativeGradient = [SwiftUI.Color(hex: "B0C4DE") ?? .black, SwiftUI.Color(hex: "87CEEB") ?? .black, SwiftUI.Color(hex: "6495ED") ?? .black]
+    static let sentimentPositiveGradient = [Color.green, Color.mint]
+    static let sentimentIndifferentGradient = [Color.gray, Color.secondary]
+    static let sentimentNegativeGradient = [Color.red, Color.orange]
     
     // MARK: Feature Colors
     static let premiumGradient = [SwiftUI.Color(hex: "FFD700") ?? .black, SwiftUI.Color(hex: "FFA500") ?? .black]
