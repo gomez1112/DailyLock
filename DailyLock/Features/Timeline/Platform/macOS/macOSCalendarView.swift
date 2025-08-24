@@ -13,6 +13,7 @@ struct macOSCalendarView: View {
     @Query(sort: \MomentumEntry.date, order: .reverse) private var entries: [MomentumEntry]
     
     let timelineVM: TimelineViewModel
+    @State private var selectedDate: Date = Calendar.current.startOfDay(for: .now) // ✨ Start with today selected
     
     private let weekdaySymbols = Calendar.current.shortStandaloneWeekdaySymbols
     private let columns = Array(repeating: GridItem(.flexible()), count: 7)
@@ -32,23 +33,9 @@ struct macOSCalendarView: View {
     
     private var header: some View {
         HStack {
-            Button {
-                timelineVM.changeMonth(by: -1)
-            } label: {
-                Image(systemName: "chevron.left.circle.fill")
-                    .font(.title2)
-            }
-            
-            Text(timelineVM.monthTitle)
-                .font(.title2.bold())
-                .frame(maxWidth: .infinity)
-            
-            Button {
-                timelineVM.changeMonth(by: 1)
-            } label: {
-                Image(systemName: "chevron.right.circle.fill")
-                    .font(.title2)
-            }
+            Button { timelineVM.changeMonth(by: -1) } label: { Image(systemName: "chevron.left").font(.title3.weight(.semibold)) }
+            Text(timelineVM.monthTitle).font(.title2.bold()).frame(maxWidth: .infinity)
+            Button { timelineVM.changeMonth(by: 1) } label: { Image(systemName: "chevron.right").font(.title3.weight(.semibold)) }
         }
         .foregroundStyle(.accent)
         .buttonStyle(.plain)
@@ -58,9 +45,7 @@ struct macOSCalendarView: View {
     private var weekdayHeader: some View {
         LazyVGrid(columns: columns, spacing: 12) {
             ForEach(weekdaySymbols, id: \.self) { symbol in
-                Text(symbol)
-                    .font(.caption.bold())
-                    .foregroundStyle(.secondary)
+                Text(symbol).font(.caption.bold()).foregroundStyle(.secondary)
             }
         }
     }
@@ -71,14 +56,14 @@ struct macOSCalendarView: View {
                 let entry = entriesByDay[date]
                 
                 Button {
+                    selectedDate = date // Update the selected date on tap
                     if let entry {
                         dependencies.navigation.presentedSheet = .entryDetail(entry: entry)
                     }
                 } label: {
-                    macOSCalendarDayView(date: date, entry: entry, currentMonth: timelineVM.currentMonth)
+                    macOSCalendarDayView(date: date, entry: entry, currentMonth: timelineVM.currentMonth, isSelected: date == selectedDate)
                 }
                 .buttonStyle(.plain)
-                .disabled(entry == nil)
             }
         }
     }

@@ -12,6 +12,7 @@ struct macOSCalendarDayView: View {
     let date: Date
     let entry: MomentumEntry?
     let currentMonth: Date
+    let isSelected: Bool // State is now passed in from the parent
     
     private var isToday: Bool {
         Calendar.current.isDateInToday(date)
@@ -22,32 +23,51 @@ struct macOSCalendarDayView: View {
     }
     
     var body: some View {
-        Text(date, format: .dateTime.day())
-            .fontWeight(isToday ? .bold : .medium)
-            .foregroundStyle(isOfCurrentMonth ? foregroundColor : .secondary.opacity(0.5))
-            .frame(maxWidth: .infinity, minHeight: 40)
-            .background(background)
-            .clipShape(Circle())
-            .overlay(
-                // Add a ring around today's date for emphasis
-                isToday ? Circle().stroke(Color.accentColor, lineWidth: 2) : nil
-            )
-            .animation(.spring(response: 0.3), value: entry?.sentiment)
+        VStack(spacing: 4) {
+            // MARK: - Day Number
+            Text(date, format: .dateTime.day())
+                .fontWeight(isToday ? .bold : .medium)
+                .foregroundStyle(foregroundColor)
+                .frame(width: 30, height: 30)
+                .background(selectionBackground)
+                .clipShape(Circle())
+            
+            // MARK: - Sentiment Decoration
+            if let entry {
+                Image(systemName: entry.sentiment.symbol)
+                    .font(.caption)
+                    .foregroundStyle(entry.sentiment.color)
+            } else {
+                // Add a placeholder to keep the grid layout consistent
+                Text("").font(.caption)
+            }
+        }
+        .frame(maxWidth: .infinity, minHeight: 50)
+        .opacity(isOfCurrentMonth ? 1.0 : 0.3) // Fade out days not in the current month
+        .animation(.spring(response: 0.3), value: entry?.sentiment)
+        .animation(.spring(response: 0.3), value: isSelected)
     }
     
+    /// The background for the day number, showing a solid circle for selection.
     @ViewBuilder
-    private var background: some View {
-        if let entry {
-            // Fill the circle with a color based on the entry's sentiment
+    private var selectionBackground: some View {
+        if isSelected {
             Circle()
-                .fill(entry.sentiment.color.opacity(isOfCurrentMonth ? 0.4 : 0.1))
+                .fill(isToday ? .accent.opacity(0.8) : .accent.opacity(0.6))
+        } else if isToday {
+            Circle()
+                .strokeBorder(Color.accentColor, lineWidth: 2)
         }
     }
     
+    /// The color of the day number text.
     private var foregroundColor: Color {
-        if let _ = entry {
-            return .primary.opacity(0.9)
+        if isSelected {
+            return .white
         }
-        return isToday ? .accent : .secondary
+        if isToday {
+            return .accent
+        }
+        return .primary
     }
 }
