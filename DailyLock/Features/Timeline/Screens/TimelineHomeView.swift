@@ -8,7 +8,7 @@
 import SwiftData
 import SwiftUI
 
-struct Timeline: View {
+struct TimelineHomeView: View {
     
     @State private var timelineVM = TimelineViewModel()
     
@@ -97,5 +97,5 @@ struct Timeline: View {
 }
 
 #Preview(traits: .previewData) {
-    Timeline()
+    TimelineHomeView()
 }

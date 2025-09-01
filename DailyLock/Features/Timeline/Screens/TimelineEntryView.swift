@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TimelineEntry: View {
+struct TimelineEntryView: View {
     @Environment(\.isDark) private var isDark
     
     let entry: MomentumEntry
@@ -133,5 +133,5 @@ struct TimelineEntry: View {
 }
 
 #Preview {
-    TimelineEntry(entry: MomentumEntry.samples[0], isHovered: true, onTap: {})
+    TimelineEntryView(entry: MomentumEntry.samples[0], isHovered: true, onTap: {})
 }
