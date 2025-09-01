@@ -10,11 +10,11 @@ import SwiftData
 import os
 
 struct TipPurchase {
-    public let transactionId: UInt64
-    public let productID: String
-    public let productName: String
-    public let amount: Decimal
-    public let date: Date
+    let transactionId: UInt64
+    let productID: String
+    let productName: String
+    let amount: Decimal
+    let date: Date
 }
 
 @ModelActor

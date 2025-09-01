@@ -14,6 +14,7 @@ typealias SubscriptionGroupID = String
 
 
 @Observable
+@MainActor
 final class Store {
     private let tipLedger: TipLedger
     private let errorState: ErrorState

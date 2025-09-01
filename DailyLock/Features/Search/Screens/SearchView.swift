@@ -44,7 +44,7 @@ struct SearchView: View {
             // Display the list of filtered entries
             List {
                 ForEach(viewModel.filteredEntries) { entry in
-                    TimelineEntry(entry: entry, isHovered: false) {
+                    TimelineEntryView(entry: entry, isHovered: false) {
                         dependencies.navigation.presentedSheet = .entryDetail(entry: entry)
                     }
                     .listRowBackground(Color.clear)

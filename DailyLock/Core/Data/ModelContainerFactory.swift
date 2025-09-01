@@ -14,6 +14,7 @@ struct ModelContainerFactory {
     
     static func configuration(isStoredInMemoryOnly: Bool) -> ModelConfiguration {
         ModelConfiguration(schema: schema, isStoredInMemoryOnly: isStoredInMemoryOnly)
+
     }
    
     static let createSharedContainer: ModelContainer = {
@@ -24,6 +25,7 @@ struct ModelContainerFactory {
         }
     }()
 
+    @MainActor
     static var createPreviewContainer: ModelContainer {
         do {
             let container = try ModelContainer(for: schema, configurations: configuration(isStoredInMemoryOnly: true))
@@ -52,3 +54,4 @@ struct ModelContainerFactory {
         }
     }
 }
+

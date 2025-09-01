@@ -40,7 +40,7 @@ struct EntriesView: View {
     private func expandedMonthsView(monthEntries: [MomentumEntry]) -> some View {
         VStack(spacing: 0) {
             ForEach(monthEntries) { entry in
-                TimelineEntry(
+                TimelineEntryView(
                     entry: entry,
                     isHovered: timelineVM.hoveredDate == entry.date
                 ) {

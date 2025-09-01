@@ -1,5 +1,4 @@
-// AppDelegate.swift
-// Extracted from DailyLockApp.swift for modularity
+
 
 #if !os(macOS)
 import UIKit

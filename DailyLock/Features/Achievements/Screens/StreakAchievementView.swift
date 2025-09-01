@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct StreakAchievementView: View {
-    
-    @Environment(\.isDark) private var isDark
+    let isDark = false
+    //  @Environment(\.isDark) private var isDark
     
     let streakCount: Int
     

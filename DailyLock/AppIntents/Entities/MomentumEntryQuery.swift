@@ -7,8 +7,8 @@
 
 import AppIntents
 
-@MainActor
 /// Provides the logic for fetching and filtering `MomentumEntryEntity` objects for App Intents.
+@MainActor
 struct MomentumEntryQuery: EntityQuery, EntityStringQuery, EnumerableEntityQuery {
     @Dependency var dataService: DataService
     

@@ -11,8 +11,11 @@ import SwiftUI
 @main
 struct DailyLockWidgetBundle: WidgetBundle {
     var body: some Widget {
-        DailyLockWidget()
+        MoodDistributionWidget()
+        DailyEntryWidget()
+        StreakWidget()
         DailyLockWidgetControl()
         DailyLockWidgetLiveActivity()
+        RecentEntriesWidget()
     }
 }

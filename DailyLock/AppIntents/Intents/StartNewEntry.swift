@@ -7,12 +7,14 @@
 
 import AppIntents
 /// Opens the app to the Today screen to begin writing a new entry.
+/// 
 struct StartNewEntry: AppIntent {
     static let title: LocalizedStringResource = "Start New Entry"
     static let description = IntentDescription("Opens DailyLock to the Today screen to write a new entry.")
     
     static let openAppWhenRun: Bool = true
     
+
     @Dependency var navigation: NavigationContext
     
     @MainActor

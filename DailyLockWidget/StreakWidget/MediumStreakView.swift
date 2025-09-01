@@ -1,6 +1,16 @@
+//
+//  MediumStreakView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/24/25.
+//
+
+import SwiftUI
+import WidgetKit
+
 struct MediumStreakView: View {
-    let entry: StreakEntry
-    
+    let streakInfo: StreakInfo
+    let longestStreak: Int
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
@@ -8,11 +18,11 @@ struct MediumStreakView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 
-                Text("\(entry.currentStreak) days")
+                Text("\(streakInfo.count) days")
                     .font(.title2.bold())
                     .foregroundStyle(.primary)
                 
-                if entry.isInGracePeriod {
+                if streakInfo.isGracePeriodActiveNow {
                     Label("Grace period active", systemImage: "exclamationmark.triangle.fill")
                         .font(.caption2)
                         .foregroundStyle(.orange)
@@ -26,11 +36,11 @@ struct MediumStreakView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 
-                Text("\(entry.longestStreak) days")
+                Text("\(longestStreak) days")
                     .font(.title3)
                     .foregroundStyle(.primary)
                 
-                ProgressView(value: Double(entry.currentStreak), total: Double(max(entry.longestStreak, entry.currentStreak)))
+                ProgressView(value: Double(streakInfo.count), total: Double(max(longestStreak, streakInfo.count)))
                     .tint(.accent)
             }
         }

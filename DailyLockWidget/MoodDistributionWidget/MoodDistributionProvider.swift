@@ -1,3 +1,13 @@
+//
+//  MoodDistributionProvider.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/30/25.
+//
+
+import WidgetKit
+
+
 // MARK: - Provider
 struct MoodDistributionProvider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> MoodDistributionEntry {
