@@ -258,6 +258,16 @@
         }
       }
     },
+    "%@: %lld • %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@: %2$lld • %3$@"
+          }
+        }
+      }
+    },
     "%1$@, %2$@" : {
       "localizations" : {
         "ar-AE" : {
@@ -2107,6 +2117,12 @@
         }
       }
     },
+    "Add your first entry to see mood insights." : {
+
+    },
+    "All Time" : {
+
+    },
     "Allows DailyLock to send you reminders at your chosen time." : {
       "localizations" : {
         "ar-AE" : {
@@ -3345,6 +3361,9 @@
           }
         }
       }
+    },
+    "Configure how many recent entries to show." : {
+
     },
     "Contact Support" : {
       "localizations" : {
@@ -4712,6 +4731,9 @@
       }
     },
     "Enhance Your Journal" : {
+
+    },
+    "entries" : {
 
     },
     "Entries" : {
@@ -6172,7 +6194,10 @@
         }
       }
     },
-    "Large" : {
+    "Last 7 Days" : {
+
+    },
+    "Last 30 Days" : {
 
     },
     "Leave a rating for DailyLock in the App Store" : {
@@ -6232,9 +6257,6 @@
           }
         }
       }
-    },
-    "Leave a Tip" : {
-
     },
     "Loading Textures..." : {
 
@@ -7057,9 +7079,6 @@
         }
       }
     },
-    "Medium" : {
-
-    },
     "Moment entry for %@, sentiment: %@" : {
       "localizations" : {
         "ar-AE" : {
@@ -7356,6 +7375,12 @@
         }
       }
     },
+    "Mood breakdown" : {
+
+    },
+    "Mood distribution" : {
+
+    },
     "Mood Distribution" : {
       "localizations" : {
         "ar-AE" : {
@@ -7530,6 +7555,12 @@
         }
       }
     },
+    "Mood Patterns" : {
+
+    },
+    "Mood Widget" : {
+
+    },
     "Navigation" : {
       "localizations" : {
         "ar-AE" : {
@@ -7649,6 +7680,9 @@
         }
       }
     },
+    "No data yet" : {
+
+    },
     "No entries" : {
 
     },
@@ -7717,6 +7751,9 @@
       }
     },
     "Number of Days" : {
+
+    },
+    "Number of Entries" : {
 
     },
     "Number of moments captured" : {
@@ -8443,6 +8480,12 @@
     "Positive" : {
 
     },
+    "Positive ratio %@" : {
+
+    },
+    "Positive ratio: %@" : {
+
+    },
     "Preferred notification time picker" : {
       "localizations" : {
         "ar-AE" : {
@@ -8864,6 +8907,9 @@
     "Reads or displays the journal entry from a specific date." : {
 
     },
+    "Recent Entries" : {
+
+    },
     "Red margin line" : {
       "localizations" : {
         "ar-AE" : {
@@ -9227,6 +9273,12 @@
         }
       }
     },
+    "See your latest journal entries at a glance." : {
+
+    },
+    "See your mood distribution at a glance." : {
+
+    },
     "See your mood distribution over time" : {
 
     },
@@ -9584,6 +9636,9 @@
         }
       }
     },
+    "Shows your mood distribution." : {
+
+    },
     "Skip" : {
       "localizations" : {
         "ar-AE" : {
@@ -9641,9 +9696,6 @@
           }
         }
       }
-    },
-    "Small" : {
-
     },
     "Solo developer" : {
       "localizations" : {
@@ -10302,9 +10354,6 @@
         }
       }
     },
-    "Supports the developer by leaving a tip." : {
-
-    },
     "Tap to expand" : {
       "localizations" : {
         "ar-AE" : {
@@ -10362,6 +10411,9 @@
           }
         }
       }
+    },
+    "Tap to open insights" : {
+
     },
     "Terms of Service" : {
       "localizations" : {
@@ -10480,9 +10532,6 @@
       }
     },
     "Texture Store" : {
-
-    },
-    "Thank you so much for your support! It means the world." : {
 
     },
     "Thank You! 💖" : {
@@ -10723,6 +10772,9 @@
         }
       }
     },
+    "Time Range" : {
+
+    },
     "Timeline" : {
       "localizations" : {
         "ar-AE" : {
@@ -10896,9 +10948,6 @@
           }
         }
       }
-    },
-    "Tip Size" : {
-
     },
     "Tips are brewing..." : {
       "localizations" : {
@@ -11081,6 +11130,12 @@
       }
     },
     "Today's entry is already locked. You can only write one entry per day." : {
+
+    },
+    "Top mood %@" : {
+
+    },
+    "Top mood: %@" : {
 
     },
     "tracking" : {

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		CC273DA92E52C47A00523E18 /* DailyLockUnitOnly.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = CC273DA82E52C47A00523E18 /* DailyLockUnitOnly.xctestplan */; };
 		CC273F0B2E52C6E700523E18 /* DailyLockAllTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = CC273F0A2E52C6E700523E18 /* DailyLockAllTests.xctestplan */; };
+		CC92EED02E5AA95E00098E11 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC92EECF2E5AA95E00098E11 /* WidgetKit.framework */; };
+		CC92EED22E5AA95E00098E11 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC92EED12E5AA95E00098E11 /* SwiftUI.framework */; };
+		CC92EEE32E5AA95F00098E11 /* DailyLockWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CC92EECD2E5AA95E00098E11 /* DailyLockWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,7 +29,28 @@
 			remoteGlobalIDString = CC28B3272E2D291600F630B2;
 			remoteInfo = DailyLock;
 		};
+		CC92EEE12E5AA95F00098E11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CC28B3202E2D291600F630B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CC92EECC2E5AA95E00098E11;
+			remoteInfo = DailyLockWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CC92EEE82E5AA95F00098E11 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CC92EEE32E5AA95F00098E11 /* DailyLockWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CC273DA82E52C47A00523E18 /* DailyLockUnitOnly.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = DailyLockUnitOnly.xctestplan; path = TestPlans/DailyLockUnitOnly.xctestplan; sourceTree = "<group>"; };
@@ -34,6 +58,10 @@
 		CC28B3282E2D291600F630B2 /* DailyLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DailyLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC28B3352E2D291700F630B2 /* DailyLockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyLockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC28B33F2E2D291700F630B2 /* DailyLockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DailyLockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC92EECD2E5AA95E00098E11 /* DailyLockWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DailyLockWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC92EECF2E5AA95E00098E11 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		CC92EED12E5AA95E00098E11 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		CC92EEE92E5AA9D300098E11 /* DailyLockWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DailyLockWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -62,6 +90,72 @@
 			};
 			target = CC28B3272E2D291600F630B2 /* DailyLock */;
 		};
+		CC92EEE72E5AA95F00098E11 /* Exceptions for "DailyLockWidget" folder in "DailyLockWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CC92EECC2E5AA95E00098E11 /* DailyLockWidgetExtension */;
+		};
+		CC92EF012E5AAD0C00098E11 /* Exceptions for "DailyLock" folder in "DailyLockWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/Navigation/NavigationContext.swift,
+				App/Navigation/Tabs.swift,
+				AppIntents/Entities/JournalStatisticsSummary.swift,
+				AppIntents/Intents/GetCurrentStreak.swift,
+				AppIntents/Intents/IntentError.swift,
+				AppIntents/Intents/StartNewEntry.swift,
+				AppIntents/SnippitViews/RecentEntriesSnippetView.swift,
+				Assets.xcassets,
+				Core/Client/NotificationClient/NotificationError.swift,
+				Core/Client/StoreClient/ProductID.swift,
+				Core/Client/StoreClient/Store.swift,
+				Core/Client/StoreClient/StorekitError.swift,
+				Core/Client/StoreClient/TipLedger.swift,
+				Core/Client/Sync/SyncedSetting.swift,
+				Core/Data/ModelContainerFactory.swift,
+				Core/Data/Models/MomentumEntry.swift,
+				Core/Data/Models/Ring.swift,
+				Core/Data/Models/Sentiment.swift,
+				Core/Data/Models/TipRecordSchemaV1.swift,
+				Core/Data/Services/DatabaseError.swift,
+				Core/Data/Services/DataService.swift,
+				Core/Data/Services/StatsCalculator.swift,
+				Core/Data/Services/StreakCalculator.swift,
+				Core/DesignSystem/ColorPalette.swift,
+				Core/DesignSystem/Constants.swift,
+				Core/DesignSystem/DesignSystem.swift,
+				Core/DesignSystem/Feature.swift,
+				Core/Observability/Errors/AppError.swift,
+				Core/Observability/Errors/ErrorRecoveryAction.swift,
+				Core/Observability/Errors/ErrorSeverity.swift,
+				Core/Observability/Errors/ErrorState.swift,
+				Core/Observability/Logging.swift,
+				Core/Observability/Signpost.swift,
+				"Extension/Color+Extension.swift",
+				"Extension/TipRecord+Extension.swift",
+				Features/Achievements/Screens/StreakAchievementView.swift,
+				Features/Insights/Domain/IntelligenceError.swift,
+			);
+			target = CC92EECC2E5AA95E00098E11 /* DailyLockWidgetExtension */;
+		};
+		CCB838BF2E6338E600E44BBE /* Exceptions for "DailyLockWidget" folder in "DailyLock" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MoodDistributionWidget/MoodDistributionEntry.swift,
+				MoodDistributionWidget/MoodDistributionProvider.swift,
+				MoodDistributionWidget/MoodDistributionWidget.swift,
+				MoodDistributionWidget/MoodDistributionWidgetView.swift,
+				MoodDistributionWidget/MoodWidgetConfigurationIntent.swift,
+				RecentWidgetEntries/RecentEntriesProvider.swift,
+				RecentWidgetEntries/RecentEntriesTimelineEntry.swift,
+				RecentWidgetEntries/RecentEntriesWidget.swift,
+				RecentWidgetEntries/RecentEntriesWidgetConfigurationIntent.swift,
+				RecentWidgetEntries/RecentEntriesWidgetView.swift,
+			);
+			target = CC28B3272E2D291600F630B2 /* DailyLock */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,6 +164,7 @@
 			exceptions = (
 				CC28B3E52E2D5BCC00F630B2 /* Exceptions for "DailyLock" folder in "DailyLock" target */,
 				CC0AC6932E3952DD004FEC40 /* Exceptions for "DailyLock" folder in "DailyLockUITests" target */,
+				CC92EF012E5AAD0C00098E11 /* Exceptions for "DailyLock" folder in "DailyLockWidgetExtension" target */,
 			);
 			path = DailyLock;
 			sourceTree = "<group>";
@@ -82,6 +177,15 @@
 		CC28B3422E2D291700F630B2 /* DailyLockUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = DailyLockUITests;
+			sourceTree = "<group>";
+		};
+		CC92EED32E5AA95E00098E11 /* DailyLockWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CCB838BF2E6338E600E44BBE /* Exceptions for "DailyLockWidget" folder in "DailyLock" target */,
+				CC92EEE72E5AA95F00098E11 /* Exceptions for "DailyLockWidget" folder in "DailyLockWidgetExtension" target */,
+			);
+			path = DailyLockWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -108,17 +212,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC92EECA2E5AA95E00098E11 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC92EED22E5AA95E00098E11 /* SwiftUI.framework in Frameworks */,
+				CC92EED02E5AA95E00098E11 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		CC28B31F2E2D291600F630B2 = {
 			isa = PBXGroup;
 			children = (
+				CC92EEE92E5AA9D300098E11 /* DailyLockWidgetExtension.entitlements */,
 				CC273DA82E52C47A00523E18 /* DailyLockUnitOnly.xctestplan */,
 				CC273F0A2E52C6E700523E18 /* DailyLockAllTests.xctestplan */,
 				CC28B32A2E2D291600F630B2 /* DailyLock */,
 				CC28B3382E2D291700F630B2 /* DailyLockTests */,
 				CC28B3422E2D291700F630B2 /* DailyLockUITests */,
+				CC92EED32E5AA95E00098E11 /* DailyLockWidget */,
+				CC92EECE2E5AA95E00098E11 /* Frameworks */,
 				CC28B3292E2D291600F630B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -129,8 +245,18 @@
 				CC28B3282E2D291600F630B2 /* DailyLock.app */,
 				CC28B3352E2D291700F630B2 /* DailyLockTests.xctest */,
 				CC28B33F2E2D291700F630B2 /* DailyLockUITests.xctest */,
+				CC92EECD2E5AA95E00098E11 /* DailyLockWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CC92EECE2E5AA95E00098E11 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CC92EECF2E5AA95E00098E11 /* WidgetKit.framework */,
+				CC92EED12E5AA95E00098E11 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,10 +269,12 @@
 				CC28B3242E2D291600F630B2 /* Sources */,
 				CC28B3252E2D291600F630B2 /* Frameworks */,
 				CC28B3262E2D291600F630B2 /* Resources */,
+				CC92EEE82E5AA95F00098E11 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CC92EEE22E5AA95F00098E11 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CC28B32A2E2D291600F630B2 /* DailyLock */,
@@ -204,6 +332,28 @@
 			productReference = CC28B33F2E2D291700F630B2 /* DailyLockUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		CC92EECC2E5AA95E00098E11 /* DailyLockWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CC92EEE42E5AA95F00098E11 /* Build configuration list for PBXNativeTarget "DailyLockWidgetExtension" */;
+			buildPhases = (
+				CC92EEC92E5AA95E00098E11 /* Sources */,
+				CC92EECA2E5AA95E00098E11 /* Frameworks */,
+				CC92EECB2E5AA95E00098E11 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CC92EED32E5AA95E00098E11 /* DailyLockWidget */,
+			);
+			name = DailyLockWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = DailyLockWidgetExtension;
+			productReference = CC92EECD2E5AA95E00098E11 /* DailyLockWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -224,6 +374,9 @@
 					CC28B33E2E2D291700F630B2 = {
 						CreatedOnToolsVersion = 26.0;
 						TestTargetID = CC28B3272E2D291600F630B2;
+					};
+					CC92EECC2E5AA95E00098E11 = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
@@ -246,6 +399,7 @@
 				CC28B3272E2D291600F630B2 /* DailyLock */,
 				CC28B3342E2D291700F630B2 /* DailyLockTests */,
 				CC28B33E2E2D291700F630B2 /* DailyLockUITests */,
+				CC92EECC2E5AA95E00098E11 /* DailyLockWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -268,6 +422,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CC28B33D2E2D291700F630B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC92EECB2E5AA95E00098E11 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -298,6 +459,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CC92EEC92E5AA95E00098E11 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -310,6 +478,11 @@
 			isa = PBXTargetDependency;
 			target = CC28B3272E2D291600F630B2 /* DailyLock */;
 			targetProxy = CC28B3402E2D291700F630B2 /* PBXContainerItemProxy */;
+		};
+		CC92EEE22E5AA95F00098E11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CC92EECC2E5AA95E00098E11 /* DailyLockWidgetExtension */;
+			targetProxy = CC92EEE12E5AA95F00098E11 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -630,6 +803,73 @@
 			};
 			name = Release;
 		};
+		CC92EEE52E5AA95F00098E11 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DailyLockWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 88QL9VPLMY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyLockWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DailyLockWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.transfinite.DailyLock.DailyLockWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CC92EEE62E5AA95F00098E11 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = DailyLockWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 88QL9VPLMY;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DailyLockWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DailyLockWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.transfinite.DailyLock.DailyLockWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -665,6 +905,15 @@
 			buildConfigurations = (
 				CC28B3502E2D291700F630B2 /* Debug */,
 				CC28B3512E2D291700F630B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CC92EEE42E5AA95F00098E11 /* Build configuration list for PBXNativeTarget "DailyLockWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CC92EEE52E5AA95F00098E11 /* Debug */,
+				CC92EEE62E5AA95F00098E11 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

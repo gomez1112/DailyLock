@@ -9,8 +9,10 @@ import Foundation
 import Observation
 import SwiftData
 import os
+import WidgetKit
 
 @Observable
+@MainActor
 final class DataService {
     
     let context: ModelContext
@@ -36,6 +38,7 @@ final class DataService {
         Log.data.info("DataService: Attempting to delete Object....")
         context.delete(model)
         save()
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     func deleteAll(_ model: any PersistentModel.Type) throws {
@@ -79,10 +82,12 @@ final class DataService {
             entry.sentiment = sentiment
             entry.lockedAt = Date()
             entry.wordCount = MomentumEntry.calculateWordCount(from: detail)
+            WidgetCenter.shared.reloadAllTimelines()
         } else {
             // Create a new entry
             let newEntry = MomentumEntry(title: title, detail: detail, sentiment: sentiment, lockedAt: Date())
             insert(newEntry)
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
@@ -90,32 +95,6 @@ final class DataService {
     func todayEntry(for allEntries: [MomentumEntry]) -> MomentumEntry? {
         let today = Calendar.current.startOfDay(for: Date())
         return allEntries.first { Calendar.current.isDate($0.date, inSameDayAs: today) }
-    }
-    
-    func entryEntities(matching predicate: Predicate<MomentumEntry> = #Predicate { _ in true}, sortBy: [SortDescriptor<MomentumEntry>] = [SortDescriptor(\.date, order: .reverse)], limit: Int? = nil) throws -> [MomentumEntryEntity] {
-        var entryDescriptor = FetchDescriptor<MomentumEntry>(predicate: predicate, sortBy: sortBy)
-        entryDescriptor.fetchLimit = limit
-        
-        let fetchedEntries = try context.fetch(entryDescriptor)
-        return fetchedEntries.map(MomentumEntryEntity.init)
-    }
-    
-    func entryCount(matching predicate: Predicate<MomentumEntry> = #Predicate { _ in true}) throws -> Int {
-        let entryDescriptor = FetchDescriptor<MomentumEntry>(predicate: predicate)
-        return try context.fetchCount(entryDescriptor)
-    }
-    
-    func select(entity: MomentumEntryEntity, navigation: NavigationContext) throws {
-        let id = entity.id
-        
-        let results = try fetchAllEntries().filter { $0.id == id }
-        
-        if let result = results.first {
-            navigation.presentedSheet = .entryDetail(entry: result)
-        }
-    }
-    func suggest5Entities() throws -> [MomentumEntryEntity] {
-        Array(try entryEntities().prefix(5))
     }
 }
 

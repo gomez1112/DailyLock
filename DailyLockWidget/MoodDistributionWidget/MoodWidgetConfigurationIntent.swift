@@ -1,3 +1,13 @@
+//
+//  MoodWidgetConfigurationIntent.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/30/25.
+//
+
+import AppIntents
+
+
 // MARK: - Configuration Intent (optional range)
 // You can expand this later with more parameters if desired.
 struct MoodWidgetConfigurationIntent: WidgetConfigurationIntent {

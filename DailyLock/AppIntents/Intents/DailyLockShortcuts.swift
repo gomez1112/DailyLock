@@ -9,7 +9,7 @@ import AppIntents
 
 struct DailyLockShortcuts: AppShortcutsProvider {
     
-    static let shortcutTileColor: ShortcutTileColor = .purple
+    static let shortcuHytTileColor: ShortcutTileColor = .purple
     
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
@@ -49,12 +49,6 @@ struct DailyLockShortcuts: AppShortcutsProvider {
             phrases: ["Generate weekly summary in \(.applicationName)"],
             shortTitle: "Generate Weekly Summary",
             systemImageName: "sparkles")
-        
-        AppShortcut(
-            intent: LeaveATip(),
-            phrases: ["Leave a tip in \(.applicationName)"],
-            shortTitle: "Leave a Tip",
-            systemImageName: "hand.thumbsup")
         
         AppShortcut(
             intent: ViewRecentEntriesIntent(),

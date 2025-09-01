@@ -24,19 +24,11 @@ struct DailyLockApp: App {
         } else {
             _dependencies = State(initialValue: AppDependencies())
         }
-        
-        let navigation = dependencies.navigation
-        let dataService = dependencies.dataService
         let syncedSetting = dependencies.syncedSetting
-        let store = dependencies.store
-        let errorState = dependencies.errorState
+        let dataService = dependencies.dataService
         
-        AppDependencyManager.shared.add(dependency: navigation)
-        AppDependencyManager.shared.add(dependency: dataService)
         AppDependencyManager.shared.add(dependency: syncedSetting)
-        AppDependencyManager.shared.add(dependency: store)
-        AppDependencyManager.shared.add(dependency: errorState)
-        
+        AppDependencyManager.shared.add(dependency: dataService)
         DailyLockShortcuts.updateAppShortcutParameters()
     }
     

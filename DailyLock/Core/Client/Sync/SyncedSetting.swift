@@ -11,6 +11,7 @@ import Combine
 import Foundation
 
 @Observable
+@MainActor
 final class SyncedSetting {
     
     // --- Your Synced Properties ---

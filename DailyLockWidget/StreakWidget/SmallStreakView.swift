@@ -1,5 +1,15 @@
+//
+//  SmallStreakView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/24/25.
+//
+
+import SwiftUI
+import WidgetKit
+
 struct SmallStreakView: View {
-    let entry: StreakEntry
+    let streakInfo: StreakInfo
     
     var body: some View {
         VStack(spacing: 12) {
@@ -7,22 +17,22 @@ struct SmallStreakView: View {
                 .font(.largeTitle)
                 .foregroundStyle(
                     LinearGradient(
-                        colors: entry.isInGracePeriod ? [.orange, .yellow] : [.orange, .red],
+                        colors: streakInfo.isGracePeriodActiveNow ? [.orange, .yellow] : [.orange, .red],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
                 )
-                .symbolEffect(.pulse.byLayer, isActive: entry.currentStreak > 0)
+                .symbolEffect(.pulse.byLayer, isActive: streakInfo.count > 0)
             
-            Text("\(entry.currentStreak)")
+            Text("\(streakInfo.count)")
                 .font(.system(size: 36, weight: .bold, design: .rounded))
                 .contentTransition(.numericText())
             
-            Text(entry.currentStreak == 1 ? "Day" : "Days")
+            Text(streakInfo.count == 1 ? "Day" : "Days")
                 .font(.caption)
                 .foregroundStyle(.secondary)
             
-            if entry.isInGracePeriod {
+            if streakInfo.isGracePeriodActiveNow {
                 Text("Complete today!")
                     .font(.caption2)
                     .foregroundStyle(.orange)

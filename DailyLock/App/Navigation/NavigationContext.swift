@@ -1,3 +1,26 @@
+/// The most recently pushed destination on the navigation stack, if any.
+///
+/// Use this to inspect what would be removed by a subsequent call to `pop()`
+/// without actually mutating the navigation state.
+///
+/// Behavior:
+/// - Returns `nil` when the navigation stack is empty.
+/// - Does not modify the underlying `NavigationPath`.
+///
+/// Threading:
+/// - Access from the main actor. `NavigationContext` is `@MainActor`.
+///
+/// Complexity:
+/// - O(1)
+///
+/// Example:
+/// ```swift
+/// if let current = navigation.top {
+///     // Decide whether to pop or present a different sheet based on `current`.
+/// } else {
+///     // Nothing on the stack
+/// }
+/// ```
 //
 //  NavigationContext.swift
 //  DailyLock
@@ -9,6 +32,7 @@ import Observation
 import SwiftUI
 
 @Observable
+@MainActor
 final class NavigationContext {
     var selectedTab: Tabs = .today
     var path = NavigationPath()
