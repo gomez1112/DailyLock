@@ -57,8 +57,17 @@ struct InsightsView: View {
                     journalInsights
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                ShareLink(item: summaryForSharing, subject: Text("My DailyLock Journal Summary"), message: Text("Check out my journaling stats!"), preview: SharePreview("My Journal Summary", icon: Image(systemName: "chart.bax.xaxis"))) {
+                    Label("Share Stats", systemImage: "square.and.arrow.up")
+                }
+            }
+        }
     }
-    
+    private var summaryForSharing: JournalStatisticsSummary {
+        StreakCalculator.journalStatistics(for: entries)
+    }
     private var journalInsights: some View {
         ScrollView(.vertical) {
             VStack {

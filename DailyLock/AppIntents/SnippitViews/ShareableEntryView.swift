@@ -1,4 +1,10 @@
-// ShareableEntryView.swift
+//
+//  ShareableEntryView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/31/25.
+//
+
 import SwiftUI
 
 struct ShareableEntryView: View {

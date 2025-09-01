@@ -1,3 +1,11 @@
+//
+//  ShareableStatsView.swift
+//  DailyLock
+//
+//  Created by Gerard Gomez on 8/31/25.
+//
+
+
 // ShareableStatsView.swift
 import SwiftUI
 import Charts

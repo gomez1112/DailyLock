@@ -107,6 +107,8 @@
 				AppIntents/Intents/IntentError.swift,
 				AppIntents/Intents/StartNewEntry.swift,
 				AppIntents/SnippitViews/RecentEntriesSnippetView.swift,
+				AppIntents/SnippitViews/ShareableEntryView.swift,
+				AppIntents/SnippitViews/ShareableStatsView.swift,
 				Assets.xcassets,
 				Core/Client/NotificationClient/NotificationError.swift,
 				Core/Client/StoreClient/ProductID.swift,

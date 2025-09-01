@@ -8,6 +8,7 @@
 import AppIntents
 import CoreSpotlight
 import CoreTransferable
+import SwiftData
 import SwiftUI
 
 /// Represents a `MomentumEntry` within the App Intents framework (e.g., in Shortcuts).
@@ -28,6 +29,7 @@ struct MomentumEntryEntity: IndexedEntity {
         )
     }
     
+ 
     /// Defines how the system can query for `MomentumEntryEntity` objects.
     static let defaultQuery = MomentumEntryQuery()
     
@@ -79,8 +81,31 @@ import AppKit
 #endif
 
 extension MomentumEntryEntity: Transferable {
-   
+    
+    @MainActor static func fetchFullEntry(for id: UUID) throws -> MomentumEntry? {
+        let context = ModelContainerFactory.createSharedContainer.mainContext
+        let predicate = #Predicate<MomentumEntry> { entry in
+            entry.id == id
+        }
+        var descriptor = FetchDescriptor<MomentumEntry>(predicate: predicate)
+        descriptor.fetchLimit = 1
+        let entries = try context.fetch(descriptor)
+        return entries.first
+    }
+    
     static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .image) { entity in
+            try await MainActor.run {
+                let entry = try? fetchFullEntry(for: entity.id)
+                let view = ShareableEntryView(entry: entry ?? MomentumEntry(), includeStats: true)
+                
+                let renderer = ImageRenderer(content: view)
+                renderer.scale = 2.0
+                
+                guard let image = renderer.uiImage, let data = image.pngData() else { throw TransferError.renderingFailed }
+                return data
+            }
+        }
         FileRepresentation(exportedContentType: .pdf) { @MainActor entry in
             let url = URL.documentsDirectory.appending(path: "\(entry.sentiment.rawValue).pdf")
             
@@ -153,4 +178,8 @@ extension MomentumEntryEntity {
     var sharePreview: SharePreview<Never, Image> {
         SharePreview(title, icon: Image("defaultDarkPaper"))
     }
+}
+enum TransferError: Error {
+    case renderingFailed
+    case dataConversionFailed
 }

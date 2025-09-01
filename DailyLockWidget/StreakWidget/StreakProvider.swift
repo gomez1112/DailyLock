@@ -45,12 +45,7 @@ struct StreakProvider: AppIntentTimelineProvider {
     
     private func fetchStreakData() -> StreakEntry {
         do {
-            let container = try ModelContainer(
-                for: MomentumEntry.self,
-                configurations: ModelConfiguration(isStoredInMemoryOnly: false)
-            )
-            
-            let context = ModelContext(container)
+            let context = ModelContainerFactory.createSharedContainer.mainContext
             let descriptor = FetchDescriptor<MomentumEntry>()
             let entries = try context.fetch(descriptor)
             

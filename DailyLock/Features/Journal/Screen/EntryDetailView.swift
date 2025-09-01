@@ -55,7 +55,10 @@ struct EntryDetailView: View {
             .animation(.default, value: entry)
             .toolbar {
                 ToolbarItem {
-                    ShareLink(item: entryEntity, preview: entryEntity.sharePreview)
+                    ShareLink(
+                        item: entryEntity,
+                        preview: entryEntity.sharePreview
+                    )
                 }
             }
         }
@@ -170,6 +173,6 @@ struct EntryDetailView: View {
     }
 }
 
-#Preview {
+#Preview(traits: .previewData) {
     EntryDetailView(entry: MomentumEntry.samples[2])
 }

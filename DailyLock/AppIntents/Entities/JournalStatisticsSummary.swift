@@ -8,6 +8,7 @@
 import AppIntents
 import Foundation
 import CoreTransferable
+import SwiftData
 internal import UniformTypeIdentifiers
 
 struct JournalStatisticsSummary: TransientAppEntity {
@@ -74,8 +75,33 @@ struct JournalStatisticsSummary: TransientAppEntity {
 
 #if canImport(UIKit)
 import UIKit
+import SwiftUI
 extension JournalStatisticsSummary: Transferable {
+    // Local error type for this file/extension to avoid cross-target issues
+    enum ShareError: Error {
+        case renderingFailed
+    }
+    
+    @MainActor static func fetchAllEntries() throws -> [MomentumEntry] {
+        let context = ModelContainerFactory.createSharedContainer.mainContext
+        let descriptor = FetchDescriptor<MomentumEntry>()
+        let entries = try context.fetch(descriptor)
+        return entries
+    }
     static var transferRepresentation: some TransferRepresentation {
+        DataRepresentation(exportedContentType: .image) { summary in
+            try await MainActor.run {
+                let entries = try? fetchAllEntries()
+                let view = ShareableStatsView(entries: entries ?? [], dateRange: summary.summaryStartDateFormatted)
+                let renderer = ImageRenderer(content: view)
+                renderer.scale = 2.0
+                
+                guard let image = renderer.uiImage,
+                      let data = image.pngData() else { throw ShareError.renderingFailed }
+                
+                return data
+            }
+        }
         DataRepresentation(exportedContentType: .rtf) { summary in
             try summary.richTextRepresentation
         }

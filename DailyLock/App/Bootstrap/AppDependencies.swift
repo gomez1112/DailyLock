@@ -93,8 +93,7 @@ final class AppDependencies {
         self.errorState = ErrorState()
         let tipLedger = TipLedger(modelContainer: container)
         self.store = Store(tipLedger: tipLedger, errorState: errorState)
-        self.tipLedger = TipLedger(modelContainer: container)
-
+        self.tipLedger = tipLedger
     }
     
     /// Creates an AppDependencies graph tailored for UI testing.

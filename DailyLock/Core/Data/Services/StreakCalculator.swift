@@ -11,7 +11,7 @@ struct StreakInfo {
 }
 
 /// A utility to calculate current and longest streaks from a list of entries.
-struct StreakCalculator {
+enum StreakCalculator {
     
     static func journalStatistics(for entries: [MomentumEntry]) -> JournalStatisticsSummary {
         let stats = JournalStatisticsSummary()
