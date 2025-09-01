@@ -145,14 +145,8 @@
 			membershipExceptions = (
 				MoodDistributionWidget/MoodDistributionEntry.swift,
 				MoodDistributionWidget/MoodDistributionProvider.swift,
-				MoodDistributionWidget/MoodDistributionWidget.swift,
 				MoodDistributionWidget/MoodDistributionWidgetView.swift,
 				MoodDistributionWidget/MoodWidgetConfigurationIntent.swift,
-				RecentWidgetEntries/RecentEntriesProvider.swift,
-				RecentWidgetEntries/RecentEntriesTimelineEntry.swift,
-				RecentWidgetEntries/RecentEntriesWidget.swift,
-				RecentWidgetEntries/RecentEntriesWidgetConfigurationIntent.swift,
-				RecentWidgetEntries/RecentEntriesWidgetView.swift,
 			);
 			target = CC28B3272E2D291600F630B2 /* DailyLock */;
 		};
